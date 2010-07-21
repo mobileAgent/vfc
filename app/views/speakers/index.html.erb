@@ -1,0 +1,5 @@
+<ul>
+<% @speakers.each do |speaker| %>
+  <li><%=h speaker.catalog_name %>, <%=h speaker.audio_messages.count %> messages</li>
+<% end %>
+</ul>

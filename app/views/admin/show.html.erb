@@ -1,0 +1,48 @@
+<% form_remote_tag :url => {:action => :show}, :update => "msgtable" do %>
+  Search: <input type='text' name='q' id='q' size='100'/>
+<% end %>
+<br />
+<% if @items && @items.size > 0 %>
+<table id="msgtable" class="sortable msglist">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Speaker</th>
+      <th colspan='2'>Title</th>
+      <th>Size</th>
+      <th>Duration</th>
+      <th>Date</th>
+      <th>Place</th>
+  </thead>
+  <tbody>
+    <% @items.each do |item| %>
+      <%= render :partial => 'audio_item', :locals => {:item => item, :rclass => cycle('odd','even')} %>
+    <% end %>
+  </tbody>
+</table>
+
+<script>
+$(".edit").editInPlace({
+    url: "http://com.examplesite.www/users"
+});
+$(".edittf").editInPlace({
+    callback: function(unused, enteredText) { return enteredText; },
+    url: "http://com.examplesite.www/users",
+    field_type: "select",
+    select_options: "true, false"
+});
+</script>
+<% end %>
+
+<script>
+  $(function() {
+        $("#qx").autocomplete({
+                  	source: "/admin/autocomplete",
+			minLength: 2,
+			select: function(event, ui) {
+				log(ui.item ? ("Selected: " + ui.item.value + " aka " + ui.item.id) : "Nothing selected, input was " + this.value);
+			}
+		});
+	});
+</script>
+

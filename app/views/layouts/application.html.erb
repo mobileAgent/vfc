@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en">
+  <head>
+    <title>Voices For Christ<%= " - #{@title}" if @title %></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <%= javascript_include_tag 'jquery-1.4.2', 'jquery.editinplace', 'jquery-ui-1.8.2.custom.min' %>
+    <%= javascript_include_tag 'application', 'sorttable' %>  
+    <%= stylesheet_link_tag 'style', :media => 'all' %>
+    <%= stylesheet_link_tag 'smoothness/jquery-ui-1.8.2.custom', :media => 'all' %>
+    <%= stylesheet_link_tag "formtastic" %>
+    <%= stylesheet_link_tag "formtastic_changes" %>
+  </head>
+  <body>
+
+   <div id="header">
+     <img src="/images/logothin.jpg"/>
+      <ul id="topnav">
+        <li><%= link_to 'Home', root_url %></li>
+        <li>|</li>
+        <li><%= link_to 'About', '/welcome/about' %></li>
+        <li>|</li>
+	<li><%= link_to 'Contact', '/welcome/contact' %></li>
+        <li>|</li>
+	<li><%= link_to 'News', '/welcome/news' %></li>
+        <li>|</li>
+        <% if current_user %>
+           <li><%= current_user.email %><%= " (admin)" if current_user.admin? %></li>
+        <% else %>
+	   <li><%= link_to 'Login', sign_in_path %></li>
+        <% end %>
+      </ul>
+     <span id="tagline"><%= @tagline %></span>
+   </div>
+
+   <br />
+   <ul id="sidenav">
+     <li><%= link_to "Featured Messages", '/motms' %></li>
+     <li><%= link_to "Browse Speakers", '/speakers' %></li>
+     <li><%= link_to "Browse Places", '/places' %></li>
+     <li><%= link_to "Browse by Date Added", '/dates' %></li>
+     <li><%= link_to "Browse by Language", '/languages' %></li>
+     <li><%= link_to "Browse Writings", '/writings' %></li>
+     <li><%= link_to "Browse Hymns", '/hymns' %></li>
+   </ul>
+   
+<br />
+   
+
+   <p class="flash"><%= flash[:notice] %></p>
+
+   <div id="content">
+     <%= yield %>
+   </div>
+
+   <div id="footer">
+      &copy; VoicesForChrist.org, 2005-<%= Time.now.year %>
+   </div>
+ </body>
+</html>

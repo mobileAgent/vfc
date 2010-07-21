@@ -1,0 +1,22 @@
+<h2>Messages Of The Month</h2>
+<table id="msgtable" class="sortable msglist">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Speaker</th>
+      <th>Title</th>
+      <th>Size</th>
+      <th>Duration</th>
+      <th>Date</th>
+      <th>Place</th>
+      <th>Language</th>
+  </thead>
+  <tbody>
+<% @motms.each do |motm| %>
+  <%= render :partial => '/audio_messages/audio_item', :locals => {:item => motm.audio_message} %>
+<% end %>
+  </tbody>
+</table>
+
+<h2>Other Staff Picks</h2>
+...

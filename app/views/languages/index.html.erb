@@ -1,0 +1,13 @@
+<ul>
+<% @languages.each do |lang| %>
+  <li>
+    <%=h lang.name %>, <%= lang.audio_messages.count %> messages
+    <ul>
+      <% @speakers_by_language[lang.name].each do |msg| %>
+        <li><%=link_to msg.speaker.catalog_name, '#' %></li>
+      <% end %>
+      <li><%= link_to 'More ...','#'%></li>
+    </ul>
+  </li>
+<% end %>
+</ul>
