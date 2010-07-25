@@ -1,6 +1,6 @@
 strong {
   font-weight: bold;
-  color: #002f55;
+  color: #3f3f3f;
 }
 .big { 
   font-size: 1.2em;
@@ -23,12 +23,12 @@ ul {
 h1 { 
   font-size: 1.5em;
   font-weight: bold;
-  color: #002f55;
+  color: #3f3f3f;
 }
 h2 {
   font-size: 1.2em;
   font-weight: bold;
-  color: #002f55;  
+  color: #3f3f3f;  
 }
 h3 {
   font-size: 1em;
@@ -48,7 +48,7 @@ h5 {
 h6 { 
   font-size: 0.6em;
   font-weight: bold;
-  color: #002f55;
+  color: #3f3f3f;
 }
 fieldset {
   border: 2px solid #bbb;
@@ -56,12 +56,12 @@ fieldset {
   margin-right: 4%;
 }
 legend { 
-  color: #002f55;
+  color: #3f3f3f;
   font-weight: bold;
 }
 label { 
   font-weight: bold;
-  color: #002f55;
+  color: #3f3f3f;
   text-align: left;
   font-size: .9em;
 }
@@ -111,7 +111,7 @@ div.art {
 }
 #closer a {
   text-decoration: none;
-  color: red;
+  color: black;
   font-weight: bold;
   font-variant: small-caps;
 }
@@ -178,11 +178,11 @@ ul.nav li a {
   text-decoration: none;
 }
 ol a, ol a:visited {
-  color: #002f55;
+  color: #3f3f3f;
   text-decoration: underline;
 }
 ol a:active, ol a:hover { 
-  color: #002f55;
+  color: #3f3f3f;
   font-weight: bold;
   text-decoration: none;
 }
@@ -212,14 +212,14 @@ ol a:active, ol a:hover {
   font-weight: bold;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 8pt;
-  color: #002f55;
+  color: #3f3f3f;
   margin: 0 10px 4px 10px;
   text-decoration: none;
 }
 #topnav a:hover, #topnav a:active, #topnav a.active { 
-  border-bottom: 4px solid #002f55;
+  border-bottom: 4px solid #3f3f3f;
   padding-bottom: 2px;
-  color: #002f55;
+  color: #3f3f3f;
 }
 
 #topnav a img { 
@@ -227,12 +227,12 @@ ol a:active, ol a:hover {
 }
 a.nav {
   font-weight: bold;
-  color: #002f55;
+  color: #3f3f3f;
   text-decoration: none;
 }
 a.nav:hover, a.nav:active { 
-  color: #002f55;
-  border-bottom: 2px solid #002f55;
+  color: #3f3f3f;
+  border-bottom: 2px solid #3f3f3f;
 }
 #leftcol {
   float: left;
@@ -253,7 +253,7 @@ div.main {
 }
 
 .cap {
-  color: #002f55;
+  color: #3f3f3f;
   font-weight: bold;
   font-size: +3em;
   line-height: 0.8em;
@@ -262,7 +262,7 @@ div.main {
 }
 #footer {
   clear: both;
-  color: #002f55;
+  color: #3f3f3f;
   font-size: .7em;
   text-align: center;
   margin-right: 5%;
@@ -284,28 +284,28 @@ div.main {
   text-align: right;
 }
 input[type='text'] {
-  background-color: #feb;
-  border: 1px solid #26a;
+  background-color: #a0a0a0;
+  border: 1px solid #3f3f3f;
   margin-bottom: 0;
 }
 input[type='text']:focus { 
-  border: 2px solid #002f55;
+  border: 2px solid #3f3f3f;
 }
 #formarea input[type='text'], #advancedSearch input[type='text']{ 
    margin-left: 4px;
 }
 input[type='text'].roinputbox {
-  background-color: #ddd;
+  background-color: #a0a0a0;
 }
 input[type='text'].roinputboxnum {
-  background-color: #ddd;
+  background-color: #a0a0a0;
   text-align: right;
 }
 input[type='text'].roinputbox:focus {
-  border: 1px solid #26a;
+  border: 1px solid #a0a0a0;
 }
 input[type='text'].roinputboxnum:focus {
-  border: 1px solid #26a;
+  border: 1px solid #a0a0a0;
 }
 #search a {
   text-decoration: none;
@@ -324,9 +324,8 @@ input[type='text'].roinputboxnum:focus {
    margin-left: 19%;
    margin-bottom: 15px;
    padding: 2px;
-   border: 3px outset #002f55;
-   background-color: #d7f6ff;
-   background-image: url(../images/cloudbk.jpg);
+   border: 3px outset #3f3f3f;
+   background-color: #a3a3a3;
 }
 #motm a, #motm a:link, #motm a:visited {
   text-decoration: none;
