@@ -11,6 +11,7 @@ Rails::Initializer.run do |config|
   config.gem 'clearance'
   config.gem 'thinking-sphinx', :lib => 'thinking_sphinx'
   config.gem 'formtastic'
+  config.gem 'will_paginate'
 
   config.time_zone = 'UTC'
 end

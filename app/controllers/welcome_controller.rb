@@ -14,8 +14,8 @@ class WelcomeController < ApplicationController
 
   def search
     if params[:q]
-      @items = AudioMessage.search(params[:q], :limit => 500)
-      flash.now[:notice] = "Found #{@items.size} items matching '#{params[:q]}'"
+      @items = AudioMessage.search(params[:q], :page => params[:page], :per_page => 50,  :order => 'speaker_last_name ASC, speaker_first_name ASC, msg ASC, subj ASC', :match_mode => :boolean)
+      flash.now[:notice] = "Found #{@items.total_entries} messages matching '#{params[:q]}'"
       render :action => :index
     end
   end

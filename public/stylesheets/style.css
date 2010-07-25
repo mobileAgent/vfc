@@ -479,8 +479,21 @@ td.sc {
   color: white;
 }
 
-/* This is not valid CSS */
 fieldset, #closer, #speakerlist, #motm, #blurb, .scripturebox, #vfcnews {
   -moz-border-radius: .5em;
 }
-/* End Invalid CSS Section */
+
+
+/* Pagination */
+.apple_pagination a, .apple_pagination span {
+  padding: .2em .3em; }
+.apple_pagination span.disabled {
+  color: #AAA; }
+.apple_pagination span.current {
+  font-weight: bold;
+  background: transparent url(apple-circle.gif) no-repeat 50% 50%; }
+.apple_pagination a {
+  text-decoration: none;
+  color: black; }
+.apple_pagination a:hover, .apple_pagination a:focus {
+    text-decoration: underline; }

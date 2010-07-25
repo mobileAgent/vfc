@@ -4,7 +4,7 @@
     <%=h name %>, <%=h @dates[name] %> messages
     <ul>
       <% @speakers_by_date[name].each do |msg| %>
-        <li><%=h msg.speaker %></li>
+        <li><%=h msg.speaker.catalog_name %></li>
       <% end %>
       <li>More ...</li>
     </ul>

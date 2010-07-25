@@ -16,6 +16,12 @@ ActiveRecord::Schema.define(:version => 20100720025653) do
     t.integer "c",       :limit => 8,   :default => 0, :null => false
   end
 
+  create_table "laguages", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "languages", :force => true do |t|
     t.string   "name"
     t.datetime "created_at"

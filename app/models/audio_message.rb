@@ -8,11 +8,13 @@ class AudioMessage < ActiveRecord::Base
   named_scope :active, :conditions => ["download = ? and publish = ?",true,true]
 
   define_index do
+    where "download = 1 and publish = 1"
     indexes msg, :sortable => true 
     indexes subj, :sortable => true
-    indexes speaker, :sortable => true
-    indexes place, :sortable => true
-    indexes language, :sortable => true
+    indexes speaker.last_name, :as => :speaker_last_name, :sortable => true, :facet => true
+    indexes speaker.first_name, :as => :speaker_first_name, :sortable => true
+    indexes place, :sortable => true, :facet => true
+    indexes language.name, :as => :language, :sortable => true, :facet => true
     indexes date, :sortable => true
 
     where "download = 1 and publish = 1"

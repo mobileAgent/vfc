@@ -10,6 +10,7 @@
 <% end %>
 <br />
 <% if @items && @items.size > 0 %>
+<%= page_entries_info @items, :entry_name => 'messages' %>
 <table id="msgtable" class="sortable msglist">
   <thead>
     <tr>
@@ -28,5 +29,6 @@
     <% end %>
   </tbody>
 </table>
+<%= will_paginate @items, :id => true, :class => 'apple_pagination' %>
 <% end %>
 
