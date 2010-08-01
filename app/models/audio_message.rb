@@ -4,8 +4,11 @@ class AudioMessage < ActiveRecord::Base
   has_one :motm
   belongs_to :speaker
   belongs_to :language
+
+  cattr_reader :per_page
+  @@per_page = 50
   
-  named_scope :active, :conditions => ["download = ? and publish = ?",true,true]
+  named_scope :active, :conditions => ["download = ? and publish = ?",true,true], :include => [:speaker,:language]
 
   define_index do
     where "download = 1 and publish = 1"

@@ -4,9 +4,11 @@
     <%=h name %>, <%=h @dates[name] %> messages
     <ul>
       <% @speakers_by_date[name].each do |msg| %>
-        <li><%=h msg.speaker.catalog_name %></li>
+        <li><%=link_to msg.speaker.catalog_name, {:action => :speaker, :date => name, :speaker_id => msg.speaker_id}  %></li>
       <% end %>
-      <li>More ...</li>
+      <% if @speakers_by_date[name].size == @group_limit %>
+        <li><%= link_to 'More ...', "/dates/show/#{name}" %></li>
+      <% end %>
     </ul>
   </li>
 <% end %>

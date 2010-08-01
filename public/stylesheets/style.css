@@ -325,7 +325,7 @@ input[type='text'].roinputboxnum:focus {
    margin-bottom: 15px;
    padding: 2px;
    border: 3px outset #3f3f3f;
-   background-color: #a3a3a3;
+   background-color: #e3e3e3;
 }
 #motm a, #motm a:link, #motm a:visited {
   text-decoration: none;
@@ -407,16 +407,16 @@ tr.sep td {
   background-color: gray;
   color: gray;
   border: 0;
-  border-bottom: 2px solid gray;
+  border-bottom: 2px solid #3f3f3f;
 }
 tr.hidden {
   display: none;
 }
 .msglist tr.odd {
-  background-color: #e8fffd;
+  background-color: #dfdfdf; 
 }
 .msglist tr.even {
-  background-color: #dae6ed;
+  background-color: #f1f1f1;
 }
 .msglist tbody a, .msglist tbody a:link, .msglist tbody a:visited {
   text-decoration: none;

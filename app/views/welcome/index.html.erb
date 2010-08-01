@@ -1,28 +1,12 @@
-<% if @motm %>
-<div id="motm">
-  Message of the Month: <%= @motm.audio_message.speaker.full_name %>, <%=h @motm.audio_message.title %>
-</div>
-<% end %>
-
 <p>Search for messages or speakers:</p>
 <% form_tag({:action => :search}, {:method => :get}) do |f| %>
   <input type='text' name='q' id='q' size='80'/>
 <% end %>
 <br />
 <% if @items && @items.size > 0 %>
-<%= page_entries_info @items, :entry_name => 'messages' %>
+<%= page_entries_info @items, :entry_name => "messages" %> matching '<%= @query_title %>'
 <table id="msgtable" class="sortable msglist">
-  <thead>
-    <tr>
-      <th></th>
-      <th>Speaker</th>
-      <th>Title</th>
-      <th>Size</th>
-      <th>Duration</th>
-      <th>Date</th>
-      <th>Place</th>
-      <th>Language</th>
-  </thead>
+  <%= render '/audio_messages/audio_table_head' %>
   <tbody>
     <% @items.each do |item| %>
       <%= render :partial => '/audio_messages/audio_item', :locals => {:item => item} %>

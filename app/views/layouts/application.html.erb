@@ -31,6 +31,13 @@
       </ul>
      <span id="tagline"><%= @tagline %></span>
    </div>
+   
+   <% if @motm %>
+     <div id="motm">
+        Message of the Month: <%= @motm.audio_message.speaker.full_name %>, <%=link_to @motm.audio_message.title, @motm.audio_message.filename %>
+     </div>
+   <% end %>
+
 
    <br />
    <ul id="sidenav">
