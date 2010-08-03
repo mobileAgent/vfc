@@ -1,5 +1,19 @@
+<p>
+ <% ('A'..'Z').each do |alpha| %>
+   <%= link_to alpha ,"##{alpha}" %>&nbsp;
+ <% end %>
+</p> 
 <ul>
+<% @letter = '!' %>
 <% @speakers.each do |speaker| %>
-  <li><%=h speaker.catalog_name %>, <%=h speaker.audio_messages.count %> messages</li>
+  <li>
+    <% if @letter != speaker.last_name[0..0] %>
+      <% @letter = speaker.last_name[0..0] %>
+      <a name='<%=@letter%>'/>
+    <% end %>
+    <%=h speaker.catalog_name %>
+    <%= link_to "~ bio",'#' if speaker.bio %>
+    ~ <%= link_to "#{@message_counts[speaker.id]} messages", "/speakers/show/#{speaker.id}" %>
+  </li>
 <% end %>
 </ul>
