@@ -4,6 +4,11 @@ class PlacesController < ApplicationController
     @places = Place.all(:order => :name)
   end
 
+  def speakers
+    @place = Place.find(params[:id])
+    @speakers = @place.speakers(:order => [:last_name, :first_name])
+  end
+
   def show
     @place = Place.find(params[:id])
     @query_title = "Messages by location #{@place.name}"

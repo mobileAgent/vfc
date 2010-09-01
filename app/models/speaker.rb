@@ -1,7 +1,8 @@
 class Speaker < ActiveRecord::Base
   
   has_many :audio_messages
-  has_many :places, :through => :audio_messages, :uniq => true
+  has_many :places, :through => :audio_messages, :uniq => true,
+    :order => :name
   
   # Fn M Ln
   def full_name

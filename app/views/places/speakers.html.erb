@@ -1,0 +1,9 @@
+<h2>Speakers from <%= @place.name %></h2>
+<ul>
+  <% @speakers.each do |speaker| %>
+    <li>
+      <%= h speaker.catalog_name %>:
+      <%= link_to pluralize(speaker.audio_messages.active.count(:conditions => {:place_id => @place.id}),'message'),"/places/#{@place.id}/speakers/#{speaker.id}" %>
+    </li>
+  <% end %>
+</ul>  
