@@ -6,7 +6,7 @@
       <% @speakers_by_language[lang.name].each do |msg| %>
         <li><%=link_to msg.speaker.catalog_name, '#' %></li>
       <% end %>
-      <li><%= link_to 'More ...','#'%></li>
+      <li><%= link_to 'More ...',"/languages/show/#{lang.id}"%></li>
     </ul>
   </li>
 <% end %>

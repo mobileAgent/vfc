@@ -4,11 +4,12 @@ class AudioMessage < ActiveRecord::Base
   has_one :motm
   belongs_to :speaker
   belongs_to :language
+  belongs_to :place
 
   cattr_reader :per_page
   @@per_page = 50
   
-  named_scope :active, :conditions => ["download = ? and publish = ?",true,true], :include => [:speaker,:language]
+  named_scope :active, :conditions => ["download = ? and publish = ?",true,true], :include => [:speaker,:language,:place]
 
   define_index do
     where "download = 1 and publish = 1"
@@ -16,7 +17,7 @@ class AudioMessage < ActiveRecord::Base
     indexes subj, :sortable => true
     indexes speaker.last_name, :as => :speaker_last_name, :sortable => true, :facet => true
     indexes speaker.first_name, :as => :speaker_first_name, :sortable => true
-    indexes place, :sortable => true, :facet => true
+    indexes place.name, :as => :place, :sortable => true, :facet => true
     indexes language.name, :as => :language, :sortable => true, :facet => true
     indexes date, :sortable => true
 

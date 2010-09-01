@@ -14,7 +14,12 @@ class WelcomeController < ApplicationController
   def search
     if params[:q]
       @query_title = params[:q]
-      @items = AudioMessage.search(params[:q], :page => params[:page], :order => 'speaker_last_name ASC, speaker_first_name ASC, msg ASC, subj ASC', :match_mode => :boolean)
+      @items = AudioMessage.search(params[:q],
+                                   :page => params[:page],
+                                   :order => 'speaker_last_name ASC, speaker_first_name ASC, msg ASC, subj ASC',
+                                   :match_mode => :boolean,
+                                   :max_matches => 2500,
+                                   :include => [:language, :speaker, :place])
       render :action => :index
     end
   end

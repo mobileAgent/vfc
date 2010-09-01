@@ -18,6 +18,6 @@
   <td><%=h item.filesize/1024/1024 %> Mb</td>
   <td><%=h item.duration %></td>
   <td><%=h item.year %></td>
-  <td><%=h item.place %></td>
+  <td><%=h item.place ? item.place.name : '' %></td>
   <td><%=h item.language.name %></td>
 </tr>

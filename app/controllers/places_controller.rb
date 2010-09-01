@@ -1,15 +1,17 @@
 class PlacesController < ApplicationController
 
   def index
-    @places = AudioMessage.active.count(:group => :place, :order => :place, :conditions => ["place is not null"])
-    @speakers_by_place = {}
-    @places.keys.each do |place|
-      @speakers_by_place[place] =
-        AudioMessage.active.all(:group => :speaker_id,
-                                :conditions => ["place = ?",place],
-                                :limit => 5,
-                                :order => :add_date)
-    end
+    @places = Place.all(:order => :name)
+  end
+
+  def show
+    @place = Place.find(params[:id])
+    @query_title = "Messages by location #{@place.name}"
+    @items = AudioMessage.active.paginate(:page => params[:page],
+                                          :conditions => ["place_id = ?",@place.id],
+                                          :order => 'speaker_id,msg,subj',
+                                          :include => [:language, :speaker, :place])
+    render :template => 'welcome/index'
   end
   
 end

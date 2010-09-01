@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100720025653) do
+ActiveRecord::Schema.define(:version => 20100901011733) do
 
   create_table "foo", :id => false, :force => true do |t|
     t.string  "speaker", :limit => 128
@@ -356,6 +356,12 @@ ActiveRecord::Schema.define(:version => 20100720025653) do
     t.datetime "updated_at"
   end
 
+  create_table "places", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "speakers", :force => true do |t|
     t.string   "last_name"
     t.string   "first_name"
@@ -391,18 +397,18 @@ ActiveRecord::Schema.define(:version => 20100720025653) do
     t.string    "date",          :limit => 16
     t.string    "obs_call",      :limit => 16
     t.string    "obs_grouping",  :limit => 16
-    t.timestamp "add_date",                     :null => false
+    t.timestamp "add_date",                                    :null => false
     t.boolean   "download"
     t.boolean   "publish"
     t.string    "filename",      :limit => 512
     t.integer   "notes_id"
     t.string    "language_name", :limit => 16
     t.integer   "speaker_id"
-    t.timestamp "change_date",                  :null => false
+    t.timestamp "change_date",                                 :null => false
     t.string    "duration",      :limit => 16
     t.integer   "filesize"
-    t.string    "place",         :limit => 16
     t.integer   "language_id"
+    t.integer   "place_id",                     :default => 0
   end
 
   add_index "vfc", ["groupmsg"], :name => "groupmsg_index"

@@ -1,19 +1,18 @@
-<p>
- <% ('A'..'Z').each do |alpha| %>
-   <%= link_to alpha ,"##{alpha}" %>&nbsp;
- <% end %>
-</p> 
-<ul>
 <% @letter = '!' %>
 <% @speakers.each do |speaker| %>
-  <li>
-    <% if @letter != speaker.last_name[0..0] %>
-      <% @letter = speaker.last_name[0..0] %>
-      <a name='<%=@letter%>'/>
+  <% if @letter != speaker.index_letter %>
+    <% @letter = speaker.index_letter %>
+    <% if @letter != '!'  %>
+      </ul>
     <% end %>
+    <a name='<%=@letter%>'/>
+    <%= render 'alphaindex' %>
+    <ul>
+  <% end %>
+  <li>
     <%=h speaker.catalog_name %>
     <%= link_to "~ bio",'#' if speaker.bio %>
-    ~ <%= link_to "#{@message_counts[speaker.id]} messages", "/speakers/show/#{speaker.id}" %>
+      ~ <%= link_to pluralize(@message_counts[speaker.id],'message'), "/speakers/show/#{speaker.id}" %>
   </li>
 <% end %>
 </ul>

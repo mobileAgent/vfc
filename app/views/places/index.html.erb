@@ -1,13 +1,9 @@
 <ul>
-<% @places.keys.each do |name| %>
+<% @places.each do |place| %>
   <li>
-    <%=h name %>, <%=h @places[name] %> messages
-    <ul>
-      <% @speakers_by_place[name].each do |msg| %>
-        <li><%= link_to msg.speaker.catalog_name, '#' %></li>
-      <% end %>
-      <li>More ...</li>
-    </ul>
+    <%= link_to place.name,"/places/show/#{place.id}" %>:
+       <%=h pluralize(place.audio_messages.count,'message')%> by
+       <%= pluralize(place.speakers.count,'speaker')%>
   </li>
 <% end %>
 </ul>
