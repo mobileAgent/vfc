@@ -1,9 +1,9 @@
-<h2>Speakers from <%= @place.name %></h2>
+<% title("In #{@place.name}") %>
 <ul>
   <% @speakers.each do |speaker| %>
     <li>
-      <%= h speaker.catalog_name %>:
-      <%= link_to pluralize(speaker.audio_messages.active.count(:conditions => {:place_id => @place.id}),'message'),"/places/#{@place.id}/speakers/#{speaker.id}" %>
+      <%= speaker.catalog_name %>:
+      <%= link_to pluralize(speaker.audio_messages.active.count(:conditions => {:place_id => @place.id}),'message'),"/speakers/#{speaker.id}/place/#{@place.id}" %>
     </li>
   <% end %>
 </ul>  

@@ -121,14 +121,8 @@ div.art {
 img {
   border: none;
 }
-
 a.iconlink {
   text-decoration: none;
-}
-
-#header img { 
-  border-top: 5px solid #002f55;
-  border-bottom: 3px solid #002f77;
 }
 img.friend {
   margin: 10px;
@@ -138,7 +132,6 @@ div.centered {
   margin-right: 5%;
   margin-left: 5%;
   text-align: center;
-
 }
 #speakerlist {
   display: block;
@@ -196,33 +189,32 @@ ol a:active, ol a:hover {
   vertical-align: top;
   white-space: nowrap;
 }
-#topnav {
+#botnav {
   margin: 0;
   padding: 0 10px 5px 10px;
 }
-#topnav ul { 
+#botnav ul { 
   list-style-type: none
 }
-#topnav li { 
+#botnav li { 
   margin: 0;
   padding: 0;
   display: inline;
 }
-#topnav a {
+#botnav a {
   font-weight: bold;
-  font-family: Arial, Helvetica, sans-serif;
   font-size: 8pt;
   color: #3f3f3f;
   margin: 0 10px 4px 10px;
   text-decoration: none;
 }
-#topnav a:hover, #topnav a:active, #topnav a.active { 
+#botnav a:hover, #botnav a:active, #botnav a.active { 
   border-bottom: 4px solid #3f3f3f;
   padding-bottom: 2px;
   color: #3f3f3f;
 }
 
-#topnav a img { 
+#botnav a img { 
    border: none;
 }
 a.nav {
@@ -351,7 +343,6 @@ input[type='text'].roinputboxnum:focus {
    border: 2px inset black; 
    color: #002f55; 
    font-size: 1.4em; 
-   font-family: Copperplate Gothic Bold, Arial Black, Verdana Bold, sans-serif;
    padding: 6px;
    background-color: #e3efec;
 }
@@ -384,24 +375,38 @@ span.new {
   border: 2px solid #002f55;
 }
 
-.msglist thead th {
-  background-color: #480df9;
-  color: white;
+.sortable thead th {
   font-size: small;
   font-weight: bold;
   border-bottom: 1px solid black;
   border-right: 1px solid black;
 }
 
-th a, th a:visited {
-  color: white;
+.sortable thead th .current {
+  padding-right: 12px;
+  background-repeat: no-repeat;
+  background-position: right center;
+}
+
+.sortable thead th .asc {
+  background-image: url(/images/up_arrow.gif);
+}
+
+.sortable thead th .desc {
+  background-image: url(/images/down_arrow.gif);
+}
+
+.sortable th a, th a:visited {
   text-decoration: none;
+  color: black;
 }
 
 .msglist {
   border: 1px solid black;
-  width: 100%;
+  margin-left: 2%;
+  width: 96%;
 }
+
 tr.sep td {
   line-height: 0.1em;
   background-color: gray;
@@ -482,6 +487,20 @@ fieldset, #closer, #speakerlist, #motm, #blurb, .scripturebox, #vfcnews {
   -moz-border-radius: .5em;
 }
 
+img.flag {
+   margin-left: 3px;
+   margin-right: 3px;
+}
+
+/* bio moreless */
+.moreless, .lessmore {
+    text-decoration:underline;
+    color: blue;
+    cursor:pointer;
+}
+
+/* yplayer */
+#ymp-relevance {display:none !important;}
 
 /* Pagination */
 .apple_pagination a, .apple_pagination span {

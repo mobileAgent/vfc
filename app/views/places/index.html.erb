@@ -1,9 +1,10 @@
+<% title("Places") %>
 <ul>
 <% @places.each do |place| %>
   <li>
     <%= place.name %>:
-       <%=link_to  pluralize(place.audio_messages.count,'message'),"/places/#{place.id}" %> by
-       <%= link_to pluralize(place.speakers.count,'speaker'), "/places/speakers/#{place.id}"%>
+       <%=link_to  pluralize(place.audio_messages.active.count,'message'),"/places/#{place.id}" %> by
+       <%= link_to pluralize(place.speakers.count,'speaker'), "/places/#{place.id}/speakers"%>
   </li>
 <% end %>
 </ul>

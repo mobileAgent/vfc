@@ -1,12 +1,9 @@
 class ApplicationController < ActionController::Base
-  include Clearance::Authentication
+  protect_from_forgery
   helper :all # include all helpers, all the time
-  protect_from_forgery # See ActionController::RequestForgeryProtection for details
-
-  filter_parameter_logging :password
-
+  helper_method :sort_column, :sort_column_ar, :sort_direction
   before_filter :tagline
-
+  
   # To test 404 routing in development, use this
   # alias_method :rescue_action_locally, :rescue_action_in_public
 
@@ -32,7 +29,30 @@ class ApplicationController < ActionController::Base
 
   def tagline
     @tagline = Rails.cache.fetch("tagline",:expires => 30.minutes) {
-      "#{AudioMessage.active.count} messages by #{Speaker.count} speakers in #{Language.count} langauges - One Lord Jesus Christ." }
+      "#{AudioMessage.active.count} messages by #{Speaker.count} speakers in #{Language.count} languages - One Lord Jesus Christ." }
+  end
+
+  # Used for sphinx searches
+  def sort_column
+    f = %w(full_title speaker_name filesize duration event_date place language)
+    f.include?(params[:sort]) ? params[:sort] : "speaker_name asc, full_title"
+  end
+
+  # Used for ar finders
+  def sort_column_ar
+    f = {
+      "full_title" => "title",
+      "filesize" => "filesize",
+      "speaker_name" => "speakers.last_name",
+      "duration" => "duration",
+      "event_date" => "event_date",
+      "place" => "places.name",
+      "language" => "languages.name" }
+    f.keys.include?(params[:sort]) ? f[params[:sort]] : "speakers.last_name asc, speakers.first_name asc, title asc, subj"
+  end
+
+  def sort_direction
+    %w(asc desc).include?(params[:direction]) ? params[:direction] : "asc"
   end
 
 end

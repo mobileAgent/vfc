@@ -1,23 +1,27 @@
 <tr class='<%=cycle("odd","even")%>'>
   <td>
-    <a href="/VFC-GOLD/<%=item.filename%>" title="Download the mp3">
-      <img src="/images/listen.gif"/>
+    <a href="<%=AUDIO_URL%>/<%=item.filename%>" title="<%= item.full_title %>">
+      <img src="/images/cd64.gif" alt="" style="display:none" />
+      <%= icon :arrow_down, :title => 'Download MP3' %>
+    </a>
+    <%= icon :cd_add, :title => 'Add to CD List' %>
+    <%= icon :heart_unselected, :title => 'Favorite' %>
     </a>
   </td>
   <!--
-  <td><%=h item.filename %></td>
-  <td><%=h item.groupmsg %></td>
+  <td><%= item.filename %></td>
+  <td><%= item.groupmsg %></td>
   -->
-  <td><%=h item.speaker.catalog_name %></td>
+  <td><%= item.speaker.catalog_name %></td>
   <td>
-     <%=h item.title %>
-     <% if item.add_date > (DateTime.now - 30)%>
+     <%= item.full_title %>
+     <% if item.created_at > (DateTime.now - 30)%>
         <span class='new'>NEW</span>
      <% end %>
   </td>
-  <td><%=h item.filesize/1024/1024 %> Mb</td>
-  <td><%=h item.duration %></td>
-  <td><%=h item.year %></td>
-  <td><%=h item.place ? item.place.name : '' %></td>
-  <td><%=h item.language.name %></td>
+  <td><%= item.human_filesize %></td>
+  <td><%= item.human_duration %></td>
+  <td><%= item.year %></td>
+  <td><%= item.place ? item.place.name : '' %></td>
+  <td><%= flags_for_lang(item.language.name, :class => 'flag') if item.language %></td>
 </tr>

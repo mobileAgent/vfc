@@ -1,0 +1,9 @@
+<%- title("#{@language.name} Language Messages") -%>
+<ul>
+  <% @speakers.each do |speaker| %>
+    <li>
+      <%= speaker.catalog_name %>:
+      <%= link_to pluralize(@speakers_counts[speaker.id],'message'),"/speakers/#{speaker.id}/language/#{@language.id}" %>
+    </li>
+  <% end %>
+</ul>  

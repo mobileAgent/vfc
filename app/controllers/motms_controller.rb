@@ -1,7 +1,8 @@
 class MotmsController < ApplicationController
 
   def index
-    @motms = Motm.all(:order => :created_at)
+    @motms = Motm.all
+      .order(sort_column_ar + " " + sort_direction)
   end
   
 end

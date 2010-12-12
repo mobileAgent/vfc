@@ -1,35 +1,22 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html lang="en">
+<!DOCTYPE html>  
+<html>
   <head>
-    <title>Voices For Christ<%= " - #{@title}" if @title %></title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <%= javascript_include_tag 'jquery-1.4.2', 'jquery.editinplace', 'jquery-ui-1.8.2.custom.min' %>
-    <%= javascript_include_tag 'application', 'sorttable' %>  
+    <title><%= content_for?(:title) ? "VFC - " + yield(:title) : "Voices For Christ" %></title>
+    <meta charset="utf-8"/>
+    <%= javascript_include_tag :defaults %>  
     <%= stylesheet_link_tag 'style', :media => 'all' %>
-    <%= stylesheet_link_tag 'smoothness/jquery-ui-1.8.2.custom', :media => 'all' %>
-    <%= stylesheet_link_tag "formtastic" %>
-    <%= stylesheet_link_tag "formtastic_changes" %>
+    <%= stylesheet_link_tag 'cupertino/jquery-ui', :media => 'all' %>
+    <%= csrf_meta_tag %>
+    <script type="text/javascript" src="http://mediaplayer.yahoo.com/js"></script>
+    <%= yield(:head) %>
   </head>
   <body>
 
    <div id="header">
-     <img src="/images/logothin.jpg"/>
-      <ul id="topnav">
-        <li><%= link_to 'Home', root_url %></li>
-        <li>|</li>
-        <li><%= link_to 'About', '/welcome/about' %></li>
-        <li>|</li>
-	<li><%= link_to 'Contact', '/welcome/contact' %></li>
-        <li>|</li>
-	<li><%= link_to 'News', '/welcome/news' %></li>
-        <li>|</li>
-        <% if current_user %>
-           <li><%= current_user.email %><%= " (admin)" if current_user.admin? %></li>
-        <% else %>
-	   <li><%= link_to 'Login', sign_in_path %></li>
-        <% end %>
-      </ul>
-     <span id="tagline"><%= @tagline %></span>
+     <%= image_tag '/images/logo.jpg' %>
+     <%- if show_title? -%>
+       <h1 class="content"><%= yield(:title) %></h1>
+     <%- end -%>
    </div>
    
    <% if @motm %>
@@ -38,30 +25,35 @@
      </div>
    <% end %>
 
-
-   <br />
    <ul id="sidenav">
      <li><%= link_to "Search", root_path %></li>
-     <li><%= link_to "Featured Messages", '/motms' %></li>
-     <li><%= link_to "Browse Speakers", '/speakers' %></li>
-     <li><%= link_to "Browse Places", '/places' %></li>
-     <li><%= link_to "Browse by Date Added", '/dates' %></li>
-     <li><%= link_to "Browse by Language", '/languages' %></li>
-     <li><%= link_to "Browse Writings", '/writings' %></li>
-     <li><%= link_to "Browse Hymns", '/hymns' %></li>
+     <li><%= link_to "Featured", '/motms' %></li>
+     <li><%= link_to "Speakers", '/speakers' %></li>
+     <li><%= link_to "Places", '/places' %></li>
+     <li><%= link_to "Dates", '/dates' %></li>
+     <li><%= link_to "Languages", '/languages' %></li>
+     <li><%= link_to "Writings", '/writings' %></li>
+     <li><%= link_to "Hymns", '/hymns' %></li>
+     <li><%= link_to "Favorites", '/favorites' %></li>
    </ul>
-   
-<br />
-   
-
-   <p class="flash"><%= flash[:notice] %></p>
+   <%- flash.each do |name,msg| -%>
+     <%= content_tag :div, msg, :id => "flash_#{name}" %>
+   <%- end -%>
 
    <div id="content">
      <%= yield %>
    </div>
 
    <div id="footer">
-      &copy; VoicesForChrist.org, 2005-<%= Time.now.year %>
+      <ul id="botnav">
+        <li><%= link_to 'About', '/welcome/about' %></li>
+        <li>|</li>
+	<li><%= link_to 'Contact', '/welcome/contact' %></li>
+        <li>|</li>
+	<li><%= link_to 'News', '/welcome/news' %></li>
+      </ul>
+     <p id="tagline"><%= @tagline %></p>
+     <p id="copy">&copy; VoicesForChrist.org, 2005-<%= Time.now.year %></p>
    </div>
  </body>
 </html>
