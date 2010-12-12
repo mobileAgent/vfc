@@ -2,16 +2,24 @@ set :application, "vfc"
 set :repository,  "git@github.com:mobileAgent/vfc.git"
 set :scm, :git
 set :branch, "master"
+set :user, 'vfcowner'
+set :deploy_to, "/var/apps/#{application}"
 
 set :server_name, "voicesforchrist.org"
 role :web, "#{server_name}"
 role :app, "#{server_name}"
 role :db,  "#{server_name}", :primary => true
 
+
+set :db_username, "bwpro"
+
+# How much to keep on a cleanup task
+set :keep_releases, 3
+
+
 # If you are using Passenger mod_rails uncomment this:
 # if you're still using the script/reapear helper you will need
 # these http://github.com/rails/irs_process_scripts
-
 namespace :deploy do
   task :start do ; end
   task :stop do ; end
@@ -33,4 +41,35 @@ task :backup, :roles => :db, :only => { :primary => true } do
   get file, "backups/#{filename}"
   #delete file
   run "rm /tmp/#{filename}"
+end
+
+desc "Do sphinx stuff on new app"
+task :after_update_code do
+  sphinx.restart
+  create_symlinks
+  # memcached.clear
+  # update_configuration
+end
+
+desc "Symlink in the shared stuff"
+task :create_symlinks do
+  as = fetch(:runner, "app")
+  via = fetch(:run_method, :run)
+  invoke_command("cd #{current_release} && ln -s #{deploy_to}/shared/photos ./public/photos", :via => via, :as => as)        
+end
+
+namespace :sphinx do
+  desc "Restart sphinx"
+  task :restart do
+    rake = fetch(:rake, "rake")
+    rails_env = fetch(:environment, "development")
+    begin
+      run "cd #{current_release}; #{rake} RAILS_ENV=#{rails_env} thinking_sphinx:stop"
+    rescue
+      puts "sphinx was not running, ok."
+    end
+    run "cd #{current_release}; #{rake} RAILS_ENV=#{rails_env} thinking_sphinx:configure"
+    run "cd #{current_release}; #{rake} RAILS_ENV=#{rails_env} thinking_sphinx:index"
+    run "cd #{current_release}; #{rake} RAILS_ENV=#{rails_env} thinking_sphinx:start"
+  end
 end

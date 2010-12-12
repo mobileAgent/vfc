@@ -1,17 +1,5 @@
-# Be sure to restart your server when you modify this file
+# Load the rails application
+require File.expand_path('../application', __FILE__)
 
-# Specifies gem version of Rails to use when vendor/rails is not present
-RAILS_GEM_VERSION = '2.3.8' unless defined? RAILS_GEM_VERSION
-
-# Bootstrap the Rails environment, frameworks, and default configuration
-require File.join(File.dirname(__FILE__), 'boot')
-
-Rails::Initializer.run do |config|
-  
-  config.gem 'clearance'
-  config.gem 'thinking-sphinx', :lib => 'thinking_sphinx'
-  config.gem 'formtastic'
-  config.gem 'will_paginate'
-
-  config.time_zone = 'UTC'
-end
+# Initialize the rails application
+Vfc::Application.initialize!

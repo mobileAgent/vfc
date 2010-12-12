@@ -1,9 +1,6 @@
-= Welcome to Voices For Christ
+== VFC
 
-This code is resonspible for serving the mp3 files, 
-searching the metadata, ordering CD and DVD products
-from VFC and for maintenance of the underlying files,
-including id3 tagging, synchronization with Amazon
-S3, producing zip downloads, streaming, slicing, 
-dicing, and making julienne fries.
+Visit us at http://voicesforChrist.org/
+and keep up with development on GitHub.org
+as we move to a new Rails3 based system.
 

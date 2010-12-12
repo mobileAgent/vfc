@@ -1,16 +1,78 @@
-Add cd/dvd ordering
-Bulk download (via zip file created on the fly?)
-Admin edit of fields
-name downloaded file at time selected rather than on-disk name
-rename speaker (e.g. spelling correction)
-process uploaded messages (admin function)
-choose motm (admin function)
-user favorites
-user tags, prepopulated with key terms and all Bible book names
-bios/pictures displayed on speaker pages
-migrate existing bios and pictures to database
-upload picture
-speaker edit of own page if desired (with admin authorization)
-connect table sorting to backend db sort order
+style flash messages
+load bios with markdown and translated picture links - done
+country column with iso country code - done
 
-add older motms into db
+
+admin
+ - edit bio
+ - upload picture
+ - hide/delete messages
+ - hide/delete speakers
+ - fix speaker name
+ - edit message title/subj/event date
+ - create new place
+ - create new speaker
+ - create new language
+ - move message from one speaker to another
+ - move message from one place to another
+ - move message from one language to another
+ - select motm
+ 
+  - cd/dvd order fulfillment
+
+ - push out db fields to id3 tags in mp3 files
+ - email users
+
+taggings
+  - search by
+     -- Article.search 'pancakes',
+          :with_all => {:tag_ids => @tags.collect(&:id)}
+  - create new, parsing
+  
+  
+login
+  - signup with confirm
+  - login
+  - oauth?
+  - password reset
+  - delete account
+  - mail opt in?
+
+favorites
+  - public/private ? 
+  - facebook integration?
+  - twitter integration?
+
+tag clouds
+ - speakers
+ - places
+ - taggings
+
+by date preached
+
+shopping cart for cd/dvd
+  -- add messages
+  -- download playlist
+  -- order cd/dvd
+  -- order history
+
+donate?
+
+integrate blog?
+
+
+writings
+  -- search? 
+  -- a/r model in db ?
+  -- organization
+
+hymns 
+  -- better organization
+  -- add to search?
+
+
+DONE
+
+  - sorting of duration with "0:xx:xx" style, convert all to seconds?
+  - convert or add year column to resolve format issues
+  - hymns playlist
