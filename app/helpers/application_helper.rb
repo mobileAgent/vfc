@@ -1,5 +1,7 @@
 module ApplicationHelper
 
+  include TagsHelper
+
   def sort_link_to(column, title = nil)
     title ||= column.titleize
     css_class = column == sort_column ? "current #{sort_direction}" : nil

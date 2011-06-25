@@ -12,7 +12,7 @@ Vfc::Application.routes.draw do
   resources :languages, :has_many => :speakers
   
   root :to => "welcome#index"
-
+  
   match '/speaker/name/:id' => 'speakers#name'
   match '/places/:id/speakers' => 'places#speakers'
   match '/languages/:id/speakers' => 'languages#speakers'

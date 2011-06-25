@@ -21,7 +21,8 @@ class Speaker < ActiveRecord::Base
   def catalog_name
     s = ""
     s << last_name
-    s << ", #{first_name}" if first_name
+    s << "," if (first_name || middle_name)
+    s << " #{first_name}" if first_name
     s << " #{middle_name}" if middle_name
     s
   end
