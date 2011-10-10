@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.1'
+gem 'rails', '3.1.1'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -23,15 +23,19 @@ gem 'nokogiri'
 # gem 'aws-s3', :require => 'aws/s3'
 gem 'jquery-rails'
 gem 'will_paginate'
-gem 'thinking-sphinx',
-  :git     => 'git://github.com/freelancing-god/thinking-sphinx.git',
-  :branch  => 'rails3',
-  :require => 'thinking_sphinx'
+gem 'thinking-sphinx'
+#gem 'thinking-sphinx',
+#  :git     => 'git://github.com/freelancing-god/thinking-sphinx.git',
+#  :branch  => 'rails3',
+#  :require => 'thinking_sphinx'
   
+#gem 'acts_as_taggable_on_steroids'
 gem 'acts_as_taggable_on_steroids',
   :git     => 'http://github.com/mobileAgent/acts_as_taggable_on_steroids.git'
 
 gem 'rdiscount'  
+gem 'ruby-mp3info',
+   :git => 'git://github.com/cball/ruby-mp3info.git'
 
 # Bundle gems for the local environment. Make sure to
 # put test-only gems in this group so their generators

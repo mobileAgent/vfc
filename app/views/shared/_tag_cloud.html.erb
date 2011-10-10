@@ -1,0 +1,5 @@
+<% if @tags %>
+  <% tag_cloud @tags, (1..10).inject([]) { |a,t| a << "css#{t}" } do |tag, css_class| %>
+    <%= link_to tag.name, { :action => :tag, :id => tag.name }, :class => css_class %>
+  <% end %>
+<% end %>

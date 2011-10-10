@@ -3,6 +3,7 @@ class WelcomeController < ApplicationController
   def index
     @motms = Motm.active
     @motm = @motms.first if (@motms && @motms.size > 0)
+    @tags = AudioMessage.tag_counts
   end
 
   def contact

@@ -493,10 +493,22 @@ img.flag {
 }
 
 /* tag cloud */
-.css1 { font-size: 1.0em; }
-.css2 { font-size: 1.2em; }
-.css3 { font-size: 1.4em; }
-.css4 { font-size: 1.6em; }
+.tag_cloud a {
+   text-decoration: none;
+}
+.tag_cloud a:hover {
+   color: red;
+}
+.css1 { font-size: 0.7em; font-weight: 100; }
+.css2 { font-size: 0.8em; font-weight: 200; padding: 2px;}
+.css3 { font-size: 0.9em; font-weight: 300; padding: 4px;}
+.css4 { font-size: 1.0em; font-weight: 400; padding: 6px;}
+.css5 { font-size: 1.2em; font-weight: 500; padding: 8px;}
+.css6 { font-size: 1.4em; font-weight: 600; padding: 10px;}
+.css7 { font-size: 1.6em; font-weight: 700; padding: 12px;}
+.css8 { font-size: 1.8em; font-weight: 800; padding: 14px;}
+.css9 { font-size: 2.2em; font-weight: 900; padding: 18px;}
+.css10 { font-size: 2.5em; font-weight: 950; padding: 20px;}
 
 /* bio moreless */
 .moreless, .lessmore {
