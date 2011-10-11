@@ -6,9 +6,7 @@ class AudioMessage < ActiveRecord::Base
   belongs_to :place
 
   acts_as_taggable
-
-  cattr_reader :per_page
-  @@per_page = 50
+  self.per_page = 50
   
   scope :active, where("publish = ?",true).includes(:speaker,:language,:place)
 

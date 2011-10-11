@@ -1,11 +1,4 @@
 <% title('Messages') %>
-<%= form_tag('/welcome/search', {:method => :get, :id => 'sform'}) do |f| %>
-  <input type='text' name='q' id='q' size='80'/>
-<% end %>
-
 <%= render "shared/tag_cloud" %>
-<br />
 <%= render "shared/speaker_bio" %>
-<br />
 <%= render "shared/item_list" %>
-<br />

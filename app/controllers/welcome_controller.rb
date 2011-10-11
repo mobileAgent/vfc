@@ -14,7 +14,7 @@ class WelcomeController < ApplicationController
 
   def search
     if request.xhr?
-      @size_limit = 15
+      @size_limit = 20
       @hits = []
       t = "%#{params[:term]}%"
       @speakers = Speaker
@@ -34,13 +34,14 @@ class WelcomeController < ApplicationController
           .where("title like ? or subj like ?",t,t)
           .limit(@size_limit-@hits.size)
           .order("title, subj")
-        @hits += @msgs.map { |n| "#{n.autocomplete_title} #{n.speaker.last_name}" }
+        @hits += @msgs.map { |n| "#{n.autocomplete_title}, #{n.speaker.full_name}" }
       end
       render :text => @hits.to_json and return
     elsif params[:q]
       @query_title = params[:q]
       @items = AudioMessage.search(params[:q],
                                    :page => params[:page],
+                                   :per_page => AudioMessage.per_page,
                                    :order => "#{sort_column} #{sort_direction}",
                                    :match_mode => :boolean,
                                    :max_matches => 2500,

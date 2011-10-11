@@ -25,7 +25,7 @@ class DatesController < ApplicationController
     @items = AudioMessage.active
       .where("date_format(audio_messages.created_at,'%Y-%m') = ? and audio_messages.speaker_id = ?",@date,@speaker.id)
       .order(sort_column_ar + " " + sort_direction)
-      .paginate(:page => params[:page])
+      .paginate(:page => params[:page], :per_page => AudioMessage.per_page)
     render :template => 'welcome/index'
   end
 
@@ -35,7 +35,7 @@ class DatesController < ApplicationController
     @items = AudioMessage.active
       .where("date_format(created_at,'%Y-%m') = ?",@date)
       .order(sort_column_ar + " " + sort_direction)
-      .paginate(:page => params[:page])
+      .paginate(:page => params[:page], :per_page => AudioMessage.per_page)
     render :template => 'welcome/index'
   end
     

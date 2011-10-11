@@ -24,6 +24,7 @@ places = Place.create([
                        { :name => "Durham, North Carolina", :cc => 'us'},
                        { :name => "Raleigh, North Carolina", :cc => 'us'},
                        { :name => "Vancouver, BC, Canada", :cc => 'ca'},
+                       { :name => "Shannon Hills, North Carolina", :cc => 'us'},
                        { :name => "Greenwood Hills", :cc => 'us'}
                       ])
 

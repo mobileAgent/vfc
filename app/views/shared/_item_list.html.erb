@@ -1,5 +1,6 @@
 <% if @items && @items.size > 0 %>
 <%= (page_entries_info @items, :entry_name => "messages").html_safe %> matching '<%= @query_title %>'
+<%= will_paginate @items, :id => true, :class => 'apple_pagination' %>
 <table id="msgtable" class="sortable msglist">
   <%= render '/audio_messages/audio_table_head' %>
   <tbody>
@@ -9,4 +10,5 @@
   </tbody>
 </table>
 <%= will_paginate @items, :id => true, :class => 'apple_pagination' %>
+<br />
 <% end %>

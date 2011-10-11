@@ -21,8 +21,10 @@ gem 'capistrano'
 gem 'nokogiri'
 # gem 'sqlite3-ruby', :require => 'sqlite3'
 # gem 'aws-s3', :require => 'aws/s3'
+
 gem 'jquery-rails'
-gem 'will_paginate'
+gem 'will_paginate',
+  :git => 'git://github.com/mislav/will_paginate.git'
 gem 'thinking-sphinx'
 #gem 'thinking-sphinx',
 #  :git     => 'git://github.com/freelancing-god/thinking-sphinx.git',
@@ -36,6 +38,15 @@ gem 'acts_as_taggable_on_steroids',
 gem 'rdiscount'  
 gem 'ruby-mp3info',
    :git => 'git://github.com/cball/ruby-mp3info.git'
+
+# Gems used only for assets and not required
+# in production environments by default.
+group :assets do
+  # gem 'sass-rails',   "~> 3.1.0"
+  gem 'coffee-rails', "~> 3.1.0"
+  gem 'uglifier'
+end
+   
 
 # Bundle gems for the local environment. Make sure to
 # put test-only gems in this group so their generators
