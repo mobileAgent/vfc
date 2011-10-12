@@ -1,7 +1,6 @@
 <tr class='<%=cycle("odd","even")%>'>
   <td>
     <a href="<%=AUDIO_URL%>/<%=item.filename%>" title="<%= item.full_title %>">
-      <img src="/images/cd64.gif" alt="" style="display:none" />
       <%= icon :arrow_down, :title => 'Download MP3' %>
     </a>
     <%= icon :cd_add, :title => 'Add to CD List' %>
@@ -21,7 +20,7 @@
   </td>
   <td><%= item.human_filesize %></td>
   <td><%= item.human_duration %></td>
-  <td><%= item.year %></td>
+  <td><%= item.human_date %></td>
   <td><%= item.place ? item.place.name : '' %></td>
   <td><%= flags_for_lang(item.language.name, :class => 'flag') if item.language %></td>
 </tr>

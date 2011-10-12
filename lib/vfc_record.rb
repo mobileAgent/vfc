@@ -91,6 +91,7 @@ class VfcRecord < ActiveRecord::Base
       "Raleigh" => "Raleigh, North Carolina",
       "Vancouver" => "Vancouver, BC, Canada",
       "Shannon Hills Chpl" => "Shannon Hills, North Carolina",
+      "Park Of The Palms" => "Park Of The Palms, Florida",
       "(GWH)|(Greenwood)" => "Greenwood Hills"}.each do |(k,v)|
       if "#{msg} #{subj}".index /#{k}/
           return Place.find_or_create_by_name(v)

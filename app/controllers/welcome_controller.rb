@@ -3,7 +3,7 @@ class WelcomeController < ApplicationController
   def index
     @motms = Motm.active
     @motm = @motms.first if (@motms && @motms.size > 0)
-    @tags = AudioMessage.tag_counts
+    @tag_cloud = AudioMessage.tag_counts(:conditions => {:publish => true})
   end
 
   def contact
@@ -31,7 +31,7 @@ class WelcomeController < ApplicationController
       end
       if @hits.size < @size_limit
         @msgs = AudioMessage
-          .where("title like ? or subj like ?",t,t)
+          .where("(title like ? or subj like ?) and publish = ?",t,t,true)
           .limit(@size_limit-@hits.size)
           .order("title, subj")
         @hits += @msgs.map { |n| "#{n.autocomplete_title}, #{n.speaker.full_name}" }
@@ -39,6 +39,7 @@ class WelcomeController < ApplicationController
       render :text => @hits.to_json and return
     elsif params[:q]
       @query_title = params[:q]
+      logger.debug "Sphinx search for '#{params[:q]}'"
       @items = AudioMessage.search(params[:q],
                                    :page => params[:page],
                                    :per_page => AudioMessage.per_page,

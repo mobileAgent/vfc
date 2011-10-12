@@ -18,7 +18,7 @@ class AudioMessage < ActiveRecord::Base
     indexes place.name, :as => :place, :sortable => true
     indexes language.name, :as => :language, :sortable => true
     indexes event_date, :sortable => true
-
+    indexes taggings.tag.name, :as => :tags, :sortable => true
     has filesize, duration, place_id, language_id, speaker_id
   end
 
@@ -36,6 +36,10 @@ class AudioMessage < ActiveRecord::Base
 
   def year
     event_date.present? ? event_date.year : nil
+  end
+
+  def human_date
+    event_date.present? ? event_date.strftime("%Y-%m-%d") : nil
   end
   
   # turn number of seconds into hh:mm:ss
