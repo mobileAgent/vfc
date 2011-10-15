@@ -40,6 +40,7 @@ class WelcomeController < ApplicationController
     elsif params[:q]
       @query_title = params[:q]
       logger.debug "Sphinx search for '#{params[:q]}'"
+      
       @items = AudioMessage.search(params[:q],
                                    :page => params[:page],
                                    :per_page => AudioMessage.per_page,
@@ -47,6 +48,9 @@ class WelcomeController < ApplicationController
                                    :match_mode => :boolean,
                                    :max_matches => 2500,
                                    :include => [:language, :speaker, :place])
+      if @items.size > 0 && @items.first.speaker.full_name == params[:q]
+        @speaker = @items.first.speaker
+      end
       render :action => :index
     end
   end

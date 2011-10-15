@@ -14,3 +14,4 @@ tmp
 .DS_Store?
 Thumbs.db
 *~
+db/sphinx/development/*

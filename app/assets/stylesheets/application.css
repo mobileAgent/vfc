@@ -198,7 +198,8 @@ table, #msgtable, .sortable, .msglist {
 }
 
 #msgtable {
-  width: 100%;
+  width: 98%;
+  margin-left: 0;
 }
 
 #msgtable thead tr { background: #002D47; }
@@ -271,6 +272,30 @@ table, #msgtable, .sortable, .msglist {
 #msgtable img {
 	float: left;
 	margin: 0; padding: 3px;
+}
+
+div.bio {
+  width: 80%;
+  margin-left: 10%;
+  border: 5px solid #002d47;
+  padding: 10px;
+  -moz-border-radius: 2em;
+  -webkit-border-radius: 2em;
+  border-radius: 2em;
+}
+
+span.lessmore, span.moreless {
+  border: 1px outset #002d47;
+  -moz-border-radius: 2em;
+  -webkit-border-radius: 2em;
+  border-radius: 2em;
+  background: #A6B6BF;
+  padding: 3px;
+}
+
+span.lessmore:hover, span.moreless:hover {
+  border: 1px inset #002d47;
+  color: red;
 }
 
 /* tag cloud */

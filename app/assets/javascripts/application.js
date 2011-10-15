@@ -8,7 +8,13 @@
 $(document).ready(function() {
   $("#q").autocomplete({
     source: '/welcome/search',
-    minLength: 2  });
+    minLength: 2,
+    selectFirst: true,
+    select: function(event,ui) {
+       $("#q").val(ui.item.value);
+       $("#sform").submit();
+       }        
+    });
 
   $(".moreless").click(function() {
      $(".short-bio").hide();
@@ -16,8 +22,8 @@ $(document).ready(function() {
   });
   
   $(".lessmore").click(function() {
-     $(".full-bio").hide();
-     $(".short-bio").slideDown();
+     $(".full-bio").slideUp();
+     $(".short-bio").show();
   });
 
   $("#q").select();
