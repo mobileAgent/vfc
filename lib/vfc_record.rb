@@ -166,6 +166,16 @@ class VfcRecord < ActiveRecord::Base
                         :updated_at => change_date
                         )
   end
+
+  def self.convert_records(records)
+    count = 0
+    records.each do |v|
+      a = v.convert_to_audio_message
+      puts "Converted #{v.id} into #{a.id} #{a.full_title}, #{a.speaker.full_name}, #{a.place ? a.place.name : nil}"
+      count+=1
+    end
+    count
+  end
   
   def self.convert_all
     count=0

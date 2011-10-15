@@ -2,10 +2,20 @@ require 'vfc_record'
 require 'find'
 
 namespace :vfc do
-  desc "convert old vfc data into new tables"
-  task :migrate_old_data => :environment do
-    count = VfcRecord.convert_all
-    puts "Converted #{count} vfc records into #{AudioMessage.count} audio messages, #{Speaker.count} speakers, #{Place.count} places"
+  desc "convert old vfc data into new structure"
+  task :migrate => :environment do
+    @table_name = ENV['table'] ? ENV['table'].to_sym : :vfc
+    if @table_name != :vfc
+      records = VfcRecord.set_table_name @table_name
+      VfcRecord.convert_records(records)
+      count = records.size
+    else
+      count = VfcRecord.convert_all
+    end
+    puts "Converted #{count} #{@table_name} records into " +
+      "#{AudioMessage.count} audio messages, " + 
+      "#{Speaker.count} speakers, " +
+      "#{Place.count} places"
   end
 
   desc "convert and load old biographies from files into db"
