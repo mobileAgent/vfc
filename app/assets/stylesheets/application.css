@@ -322,3 +322,8 @@ span.lessmore:hover, span.moreless:hover {
 .css8 { font-size: 1.8em; font-weight: 800; padding: 14px;}
 .css9 { font-size: 2.2em; font-weight: 900; padding: 18px;}
 .css10 { font-size: 2.5em; font-weight: 950; padding: 20px;}
+
+
+.taglist {
+  font-style: italic;
+}

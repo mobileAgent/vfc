@@ -85,17 +85,23 @@ charset: &charset
 development:
   morphology: stem_en
   max_matches: 2500
+  min_infix_len: 2
+  enable_star: 1
   wordforms: db/sphinx/wordforms.txt
   <<: *charset
 test:
   bin_path: /usr/local/bin
   morphology: stem_en
   max_matches: 2500
+  min_infix_len: 2
+  enable_star: 1
   wordforms: db/sphinx/wordforms.txt
   <<: *charset
   
 production:
   morphology: stem_en
   max_matches: 2500
+  min_infix_len: 2
+  enable_star: 1
   wordforms: db/sphinx/wordforms.txt
   <<: *charset

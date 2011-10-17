@@ -74,7 +74,7 @@ class VfcRecord < ActiveRecord::Base
 
   def converted_place
     {"Turkey Hill" => "Turkey Hill Camp",
-      "Storybook" => "Storybook Lodge",
+      "Story ?[Bb]ook" => "Storybook Lodge",
       "Ramseur" => "Ramseur, North Carolina",
       "Wilmington" => "Wilmington, North Carolina",
       "Dallas" => "Dallas, Texas",
@@ -82,7 +82,7 @@ class VfcRecord < ActiveRecord::Base
       "St.Louis" => "St. Louis, Missouri",
       "Omaha" => "Omaha, Nebraska",
       "Spanish Wells" => "Spanish Wells, Bahamas",
-      "Hollywood Bible Ch" => "Hollywood, Florida",
+      "Hollywood Bible" => "Hollywood, Florida",
       "Camp Horizon" => "Camp Horizon, Florida",
       "Camp Living Water" => "Camp Living Water",
       "Galilee Bible" => "Galilee Bible Camp",
@@ -91,6 +91,7 @@ class VfcRecord < ActiveRecord::Base
       "Raleigh" => "Raleigh, North Carolina",
       "Vancouver" => "Vancouver, BC, Canada",
       "Shannon Hills Chpl" => "Shannon Hills, North Carolina",
+      "Toronto" => "Toronto, Canada",
       "Park Of The Palms" => "Park Of The Palms, Florida",
       "(GWH)|(Greenwood)" => "Greenwood Hills"}.each do |(k,v)|
       if "#{msg} #{subj}".index /#{k}/

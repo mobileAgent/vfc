@@ -9,15 +9,19 @@
     -->
     </a>
   </td>
-  <!--
-  <td><%= item.filename %></td>
-  <td><%= item.groupmsg %></td>
-  -->
   <td><%= item.speaker.catalog_name %></td>
   <td>
      <%= item.full_title %>
      <% if item.created_at > (DateTime.now - 30)%>
         <span class='new'>NEW</span>
+     <% end %>
+     <% if item.tag_list.size > 0 %>
+       ~
+       <span class="taglist">
+         <% item.tag_list.sort.each do |tag| %>
+           <span class="tag"><%= tag %></span>
+         <% end %>
+       </span>
      <% end %>
   </td>
   <td><%= item.human_filesize %></td>
