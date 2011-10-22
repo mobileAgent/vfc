@@ -17,23 +17,36 @@ class WelcomeController < ApplicationController
     @hits = []
     term = params[:term]
     t = "#{term}%"
+    # Get some tags
+    if @hits.size < @size_limit
+      @tags = Tag.where('name like ?',t)
+        .limit(@size_limit - @hits.size)
+        .order(:name)
+      @hits += @tags.map { |t| t.name }
+    end
+    
+    # Get some matching speaker names
     @speakers = Speaker
       .where("last_name like ? or first_name like ?",t,t)
       .limit(@size_limit-@hits.size)
       .order("last_name, first_name, middle_name")
     @hits += @speakers.map { |n| n.full_name }
+
+    # Get some places
     if @hits.size < @size_limit
       @places = Place
         .where("name like ?",t)
         .limit(@size_limit-@hits.size)
-        .order("name")
+        .order(:name)
       @hits += @places.map { |n| n.name }
     end
+
+    # Finally, get some audio messages
     if @hits.size < @size_limit
       @msgs = AudioMessage.search('',
                                   :conditions => {:full_title => term},
                                   :star => true,
-                                  :max_matches => @size_limit)
+                                  :max_matches => @size_limit-@hits.size)
       @hits += @msgs.map { |n| "#{n.autocomplete_title}, #{n.speaker.full_name}" }
     end
     render :text => @hits.to_json and return

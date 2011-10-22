@@ -2,7 +2,7 @@ class TagsController < ApplicationController
 
   def show
     @query_title = "Messages tagged with #{params[:id]}"
-    @page_title = "Tag #{params[:id]}"
+    @page_title = params[:id]
     @items = AudioMessage.search('',
                 :conditions => {:tags => params[:id]},
                 :page => params[:page] || 1,

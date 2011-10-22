@@ -10,44 +10,45 @@
     <%= yield(:head) %>
   </head>
   <body>
+    <div id="wrap">
+      <div id="header">
+        <ul id="sidenav">
+          <li><%= link_to "Search", root_path %></li>
+          <li><%= link_to "Featured", '/motms' %></li>
+          <li><%= link_to "Speakers", '/speakers' %></li>
+          <li><%= link_to "Places", '/places' %></li>
+          <li><%= link_to "Dates", '/dates' %></li>
+          <li><%= link_to "Languages", '/languages' %></li>
+          <li><%= link_to "Writings", '/writings' %></li>
+          <li><%= link_to "Hymns", '/hymns' %></li>
+          <li><%= link_to "Favorites", '/favorites' %></li>
+        </ul>
+        <%= image_tag 'logo.jpg' %>
+        <%- if show_title? -%>
+        <h1 class="content"><%= yield(:title) %></h1>
+        <h2 class="content"><%= yield(:subtitle) %></h2>
+        <%- end -%>
+        <p id="tagline"><%= @tagline %></p>
+      </div>
 
-   <div id="header">
-   <ul id="sidenav">
-     <li><%= link_to "Search", root_path %></li>
-     <li><%= link_to "Featured", '/motms' %></li>
-     <li><%= link_to "Speakers", '/speakers' %></li>
-     <li><%= link_to "Places", '/places' %></li>
-     <li><%= link_to "Dates", '/dates' %></li>
-     <li><%= link_to "Languages", '/languages' %></li>
-     <li><%= link_to "Writings", '/writings' %></li>
-     <li><%= link_to "Hymns", '/hymns' %></li>
-     <li><%= link_to "Favorites", '/favorites' %></li>
-   </ul>
-     <%= image_tag 'logo.jpg' %>
-     <%- if show_title? -%>
-       <h1 class="content"><%= yield(:title) %></h1>
-       <h2 class="content"><%= yield(:subtitle) %></h2>
-     <%- end -%>
-     <p id="tagline"><%= @tagline %></p>
-   </div>
+      <%= render "shared/search_form" %>
 
-   <%= render "shared/search_form" %>
+      <%- flash.each do |name,msg| -%>
+      <%= content_tag :div, msg, :id => "flash_#{name}" %>
+      <%- end -%>
 
-   <%- flash.each do |name,msg| -%>
-     <%= content_tag :div, msg, :id => "flash_#{name}" %>
-   <%- end -%>
-
-   <div id="content">
-     <%= yield %>
-   </div>
-
-   <div id="footer">
+      <div id="content">
+        <%= yield %>
+      </div>
+    </div>
+    
+    <div id="footer">
       <ul id="botnav">
         <li><%= link_to 'About', '/welcome/about' %></li>
 	<li><%= link_to 'Contact', '/welcome/contact' %></li>
 	<li><%= link_to 'News', '/welcome/news' %></li>
         <li id="copy">&copy; VoicesForChrist.org, 2005-<%= Time.now.year %></li>
       </ul>
-   </div>
- </body>
+    </div>
+  </body>
 </html>

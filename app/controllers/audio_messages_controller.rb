@@ -1,21 +1,20 @@
 class AudioMessagesController < ApplicationController
 
-  def tag_cloud
-    @tags = AudioMessage.tag_counts
-  end
-
   def show
-    if (params[:id] == 'tag_cloud')
-      tag_cloud and return
+    @mp3 = AudioMessage.find(params[:id],:conditions => ['publish = ?',true])
+    unless @mp3
+      flash[:notice] = "No such record"
+      redirect_to root_path
+      return
     end
-    @mp3 = AudioMessage.find(params[:id])
-    if File.exists?(@mp3.file_path)
-      send_file @mp3.file_path, :type => 'audio/mp3', :x_sendfile => true
+    file_path = AUDIO_PATH + @mp3.filename
+    mime_type = params[:dl] ? AUDIO_MIME_DL : AUDIO_MIME_PLAY
+    if File.exists?(file_path)
+      send_file file_path, :type => mime_type, :x_sendfile => true
     else
-      flash[:notice] = "Woah. That file has gone missing."
+      flash[:notice] = "That file is missing right now."
       redirect_to root_path
     end
   end
-  
 
 end

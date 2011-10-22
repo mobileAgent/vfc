@@ -1,8 +1,11 @@
 <tr class='<%=cycle("odd","even")%>'>
   <td>
-    <a href="<%=AUDIO_URL%>/<%=item.filename%>" title="<%= item.full_title %>">
-      <%= icon :arrow_down, :title => 'Download MP3' %>
-    </a>
+    <%= link_to(
+        icon(:arrow_down, :title => 'Download MP3'),
+        {:controller => :audio_messages, :action => :show, :id => item, :dl => true}) %>
+    <%= link_to(
+        icon(:control_play_blue, :title => 'Play MP3'),
+        {:controller => :audio_messages, :action => :show, :id => item}) %>
     <!--
     <%= icon :cd_add, :title => 'Add to CD List' %>
     <%= icon :heart_unselected, :title => 'Favorite' %>
