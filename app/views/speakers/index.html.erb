@@ -1,5 +1,6 @@
 <% title("Speakers") %>
 <% @letter = '!' %>
+<%= link_to "View as Tag Cloud", :action => :index, :view => :cloud %>
 <% @speakers.each do |speaker| %>
   <% if @letter != speaker.index_letter %>
     <% @letter = speaker.index_letter %>
@@ -11,9 +12,9 @@
     <ul>
   <% end %>
   <li>
-    <%=h speaker.catalog_name %>
-    <%= link_to "~ bio",'#' if speaker.bio %>
-      ~ <%= link_to pluralize(@message_counts[speaker.id],'message'), "/speakers/show/#{speaker.id}" %>
+    <%- # careful this is the cache ostruct, not a real speaker ar object -%>
+    <%=h speaker.full_name %>
+      ~ <%= link_to pluralize(speaker.count,'message'), "/speakers/show/#{speaker.speaker_id}" %>
   </li>
 <% end %>
 </ul>

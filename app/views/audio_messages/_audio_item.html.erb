@@ -1,4 +1,4 @@
-<tr class='<%=cycle("odd","even")%>'>
+<tr>
   <td>
     <%= link_to(
         icon(:arrow_down, :title => 'Download MP3'),
@@ -9,11 +9,12 @@
     <!--
     <%= icon :cd_add, :title => 'Add to CD List' %>
     <%= icon :heart_unselected, :title => 'Favorite' %>
+    <%= render :partial => "/audio_messages/player", :locals => { :item => item } %>
     -->
     </a>
   </td>
   <td><%= item.speaker.catalog_name %></td>
-  <td>
+  <td title='<%= "Size #{item.human_filesize}, duration #{item.human_duration}" %>'>
      <%= item.full_title %>
      <% if item.created_at > (DateTime.now - 30)%>
         <span class='new'>NEW</span>
@@ -27,8 +28,6 @@
        </span>
      <% end %>
   </td>
-  <td><%= item.human_filesize %></td>
-  <td><%= item.human_duration %></td>
   <td><%= item.human_date %></td>
   <td><%= item.place ? item.place.name : '' %></td>
   <td><%= flags_for_lang(item.language.name, :class => 'flag') if item.language %></td>

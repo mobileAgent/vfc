@@ -11,6 +11,8 @@ namespace :motm do
       if am
         motm = Motm.create(:audio_message_id => am.id, :created_at => Date.parse(arr[1]))
         puts "Created motm #{motm.inspect}"
+      else
+        puts "Nothing found for #{arr[0]}"
       end
     end
   end

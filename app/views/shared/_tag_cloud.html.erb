@@ -1,4 +1,5 @@
 <% if @tag_cloud %>
+  <p>Topic or Tag</p>
   <div id="tagcloud" class="tag-cloud">
   <% tag_cloud @tag_cloud, (1..10).inject([]) { |a,t| a << "css#{t}" } do |tag, css_class| %>
     <%= link_to tag.name, { :controller => :tags, :action => :show, :id => tag.name }, :class => css_class %>

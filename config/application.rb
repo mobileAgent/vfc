@@ -2,11 +2,9 @@ require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
 
-# If you have a Gemfile, require the gems listed there, including any gems
-# you've limited to :test, :development, or :production.
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line
-  Bundler.require *Rails.groups(:assets => %w(development test))
+  Bundler.require(*Rails.groups(:assets => %w(development test)))
   # If you want your assets lazily compiled in production, use this line
   # Bundler.require(:default, :assets, Rails.env)
 end
@@ -35,7 +33,7 @@ module Vfc
     # config.i18n.default_locale = :de
 
     # JavaScript files you want as :defaults (application.js is always included).
-    config.action_view.javascript_expansions[:defaults] = %w(jquery jquery-ui rails)
+    # config.action_view.javascript_expansions[:defaults] = %w(jquery jquery-ui rails)
 
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"
@@ -52,9 +50,5 @@ module Vfc
     
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
-    
-    # Change the path that assets are served from
-    # config.assets.prefix = "/assets"
-    
   end
 end

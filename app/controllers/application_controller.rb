@@ -25,9 +25,8 @@ class ApplicationController < ActionController::Base
     true  # so we can do "render_404 and return"
   end  
   
-  private
-
   def tagline
+    Motm
     @tagline = Rails.cache.fetch("tagline",:expires => 30.minutes) {
       "#{AudioMessage.active.count} messages by #{Speaker.count} speakers in #{Language.count} languages - One Lord Jesus Christ." }
   end

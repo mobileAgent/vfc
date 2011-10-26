@@ -1,9 +1,14 @@
 class WelcomeController < ApplicationController
 
+  include SpeakerHelper
+
   def index
-    @motms = Motm.active
-    @motm = @motms.first if (@motms && @motms.size > 0)
-    @tag_cloud = AudioMessage.tag_counts(:conditions => {:publish => true}, :order => :name)
+    @motm = Rails.cache.fetch('motm',:expires => 30.minutes) {
+      Motm.active.last
+    }
+    @tag_cloud = Rails.cache.fetch('tag_cloud', :expires => 10.minutes) {
+      AudioMessage.tag_counts(:conditions => {:publish => true}, :order => :name)
+    }
   end
 
   def contact

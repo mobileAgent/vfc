@@ -1,11 +1,12 @@
 /*
  *= require_self
+ *= require circle.player.css
  *= require_tree .
  */
 
 * { margin: 0; }
 html, body { height: 100%; }
-table, tr, td, thead, #msgtable, .sortable, .msglist {
+table, tr, td, thead, .sortable, .msglist {
   padding:0; 
   border:none; 
   text-align:left;
@@ -124,11 +125,6 @@ a.foo, a.foo:link, a.foo:visited {
    border-bottom: 1px solid #000;
 }
 
-a.foo:hover, a.foo:active {
-   background: #FFF;
-   border-bottom-width: 2px;
-}
-
 ul {
    list-style: url(bullet.gif);
    margin-left: 24px;
@@ -196,25 +192,25 @@ ul#botnav li#copy {
         float: right;
 }
 
-table, #msgtable, .sortable, .msglist {
+table, .sortable, .msglist {
    font-size:12px;
    line-height: 16px;
 }
 
-#msgtable {
+.msglist {
   width: 98%;
   margin-left: 0;
 }
 
-#msgtable thead tr { background: #002D47; }
+.msglist thead tr { background: #002D47; }
 
-#msgtable thead a {
+.msglist thead a {
    display:block;
    padding: 5px 0 0 5px;
 }
 
-#msgtable thead a:link,
-#msgtable thead a:visited {
+.msglist thead a:link,
+.msglist thead a:visited {
    font-size: 12px;
    text-transform: uppercase;
    font-weight: bold;
@@ -224,8 +220,8 @@ table, #msgtable, .sortable, .msglist {
    border: none;
 }
 
-#msgtable thead a:hover,
-#msgtable thead a:active {
+.msglist thead a:hover,
+.msglist thead a:active {
    font-size: 12px;
    text-transform: uppercase;
    font-weight: bold;
@@ -236,26 +232,26 @@ table, #msgtable, .sortable, .msglist {
    background: #002D47;
 }
 
-#msgtable thead a.current:link,
-#msgtable thead a.current:visited {
+.msglist thead a.current:link,
+.msglist thead a.current:visited {
 }
 
-#msgtable thead a.current:hover,
-#msgtable thead a.current:active {
+.msglist thead a.current:hover,
+.mstlist thead a.current:active {
 }
 
-#msgtable tr.odd { background: #E6EAED; }
+.msglist tbody tr:nth-child(even) { background: #E6EAED; }
 
-#msgtable tr.even { background: #FFFFFF; }
+.msglist tbody tr:nth-child(odd) { background: #FFFFFF; }
 
-#msgtable td a:link {
+.msglist td a:link {
    text-transform: none;
    letter-spacing: normal;
    color: #002D47;
    text-decoration: none;
    border-bottom: 1px solid #002D47;
 }
-#msgtable td a:visited {
+.msglist td a:visited {
    text-transform: none;
    letter-spacing: normal;
    color: #A6B6BF;
@@ -263,8 +259,8 @@ table, #msgtable, .sortable, .msglist {
    border-bottom: 1px solid #A6B6BF;
 }
 
-#msgtable td a:hover,
-#msgtable td a:active {
+.msglist td a:hover,
+.msglist td a:active {
    text-transform: none;
    color: #000000;
    text-decoration: none;
@@ -273,7 +269,7 @@ table, #msgtable, .sortable, .msglist {
    background:none;
 }
 
-#msgtable img {
+.msglist img {
    float: left;
    margin: 0;
    padding: 3px;
@@ -284,23 +280,40 @@ div.bio {
   margin-left: 10%;
   border: 5px solid #002d47;
   padding: 10px;
+  margin-bottom: 20px;
   -moz-border-radius: 2em;
   -webkit-border-radius: 2em;
   border-radius: 2em;
 }
 
-span.lessmore, span.moreless {
+.moreless {
   border: 1px outset #002d47;
   -moz-border-radius: 2em;
   -webkit-border-radius: 2em;
   border-radius: 2em;
   background: #A6B6BF;
-  padding: 3px;
+  padding: 0 3px 0 3px;
+  text-decoration: none;
 }
 
-span.lessmore:hover, span.moreless:hover {
+.moreless:hover {
   border: 1px inset #002d47;
   color: red;
+}
+
+#motm {
+  border: 3px solid #002d47;
+  -moz-border-radius: 2em;
+  -webkit-border-radius: 2em;
+  width: 80%;
+  margin-left: 10%;
+  margin-bottom: 20px;
+  padding: 1.5em;
+  text-align: center;
+}
+
+#motm .title {
+  font-weight: bold;
 }
 
 /* tag cloud */

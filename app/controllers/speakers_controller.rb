@@ -1,9 +1,16 @@
 class SpeakersController < ApplicationController
 
+  include SpeakerHelper
+  
   def index
-    @speakers = Speaker.order('last_name,first_name')
-    @message_counts = AudioMessage.active.group(:speaker_id).count
-    @speakers.reject! { |s| @message_counts[s.id].nil? || @message_counts[s.id] == 0 }
+    @speakers = Rails.cache.fetch('speaker_cloud',:expires => 30.minutes) {
+      generate_speaker_list_with_counts
+    }
+    @letters = @speakers.collect(&:index_letter).sort.uniq
+    if "cloud" == params[:view]
+      @speaker_cloud = @speakers
+      render :cloud and return
+    end
   end
 
   def place

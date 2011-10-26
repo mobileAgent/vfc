@@ -1,4 +1,5 @@
 <% if @speaker && @speaker.bio -%>
-   <%= biography_tag(@speaker) %>
-   <br />
+   <div id='speaker-bio-<%=@speaker.id%>' class='bio'>
+      <%= @speaker.bio_html.html_safe %>
+   </div>
 <% end -%>
