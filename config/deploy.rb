@@ -2,16 +2,17 @@ set :application, "vfc"
 set :repository,  "git@github.com:mobileAgent/vfc.git"
 set :scm, :git
 set :branch, "master"
-set :user, 'vfcowner'
+set :user, 'vfcnet'
+set :group, 'vfcnet'
 set :deploy_to, "/var/apps/#{application}"
 
-set :server_name, "voicesforchrist.org"
+set :server_name, "voicesforchrist.net"
 role :web, "#{server_name}"
 role :app, "#{server_name}"
 role :db,  "#{server_name}", :primary => true
 
 
-set :db_username, "bwpro"
+set :db_username, "vfcowner"
 
 # How much to keep on a cleanup task
 set :keep_releases, 3
