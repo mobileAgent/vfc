@@ -47,8 +47,24 @@ task :backup, :roles => :db, :only => { :primary => true } do
   run "rm /tmp/#{filename}"
 end
 
-desc "Do sphinx stuff on new app"
-task :after_update_code do
+desc "After updating the code handle db yml and sphinx"
+task :after_update_code, :roles => :app do
+  buffer = YAML::load_file('config/database.yml');
+  # purge unneeded configurations
+  buffer.delete('test');
+  buffer.delete('development');
+
+  set :database_password do
+    Capistrano::CLI.password_prompt "Database Password: "
+  end
+  buffer['production']['password'] = database_password
+  put YAML::dump(buffer),"#{release_path}/config/database.yml",:mode=>0644
+
+  # Clean up tmp and relink to shared for session and cache data
+  run "rm -rf #{release_path}/tmp" # because it should not be in svn
+  run "ln -nfs #{deploy_to}/shared/tmp #{release_path}/tmp"
+  run "ln -nfs #{deploy_to}/shared/audio #{current_release}/public/audio"
+  
   sphinx.restart
   create_symlinks
   # memcached.clear
@@ -66,7 +82,7 @@ namespace :sphinx do
   desc "Restart sphinx"
   task :restart do
     rake = fetch(:rake, "rake")
-    rails_env = fetch(:environment, "development")
+    rails_env = fetch(:environment, "production")
     begin
       run "cd #{current_release}; #{rake} RAILS_ENV=#{rails_env} thinking_sphinx:stop"
     rescue

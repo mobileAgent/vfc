@@ -34,6 +34,6 @@ production:
   reconnect: false
   database: vfc_production
   pool: 5
-  username: 
+  username: vfcowner
   password: 
   encoding: utf8
