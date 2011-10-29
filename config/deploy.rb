@@ -1,3 +1,6 @@
+require 'yaml'
+require 'bundler/capistrano'
+
 set :application, "vfc"
 set :repository,  "git@github.com:mobileAgent/vfc.git"
 set :scm, :git
