@@ -1,0 +1,11 @@
+<% if @motm %>
+  <div id="motm">
+     <span class="title">Message of the Month</span>
+     <br />
+     <%= @motm.audio_message.speaker.full_name %>, <%=link_to @motm.audio_message.title, @motm.audio_message.filename %> (play) (download)
+     <br />
+     More by <%= link_to @motm.audio_message.speaker.full_name, @motm.audio_message.speaker %>
+     
+  </div>
+<% end %>
+

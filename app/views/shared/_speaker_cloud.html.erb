@@ -1,0 +1,8 @@
+<% if @speaker_cloud %>
+  <div id="speakercloud" class="tag-cloud">
+  <% tag_cloud @speaker_cloud, (1..10).inject([]) { |a,t| a << "css#{t}" } do |tag, css_class| %>
+    <%= link_to tag.full_name, { :controller => :speakers, :action => :show, :id => tag.speaker_id }, :class => css_class %>
+  <% end %>
+  </div>
+  <br />
+<% end %>

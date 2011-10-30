@@ -28,7 +28,7 @@ namespace :deploy do
   task :start do ; end
   task :stop do ; end
   task :restart, :roles => :app, :except => { :no_release => true } do
-    run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
+    run "touch #{File.join(current_path,'tmp','restart.txt')}"
   end
 end
 
@@ -62,20 +62,14 @@ task :after_update_code, :roles => :app do
 
   # Clean up tmp and relink to shared for session and cache data
   run "rm -rf #{release_path}/tmp" # because it should not be in svn
+  run "ln -nfs #{deploy_to}/shared/photos #{current_release}/public/photos"
   run "ln -nfs #{deploy_to}/shared/tmp #{release_path}/tmp"
   run "ln -nfs #{deploy_to}/shared/audio #{current_release}/public/audio"
   
-  sphinx.restart
-  create_symlinks
+  #sphinx.restart
+  #create_symlinks
   # memcached.clear
   # update_configuration
-end
-
-desc "Symlink in the shared stuff"
-task :create_symlinks do
-  as = fetch(:runner, "app")
-  via = fetch(:run_method, :run)
-  invoke_command("cd #{current_release} && ln -s #{deploy_to}/shared/photos ./public/photos", :via => via, :as => as)        
 end
 
 namespace :sphinx do
@@ -84,12 +78,12 @@ namespace :sphinx do
     rake = fetch(:rake, "rake")
     rails_env = fetch(:environment, "production")
     begin
-      run "cd #{current_release}; #{rake} RAILS_ENV=#{rails_env} thinking_sphinx:stop"
+      run "cd #{current_release}; RAILS_ENV=#{rails_env} #{rake} thinking_sphinx:stop"
     rescue
       puts "sphinx was not running, ok."
     end
-    run "cd #{current_release}; #{rake} RAILS_ENV=#{rails_env} thinking_sphinx:configure"
-    run "cd #{current_release}; #{rake} RAILS_ENV=#{rails_env} thinking_sphinx:index"
-    run "cd #{current_release}; #{rake} RAILS_ENV=#{rails_env} thinking_sphinx:start"
+    run "cd #{current_release}; RAILS_ENV=#{rails_env} #{rake} thinking_sphinx:configure"
+    run "cd #{current_release}; RAILS_ENV=#{rails_env} #{rake} thinking_sphinx:index"
+    run "cd #{current_release}; RAILS_ENV=#{rails_env} #{rake} thinking_sphinx:start"
   end
 end
