@@ -14,3 +14,4 @@ tmp
 Thumbs.db
 *~
 db/sphinx/development/*
+public/assets

@@ -12,16 +12,16 @@ module ApplicationHelper
   end
 
   def icon(s, options = {})
-    image_tag("/icons/#{s}.png",options)
+    image_tag("icons/#{s}.png",options)
   end
 
   def flag(s,options = {})
-    image_tag("/flags/#{s}.png",options)
+    image_tag("flags/#{s}.png",options)
   end
 
   def flags_for_lang(lang, options = {})
     options[:alt] = "#{lang} language" unless options[:alt]
     options[:title] = "#{lang} language" unless options[:title]
-    image_tag("/language-flags/#{lang}.png",options)
+    image_tag("language-flags/#{lang.downcase}.png",options)
   end
 end

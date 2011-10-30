@@ -2,11 +2,11 @@
 //= require jquery_ujs
 //= require jquery-ui
 //= require jquery.ui.autocomplete.autoSelect
-//= require jquery.grab.js
-//= require jquery.transform.js
-//= require jquery.jplayer.js
-//= require mod.csstransforms.min.js
-//= require jquery.truncator.js
+//= require jquery.grab
+//= require jquery.transform
+//= require jquery.jplayer
+//= require mod.csstransforms.min
+//= require jquery.truncator
 //= require_self
 //= require_tree .
 
