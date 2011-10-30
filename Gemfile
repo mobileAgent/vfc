@@ -39,6 +39,9 @@ gem 'rdiscount'
 gem 'ruby-mp3info',
    :git => 'git://github.com/cball/ruby-mp3info.git'
 
+gem 'execjs'
+gem 'therubyracer'
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
