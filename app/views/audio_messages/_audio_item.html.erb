@@ -17,7 +17,7 @@
   <td title='<%= "Size #{item.human_filesize}, duration #{item.human_duration}" %>'>
      <%= item.full_title %>
      <% if item.created_at > (DateTime.now - 30)%>
-        <span class='new'>NEW</span>
+        <span class='new-item'>New</span>
      <% end %>
      <% if item.tag_list.size > 0 %>
        ~

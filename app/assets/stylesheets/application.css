@@ -115,16 +115,6 @@ h3 { }
 
 p { margin-bottom: 24px; }
 
-a.foo, a.foo:link, a.foo:visited {
-   font-size: 12px;
-   text-transform: uppercase;
-   font-weight: bold;
-   text-decoration: none;
-   letter-spacing: 2px;
-   color: red;
-   border-bottom: 1px solid #000;
-}
-
 ul {
    list-style: url(bullet.gif);
    margin-left: 24px;
@@ -195,6 +185,13 @@ ul#botnav li#copy {
 table, .sortable, .msglist {
    font-size:12px;
    line-height: 16px;
+}
+
+.new-item {
+  background-color: yellow;
+  font-size: 0.6em;
+  font-weight: bold;
+  vertical-align: super;
 }
 
 .msglist {

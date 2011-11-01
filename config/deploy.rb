@@ -48,7 +48,8 @@ task :backup, :roles => :db, :only => { :primary => true } do
 end
 
 desc "After updating the code handle db yml and sphinx"
-task :after_update_code, :roles => :app do
+after :update_code, "code_setup"
+task :code_setup, :roles => :app do
   buffer = YAML::load_file('config/database.yml');
   # purge unneeded configurations
   buffer.delete('test');
@@ -70,6 +71,7 @@ task :after_update_code, :roles => :app do
   #create_symlinks
   # memcached.clear
   # update_configuration
+  precompile_assets
 end
 
 desc "precompile the assets"
