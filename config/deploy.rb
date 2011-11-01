@@ -34,11 +34,14 @@ end
 
 desc "Backup the remote production database"
 task :backup, :roles => :db, :only => { :primary => true } do
-  filename = "#{application}.dump.#{Time.now.to_i}.sql.bz2"
+  filename = "#{application}.dump.#{Time.now.strftime("%Y%m%d-%H%M")}.sql.bz2"
   file = "/tmp/#{filename}"
   on_rollback { run "rm /tmp/#{filename}" }
+  set :database_password do
+    Capistrano::CLI.password_prompt "Production Database Password: "
+  end
   db = YAML::load_file("config/database.yml")
-  run "mysqldump -u #{db['production']['username']} --password=#{db['production']['password']} #{db['production']['database']} | bzip2 -c > #{file}"  do |ch, stream, data|
+  run "mysqldump -u #{db['production']['username']} --password=#{database_password} #{db['production']['database']} | bzip2 -c > #{file}"  do |ch, stream, data|
     puts data
   end
   `mkdir -p #{File.dirname(__FILE__)}/../backups/`
@@ -67,10 +70,10 @@ task :code_setup, :roles => :app do
   run "ln -nfs #{deploy_to}/shared/tmp #{release_path}/tmp"
   run "ln -nfs #{deploy_to}/shared/audio #{current_release}/public/audio"
   
-  #sphinx.restart
-  #create_symlinks
+  # create_symlinks
   # memcached.clear
   # update_configuration
+  sphinx.restart
   precompile_assets
 end
 
@@ -86,12 +89,9 @@ namespace :sphinx do
     rake = fetch(:rake, "rake")
     rails_env = fetch(:environment, "production")
     begin
-      run "cd #{current_release}; RAILS_ENV=#{rails_env} #{rake} thinking_sphinx:stop"
+      run "cd #{current_release}; RAILS_ENV=#{rails_env} #{rake} ts:rebuild"
     rescue
-      puts "sphinx was not running, ok."
+      puts "sphinx rebuild failed - #{$!}"
     end
-    run "cd #{current_release}; RAILS_ENV=#{rails_env} #{rake} thinking_sphinx:configure"
-    run "cd #{current_release}; RAILS_ENV=#{rails_env} #{rake} thinking_sphinx:index"
-    run "cd #{current_release}; RAILS_ENV=#{rails_env} #{rake} thinking_sphinx:start"
   end
 end
