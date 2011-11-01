@@ -12,6 +12,7 @@ class AudioMessagesController < ApplicationController
     if File.exists?(file_path)
       send_file file_path, :type => mime_type, :x_sendfile => true
     else
+      logger.info "Missing file path for audio #{file_path}"
       flash[:notice] = "That file is missing right now."
       redirect_to root_path
     end
