@@ -51,8 +51,8 @@ task :backup, :roles => :db, :only => { :primary => true } do
 end
 
 desc "After updating the code handle db yml and sphinx"
-after :update_code, "code_setup"
-task :code_setup, :roles => :app do
+after 'deploy:update_code', :config_setup
+task :config_setup, :roles => :app do
   buffer = YAML::load_file('config/database.yml');
   # purge unneeded configurations
   buffer.delete('test');
@@ -69,6 +69,7 @@ task :code_setup, :roles => :app do
   run "ln -nfs #{deploy_to}/shared/photos #{current_release}/public/photos"
   run "ln -nfs #{deploy_to}/shared/tmp #{release_path}/tmp"
   run "ln -nfs #{deploy_to}/shared/audio #{current_release}/public/audio"
+  run "ln -nfs #{deploy_to}/shared/writings #{current_release}/public/writings"
   
   # create_symlinks
   # memcached.clear

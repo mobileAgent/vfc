@@ -56,5 +56,9 @@ class AudioMessage < ActiveRecord::Base
     return "#{filesize/1.kilobyte} kb" if filesize <= 1.megabytes
     "#{filesize/1.megabyte} mb"
   end
+
+  def download_filename
+    "#{speaker.catalog_name.dasherize}-#{title.dasherize}".downcase.gsub(/[^-a-z0-9]+/,'-') + ".mp3"
+  end
   
 end
