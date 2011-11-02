@@ -78,8 +78,8 @@ class WelcomeController < ApplicationController
                                  :match_mode => :boolean,
                                  :max_matches => 2500,
                                  :include => [:language, :speaker, :place, :taggings])
-    if @items.size > 0 && @items.first.speaker.full_name == params[:q]
-      @speaker = @items.first.speaker
+    if @items.size > 0 && @items.last.speaker.full_name == params[:q]
+      @speaker = @items.last.speaker
     end
     render :action => :index
   end

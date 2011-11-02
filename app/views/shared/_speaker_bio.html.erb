@@ -1,5 +1,8 @@
 <% if @speaker && @speaker.bio -%>
    <div id='speaker-bio-<%=@speaker.id%>' class='bio'>
+      <% if @speaker.picture_file %>
+        <%= image_tag "#{PHOTOS_URL}/#{@speaker.picture_file}" %>
+      <% end %>
       <%= @speaker.bio_html.html_safe %>
    </div>
 <% end -%>

@@ -281,6 +281,15 @@ div.bio {
   -moz-border-radius: 2em;
   -webkit-border-radius: 2em;
   border-radius: 2em;
+  overflow-y: hidden;
+}
+
+div.bio img {
+  float: left;
+  margin: 12px;
+  box-shadow: 5px 5px 5px rgba(0, 0, 128, 0.45)
+  -moz-box-shadow: 5px 5px 5px rgba(0, 0, 128, 0.45)
+  -webkit-box-shadow: 5px 5px 5px rgba(0, 0, 128, 0.45)
 }
 
 .moreless {
@@ -289,7 +298,7 @@ div.bio {
   -webkit-border-radius: 2em;
   border-radius: 2em;
   background: #A6B6BF;
-  padding: 0 3px 0 3px;
+  padding: 0 6px 0 3px;
   text-decoration: none;
 }
 

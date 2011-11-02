@@ -50,13 +50,15 @@ namespace :vfc do
       if bio.gsub!(/<(img|image) .*?src=['"]([^'">]+)['"].*?[^>]+\/?>/m,'') # images removed but capture file name
         image_url = $2
       end
-      bio.gsub!(/<a .*?href=['"]([^'">]+)['"].*?>([^<]+)<\/a>/m," \"\\2\":\\1 ") #links => "blah":uri
+      bio.gsub!(/<a .*?href=['"]([^'">]+)['"].*?>([^<]+)<\/a>/m,"[\\2](\\1)") #links => "blah":uri
       bio.gsub!(/" ?Read more\.*":..\/bios\/.*?\.html?/mi,'') # remove static bio
       
       # build old style speaker name from from bio file name
       dname = d.gsub(/.*\/(.*?)\.(bio|html|htm)/,"\\1").gsub(/([a-z])([A-Z])/,"\\1 \\2")
       dname.gsub!(/([A-Z])([A-Z])/,"\\1 \\2") unless dname.match /AMS|GB|JM|NFI/
       dname.gsub!(/(Ma?c) /,"\\1")
+      
+      image_url.gsub!(/^.*\//,'') if image_url      
 
       # turn it into a new style speaker name
       ln,fn,mn = VfcRecord.convert_speaker_name(dname)
@@ -66,11 +68,11 @@ namespace :vfc do
       # Load it up or report the error
       if s
         puts "Speaker #{s.id} #{s.catalog_name}"
-        puts bio
+        puts bio[0..25] + "..."
         puts "   => image is #{image_url}" if image_url
-        puts "\n\n\n"
+        puts "\n\n"
         s.bio = bio
-        s.picture_file = image_url.gsub(/^.*\//,'') if image_url
+        s.picture_file = image_url if image_url
         s.save!
       else
         puts "Missing speaker for #{d} => #{dname} => #{ln},#{fn},#{mn}"
