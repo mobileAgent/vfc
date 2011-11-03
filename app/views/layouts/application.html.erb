@@ -20,7 +20,7 @@
           <li><%= link_to "Languages", '/languages' %></li>
           <li><%= link_to "Writings", '/writings' %></li>
           <li><%= link_to "Hymns", '/hymns' %></li>
-          <li><%= link_to "Favorites", '/favorites' %></li>
+          <li><%= link_to("Login", '/login') unless @current_user %></li>
         </ul>
         <%= image_tag 'logo.jpg' %>
         <%- if show_title? -%>

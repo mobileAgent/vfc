@@ -1,8 +1,8 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   helper :all # include all helpers, all the time
+  before_filter :load_cacheable_data
   helper_method :sort_column, :sort_column_ar, :sort_direction
-  before_filter :tagline
   
   # To test 404 routing in development, use this
   # alias_method :rescue_action_locally, :rescue_action_in_public
@@ -16,21 +16,14 @@ class ApplicationController < ActionController::Base
       super
     end
   end
-  
-  def render_404
-    respond_to do |type| 
-      type.html { render :template => "errors/404", :layout => 'application', :status => 404 } 
-      type.all  { render :nothing => true, :status => 404 } 
-    end
-    true  # so we can do "render_404 and return"
-  end  
-  
-  def tagline
-    Motm
-    @tagline = Rails.cache.fetch("tagline",:expires => 30.minutes) {
-      "#{AudioMessage.active.count} messages by #{Speaker.count} speakers in #{Language.count} languages - One Lord Jesus Christ." }
-  end
 
+  def load_cacheable_data
+    @tagline = 
+      Rails.cache.fetch("tagline",:expires => 30.minutes) {
+        "#{AudioMessage.active.count} messages by #{Speaker.count} speakers in #{Language.count} languages - One Lord Jesus Christ."
+      }
+  end
+  
   # Used for sphinx searches
   def sort_column
     f = %w(full_title speaker_name filesize duration event_date place language)
@@ -53,5 +46,13 @@ class ApplicationController < ActionController::Base
   def sort_direction
     %w(asc desc).include?(params[:direction]) ? params[:direction] : "asc"
   end
-
+  
+  def render_404
+    respond_to do |type| 
+      type.html { render :template => "errors/404", :layout => 'application', :status => 404 } 
+      type.all  { render :nothing => true, :status => 404 } 
+    end
+    true  # so we can do "render_404 and return"
+  end  
+  
 end

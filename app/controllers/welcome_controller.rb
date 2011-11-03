@@ -84,4 +84,9 @@ class WelcomeController < ApplicationController
     render :action => :index
   end
 
+  def login
+    flash[:notice] = 'Not implemented yet'
+    redirect_to root_path and return
+  end
+
 end

@@ -287,9 +287,9 @@ div.bio {
 div.bio img {
   float: left;
   margin: 12px;
-  box-shadow: 5px 5px 5px rgba(0, 0, 128, 0.45)
-  -moz-box-shadow: 5px 5px 5px rgba(0, 0, 128, 0.45)
-  -webkit-box-shadow: 5px 5px 5px rgba(0, 0, 128, 0.45)
+  box-shadow: 5px 5px 5px rgba(0, 0, 128, 0.45);
+  -moz-box-shadow: 5px 5px 5px rgba(0, 0, 128, 0.45);
+  -webkit-box-shadow: 5px 5px 5px rgba(0, 0, 128, 0.45);
 }
 
 .moreless {
