@@ -1,3 +1,4 @@
+# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -10,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100629022532) do
+ActiveRecord::Schema.define(:version => 20111107204457) do
 
   create_table "audio_messages", :force => true do |t|
     t.string   "title"
@@ -387,6 +388,222 @@ ActiveRecord::Schema.define(:version => 20100629022532) do
 
   add_index "load_201008", ["groupmsg"], :name => "groupmsg_index"
 
+  create_table "load_201011", :force => true do |t|
+    t.string    "msg",          :limit => 128
+    t.boolean   "changed"
+    t.string    "speaker",      :limit => 128
+    t.string    "subj",         :limit => 128
+    t.string    "groupmsg",     :limit => 16
+    t.string    "date",         :limit => 16
+    t.string    "obs_call",     :limit => 16
+    t.string    "obs_grouping", :limit => 16
+    t.timestamp "add_date",                    :null => false
+    t.boolean   "download"
+    t.boolean   "publish"
+    t.string    "filename",     :limit => 512
+    t.integer   "notes_id"
+    t.string    "language",     :limit => 16
+    t.integer   "speaker_id"
+    t.timestamp "change_date",                 :null => false
+    t.string    "duration",     :limit => 16
+    t.integer   "filesize"
+    t.string    "place",        :limit => 16
+  end
+
+  add_index "load_201011", ["groupmsg"], :name => "groupmsg_index"
+
+  create_table "load_201012", :force => true do |t|
+    t.string    "msg",          :limit => 128
+    t.boolean   "changed"
+    t.string    "speaker",      :limit => 128
+    t.string    "subj",         :limit => 128
+    t.string    "groupmsg",     :limit => 16
+    t.string    "date",         :limit => 16
+    t.string    "obs_call",     :limit => 16
+    t.string    "obs_grouping", :limit => 16
+    t.timestamp "add_date",                    :null => false
+    t.boolean   "download"
+    t.boolean   "publish"
+    t.string    "filename",     :limit => 512
+    t.integer   "notes_id"
+    t.string    "language",     :limit => 16
+    t.integer   "speaker_id"
+    t.timestamp "change_date",                 :null => false
+    t.string    "duration",     :limit => 16
+    t.integer   "filesize"
+    t.string    "place",        :limit => 16
+  end
+
+  add_index "load_201012", ["groupmsg"], :name => "groupmsg_index"
+
+  create_table "load_201103", :force => true do |t|
+    t.string    "msg",          :limit => 128
+    t.boolean   "changed"
+    t.string    "speaker",      :limit => 128
+    t.string    "subj",         :limit => 128
+    t.string    "groupmsg",     :limit => 16
+    t.string    "date",         :limit => 16
+    t.string    "obs_call",     :limit => 16
+    t.string    "obs_grouping", :limit => 16
+    t.timestamp "add_date",                    :null => false
+    t.boolean   "download"
+    t.boolean   "publish"
+    t.string    "filename",     :limit => 512
+    t.integer   "notes_id"
+    t.string    "language",     :limit => 16
+    t.integer   "speaker_id"
+    t.timestamp "change_date",                 :null => false
+    t.string    "duration",     :limit => 16
+    t.integer   "filesize"
+    t.string    "place",        :limit => 16
+  end
+
+  add_index "load_201103", ["groupmsg"], :name => "groupmsg_index"
+
+  create_table "load_201105", :force => true do |t|
+    t.string    "msg",          :limit => 128
+    t.boolean   "changed"
+    t.string    "speaker",      :limit => 128
+    t.string    "subj",         :limit => 128
+    t.string    "groupmsg",     :limit => 16
+    t.string    "date",         :limit => 16
+    t.string    "obs_call",     :limit => 16
+    t.string    "obs_grouping", :limit => 16
+    t.timestamp "add_date",                    :null => false
+    t.boolean   "download"
+    t.boolean   "publish"
+    t.string    "filename",     :limit => 512
+    t.integer   "notes_id"
+    t.string    "language",     :limit => 16
+    t.integer   "speaker_id"
+    t.timestamp "change_date",                 :null => false
+    t.string    "duration",     :limit => 16
+    t.integer   "filesize"
+    t.string    "place",        :limit => 16
+  end
+
+  add_index "load_201105", ["groupmsg"], :name => "groupmsg_index"
+
+  create_table "load_201105b", :force => true do |t|
+    t.string    "msg",          :limit => 128
+    t.boolean   "changed"
+    t.string    "speaker",      :limit => 128
+    t.string    "subj",         :limit => 128
+    t.string    "groupmsg",     :limit => 16
+    t.string    "date",         :limit => 16
+    t.string    "obs_call",     :limit => 16
+    t.string    "obs_grouping", :limit => 16
+    t.timestamp "add_date",                    :null => false
+    t.boolean   "download"
+    t.boolean   "publish"
+    t.string    "filename",     :limit => 512
+    t.integer   "notes_id"
+    t.string    "language",     :limit => 16
+    t.integer   "speaker_id"
+    t.timestamp "change_date",                 :null => false
+    t.string    "duration",     :limit => 16
+    t.integer   "filesize"
+    t.string    "place",        :limit => 16
+  end
+
+  add_index "load_201105b", ["groupmsg"], :name => "groupmsg_index"
+
+  create_table "load_201105c", :force => true do |t|
+    t.string    "msg",          :limit => 128
+    t.boolean   "changed"
+    t.string    "speaker",      :limit => 128
+    t.string    "subj",         :limit => 128
+    t.string    "groupmsg",     :limit => 16
+    t.string    "date",         :limit => 16
+    t.string    "obs_call",     :limit => 16
+    t.string    "obs_grouping", :limit => 16
+    t.timestamp "add_date",                    :null => false
+    t.boolean   "download"
+    t.boolean   "publish"
+    t.string    "filename",     :limit => 512
+    t.integer   "notes_id"
+    t.string    "language",     :limit => 16
+    t.integer   "speaker_id"
+    t.timestamp "change_date",                 :null => false
+    t.string    "duration",     :limit => 16
+    t.integer   "filesize"
+    t.string    "place",        :limit => 16
+  end
+
+  add_index "load_201105c", ["groupmsg"], :name => "groupmsg_index"
+
+  create_table "load_201108", :force => true do |t|
+    t.string    "msg",          :limit => 128
+    t.boolean   "changed"
+    t.string    "speaker",      :limit => 128
+    t.string    "subj",         :limit => 128
+    t.string    "groupmsg",     :limit => 16
+    t.string    "date",         :limit => 16
+    t.string    "obs_call",     :limit => 16
+    t.string    "obs_grouping", :limit => 16
+    t.timestamp "add_date",                    :null => false
+    t.boolean   "download"
+    t.boolean   "publish"
+    t.string    "filename",     :limit => 512
+    t.integer   "notes_id"
+    t.string    "language",     :limit => 16
+    t.integer   "speaker_id"
+    t.timestamp "change_date",                 :null => false
+    t.string    "duration",     :limit => 16
+    t.integer   "filesize"
+    t.string    "place",        :limit => 16
+  end
+
+  add_index "load_201108", ["groupmsg"], :name => "groupmsg_index"
+
+  create_table "load_201109", :force => true do |t|
+    t.string    "msg",          :limit => 128
+    t.boolean   "changed"
+    t.string    "speaker",      :limit => 128
+    t.string    "subj",         :limit => 128
+    t.string    "groupmsg",     :limit => 16
+    t.string    "date",         :limit => 16
+    t.string    "obs_call",     :limit => 16
+    t.string    "obs_grouping", :limit => 16
+    t.timestamp "add_date",                    :null => false
+    t.boolean   "download"
+    t.boolean   "publish"
+    t.string    "filename",     :limit => 512
+    t.integer   "notes_id"
+    t.string    "language",     :limit => 16
+    t.integer   "speaker_id"
+    t.timestamp "change_date",                 :null => false
+    t.string    "duration",     :limit => 16
+    t.integer   "filesize"
+    t.string    "place",        :limit => 16
+  end
+
+  add_index "load_201109", ["groupmsg"], :name => "groupmsg_index"
+
+  create_table "load_201110", :force => true do |t|
+    t.string    "msg",          :limit => 128
+    t.boolean   "changed"
+    t.string    "speaker",      :limit => 128
+    t.string    "subj",         :limit => 128
+    t.string    "groupmsg",     :limit => 16
+    t.string    "date",         :limit => 16
+    t.string    "obs_call",     :limit => 16
+    t.string    "obs_grouping", :limit => 16
+    t.timestamp "add_date",                    :null => false
+    t.boolean   "download"
+    t.boolean   "publish"
+    t.string    "filename",     :limit => 512
+    t.integer   "notes_id"
+    t.string    "language",     :limit => 16
+    t.integer   "speaker_id"
+    t.timestamp "change_date",                 :null => false
+    t.string    "duration",     :limit => 16
+    t.integer   "filesize"
+    t.string    "place",        :limit => 16
+  end
+
+  add_index "load_201110", ["groupmsg"], :name => "groupmsg_index"
+
   create_table "motms", :force => true do |t|
     t.integer  "audio_message_id"
     t.datetime "created_at"
@@ -411,6 +628,7 @@ ActiveRecord::Schema.define(:version => 20100629022532) do
     t.string   "picture_file"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "hidden",       :default => false
   end
 
   add_index "speakers", ["last_name", "middle_name", "first_name"], :name => "index_speakers_on_last_name_and_middle_name_and_first_name"

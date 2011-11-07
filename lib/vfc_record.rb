@@ -142,6 +142,7 @@ class VfcRecord < ActiveRecord::Base
           converted = DateTime.strptime(date,"%Y")
         elsif date.index /^[0-9]{2}\/[0-9]{2}\/([0-9]{2})$/
           converted = DateTime.strptime(date,"%m/%d/%y")
+          converted = converted.years_ago(100) if converted.year > DateTime.now.year
         end
       rescue 
         $stderr.puts "Cannot convert date #{date}"

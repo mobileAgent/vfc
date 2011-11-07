@@ -7,6 +7,8 @@ class Speaker < ActiveRecord::Base
   has_many :languages, :through => :audio_messages, :uniq => true,
            :conditions => {"audio_messages.publish" => true},
            :order => :name
+  
+  scope :active, where("hidden = ?",false)
 
   # Fn M Ln
   def full_name

@@ -1,7 +1,7 @@
 module SpeakerHelper
 
   def generate_speaker_list_with_counts
-    speakers = Speaker.order('last_name,first_name')
+    speakers = Speaker.active.order('last_name,first_name')
     message_counts = AudioMessage.active.group(:speaker_id).count
     list = []
     speakers.each do |s|

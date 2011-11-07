@@ -31,7 +31,7 @@ class WelcomeController < ApplicationController
     end
     
     # Get some matching speaker names
-    @speakers = Speaker
+    @speakers = Speaker.active
       .where("last_name like ? or first_name like ?",t,t)
       .limit(@size_limit-@hits.size)
       .order("last_name, first_name, middle_name")
@@ -76,10 +76,15 @@ class WelcomeController < ApplicationController
                                  :per_page => AudioMessage.per_page,
                                  :order => "#{sort_column} #{sort_direction}",
                                  :match_mode => :boolean,
+                                 :star => true,
                                  :max_matches => 2500,
                                  :include => [:language, :speaker, :place, :taggings])
     if @items.size > 0 && @items.last.speaker.full_name == params[:q]
       @speaker = @items.last.speaker
+    end
+    if @items.size == 0
+      flash[:notice] = "Nothing found for '#{params[:q]}'"
+      redirect_to root_path and return
     end
     render :action => :index
   end
