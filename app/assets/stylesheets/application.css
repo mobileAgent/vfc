@@ -358,6 +358,15 @@ div.bio img {
   font-style: italic;
 }
 
+.leftcol {
+  float: left;
+  width: 50%;
+}
+
+.rightcol {
+  float: right;
+  width: 50%;
+}
 
 #flash_notice, #flash_warning, #flash_error {
   border: 3px solid #002d47;

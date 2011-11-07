@@ -8,6 +8,7 @@ Vfc::Application.routes.draw do
 
   resources :speakers
   resources :audio_messages
+  resources :hymns
   resources :places, :has_many => :speakers
   resources :languages, :has_many => :speakers
   
