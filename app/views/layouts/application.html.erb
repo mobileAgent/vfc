@@ -12,7 +12,7 @@
     <div id="wrap">
       <div id="header">
         <ul id="sidenav">
-          <li><%= link_to "Search", root_path %></li>
+          <li><%= link_to "Home", root_path %></li>
           <li><%= link_to "Featured", '/motms' %></li>
           <li><%= link_to "Speakers", '/speakers' %></li>
           <li><%= link_to "Places", '/places' %></li>
@@ -27,7 +27,7 @@
         <h1 class="content"><%= yield(:title) %></h1>
         <h2 class="content"><%= yield(:subtitle) %></h2>
         <%- end -%>
-        <p id="tagline"><%= @tagline %></p>
+        <p id="tagline"><%= @tagline %>&hellip;<br />&nbsp;&nbsp;&hellip;<%= @tagline2 %></p>
       </div>
 
       <%= render "shared/search_form" %>

@@ -20,8 +20,9 @@ class ApplicationController < ActionController::Base
   def load_cacheable_data
     @tagline = 
       Rails.cache.fetch("tagline",:expires => 30.minutes) {
-        "#{AudioMessage.active.count} messages by #{Speaker.count} speakers in #{Language.count} languages - One Lord Jesus Christ."
-      }
+        "#{AudioMessage.active.count} messages, #{Speaker.count} speakers, #{Language.count} languages"
+    }
+    @tagline2 = "One Lord Jesus Christ."
   end
   
   # Used for sphinx searches

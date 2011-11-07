@@ -1,6 +1,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui
+//= require jquery-corner
 //= require jquery.ui.autocomplete.autoSelect
 //= require jquery.grab
 //= require jquery.transform

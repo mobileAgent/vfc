@@ -90,6 +90,7 @@ namespace :sphinx do
     rake = fetch(:rake, "rake")
     rails_env = fetch(:environment, "production")
     begin
+      run "cd #{current_release}; RAILS_ENV=#{rails_env} #{rake} ts:conf"
       run "cd #{current_release}; RAILS_ENV=#{rails_env} #{rake} ts:rebuild"
     rescue
       puts "sphinx rebuild failed - #{$!}"

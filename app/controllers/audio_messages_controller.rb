@@ -8,14 +8,18 @@ class AudioMessagesController < ApplicationController
       return
     end
     file_path = AUDIO_PATH + @mp3.filename
-    mime_type = params[:dl] ? AUDIO_MIME_DL : AUDIO_MIME_PLAY
     if File.exists?(file_path)
-      send_file file_path, :type => mime_type,
-      :filename => @mp3.download_filename,
-      :x_sendfile => true
+      if params[:dl]
+        send_file file_path, :type => AUDIO_MIME_DL,
+        :filename => @mp3.download_filename,
+        :x_sendfile => (Rails.env == 'production')
+      else
+        render :text => "#{url_for(:id => @mp3, :only_path => false, :dl => true)}\n\n",
+               :content_type => AUDIO_MIME_PLAY
+      end
     else
       logger.info "Missing file path for audio #{file_path}"
-      flash[:notice] = "That file is missing right now but would be #{@mp3.download_filename}"
+      flash[:warning] = "Sorry, that file is missing right now."
       redirect_to root_path
     end
   end

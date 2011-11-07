@@ -58,7 +58,7 @@ class AudioMessage < ActiveRecord::Base
   end
 
   def download_filename
-    "#{speaker.catalog_name.dasherize}-#{title.dasherize}".downcase.gsub(/[^-a-z0-9]+/,'-') + ".mp3"
+    "#{speaker.catalog_name.parameterize}-#{title.parameterize}".downcase.gsub(/[^-a-z0-9]+/,'-') + ".mp3"
   end
-  
+
 end
