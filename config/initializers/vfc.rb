@@ -13,5 +13,5 @@ WRITINGS_PATH = Rails.env == "production" ?
 PHOTOS_URL = "/photos/"
 PHOTOS_PATH = "#{Rails.root.to_s}/public/photos/"
 
-AUDIO_MIME_PLAY = "audio/x-mpegurl"
+AUDIO_MIME_PLAY = "audio/mpegurl"
 AUDIO_MIME_DL = "application/binary"

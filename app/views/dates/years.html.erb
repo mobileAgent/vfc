@@ -1,0 +1,7 @@
+<% title("Dates") %>
+<p>This list is organized by the year the message was delivered. You can also view a list organized by the <%= link_to "date the message was added", {:action => :index} %> to our collection.</p>
+<ul>
+<% @dates.keys.each do |year| %>
+   <li><%= year %>, <%= link_to pluralize(@dates[year],'message'), {:action => :year, :id => year } %></li>
+<% end %>
+</ul>

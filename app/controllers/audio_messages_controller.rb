@@ -11,10 +11,10 @@ class AudioMessagesController < ApplicationController
     if File.exists?(file_path)
       if params[:dl]
         send_file file_path, :type => AUDIO_MIME_DL,
-        :filename => @mp3.download_filename,
-        :x_sendfile => (Rails.env == 'production')
+          :filename => @mp3.download_filename,
+          :x_sendfile => (Rails.env == 'production')
       else
-        render :text => "#{url_for(:id => @mp3, :only_path => false, :dl => true)}\n\n",
+        render :text => url_for(:id => @mp3, :only_path => false, :dl => true),
                :content_type => AUDIO_MIME_PLAY
       end
     else

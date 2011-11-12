@@ -1,0 +1,8 @@
+<% title(@year) %>
+<p>Speakers of messages given in <%= @year %></p>
+<ul>
+<% @speaker_counts.each do |id,count| %>
+   <% s = Speaker.find(id) %>
+   <li><%= s.catalog_name %>, <%= link_to pluralize(count,'message'), {:action => :delivered, :id => @year, :speaker_id => s.id } %></li>
+<% end %>
+</ul>
