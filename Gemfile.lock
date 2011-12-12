@@ -11,7 +11,7 @@ GIT
     will_paginate (3.0.2)
 
 GIT
-  remote: http://github.com/mobileAgent/acts_as_taggable_on_steroids.git
+  remote: git://github.com/mobileAgent/acts_as_taggable_on_steroids.git
   revision: f246002c34771b0e8c8098b6fab88790fec9e6df
   specs:
     acts_as_taggable_on_steroids (1.1.1)

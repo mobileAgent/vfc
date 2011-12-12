@@ -33,7 +33,7 @@ gem 'thinking-sphinx'
   
 #gem 'acts_as_taggable_on_steroids'
 gem 'acts_as_taggable_on_steroids',
-  :git     => 'http://github.com/mobileAgent/acts_as_taggable_on_steroids.git'
+  :git     => 'git://github.com/mobileAgent/acts_as_taggable_on_steroids.git'
 
 gem 'rdiscount'  
 gem 'ruby-mp3info',

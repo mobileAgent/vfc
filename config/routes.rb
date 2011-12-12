@@ -21,6 +21,7 @@ Vfc::Application.routes.draw do
   match '/languages/:id/speakers' => 'languages#speakers'
   match '/speakers/:id/place/:place_id' => 'speakers#place'
   match '/speakers/:id/language/:language_id' => 'speakers#language'
+  match '/VFC-GOLD/:speaker_name/:filename' => 'audio_messages#gold'
   match ':controller(/:action(/:id(.:format)))'
   
 

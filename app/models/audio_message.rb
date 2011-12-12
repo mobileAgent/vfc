@@ -39,7 +39,9 @@ class AudioMessage < ActiveRecord::Base
   end
 
   def human_date
-    event_date.present? ? event_date.strftime("%Y-%m-%d") : nil
+    d = event_date.present? ? event_date.strftime("%Y-%m-%d") : nil
+    d = "-- #{event_date.strftime('%Y')} --" if (d && d.index(/-01-01$/))
+    d
   end
   
   # turn number of seconds into hh:mm:ss
