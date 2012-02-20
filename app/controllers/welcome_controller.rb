@@ -86,7 +86,12 @@ class WelcomeController < ApplicationController
       flash[:notice] = "Nothing found for '#{params[:q]}'"
       redirect_to root_path and return
     end
-    render :action => :index
+
+    respond_to do |format|
+      format.html { render :action => :index }
+      format.m3u { render :action => :playlist, :layout => false }
+    end
+    
   end
 
   def login
@@ -95,3 +100,5 @@ class WelcomeController < ApplicationController
   end
 
 end
+
+

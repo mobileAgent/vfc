@@ -1,7 +1,7 @@
 class MotmsController < ApplicationController
 
   def index
-    @motms = Motm.all
+    @motms = Motm.find(:all, :order => 'created_at desc')
   end
   
 end
