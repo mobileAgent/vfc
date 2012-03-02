@@ -28,4 +28,6 @@ $(document).ready(function() {
     
   $("#q").select();
 
+  #$("#jpid").jPlayer({swfPath: "/flash/Jplayer.swf",solution: "html,flash"});
+
 });

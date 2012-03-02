@@ -1,6 +1,5 @@
 /*
  *= require_self
- *= require circle.player.css
  *= require_tree .
  */
 
@@ -272,10 +271,6 @@ table, .sortable, .msglist {
    padding: 3px;
 }
 
-td.audio-control {
-  white-space:nowrap;
-}
-
 div.bio {
   width: 80%;
   margin-left: 10%;
@@ -386,3 +381,28 @@ div.bio img {
 #flash_error {
   background-color: #ee4d4d;
 }
+
+.player>img {
+  height: 20px;
+  width: 20px;
+  padding: 0;
+  background: url(/assets/play-controls.gif) 0 0 no-repeat;
+}
+
+.player:hover>img, .player:active>img {
+  background: url(/assets/play-controls.gif) -20px 0 no-repeat;
+  cursor:pointer;
+}
+
+.active-player>img {
+  height: 20px;
+  width: 20px;
+  padding: 0;
+  background: url(/assets/play-controls.gif) 0 -20px no-repeat;
+}
+
+.active-player:hover>img, .active-player:active>img {
+  background: url(/assets/play-controls.gif) -20px -20px no-repeat;
+  cursor:pointer;
+}
+
