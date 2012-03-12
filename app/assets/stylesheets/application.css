@@ -89,7 +89,15 @@ p#tagline {
 /* search form */
 input#q {
    float: right;
-   margin: -24px 24px 3px auto;
+   margin: -24px 42px 3px auto;
+}
+input#ssu {
+   float: right;
+   margin: -27px 12px 3px 0;
+   background-image: url(/assets/icons/search.gif);
+   height: 25px;
+   width: 25px;
+   border: 0;
 }
 input::-webkit-input-placeholder {
    color: #a1b2c3; text-shadow: 0px -1px 0px #38506b;
