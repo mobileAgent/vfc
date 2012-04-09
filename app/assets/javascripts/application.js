@@ -5,9 +5,9 @@
 //= require jquery.ui.autocomplete.autoSelect
 //= require jquery.grab
 //= require jquery.transform
-//= require jquery.jplayer
 //= require mod.csstransforms.min
 //= require jquery.truncator
+//= require jquery.jplayer.min
 //= require_self
 //= require_tree .
 
@@ -28,6 +28,15 @@ $(document).ready(function() {
     
   $("#q").select();
 
-  //  #$("#jpid").jPlayer({swfPath: "/flash/Jplayer.swf",solution: "html,flash"});
-
+  $("#jpid").jPlayer( {
+                      swfPath: "/assets",
+                      solution: "html,flash"
+                      });
 });
+
+function play(url,title)
+{
+  $('#jp_container_1').css('margin-left','20%').css('float','none')
+  $('.jp-title').html(title)
+  $('#jpid').jPlayer('setMedia',{ mp3: url}).jPlayer('play',120)
+}

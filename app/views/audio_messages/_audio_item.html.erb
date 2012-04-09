@@ -3,7 +3,9 @@
     <%= link_to(
         icon(:arrow_down, :title => 'Download MP3'),
         {:controller => :audio_messages, :action => :show, :id => item, :dl => true}) %>
-    <span class='player' onclick="$('#jpid').jPlayer("setMedia","<%= url_for(:controller => :audio_messages, :action => :show, :id => item)%>")"><%= image_tag 'pixel.gif'%></span>
+    <span class='player' onclick="play('<%= url_for(:controller => :audio_messages, :action => :show, :id => item)%>','<%=j item.full_title%>')">
+       <%= image_tag 'pixel.gif', :title => 'Play' %>
+    </span>
   </td>
   <td><%= item.speaker.catalog_name %></td>
   <td title='<%= "Size #{item.human_filesize}, duration #{item.human_duration}" %>'>

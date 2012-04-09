@@ -1,0 +1,73 @@
+http://www.sean-o.com/jquery/jmp3/
+
+  - last updated 2006, jquery plugin with flash
+
+http://malsup.com/jquery/media/#faq
+
+  - jquery media plugin
+
+https://github.com/nddrylliog/jsmad
+
+  - pure js mp3 decoder, looks like ff only?
+
+
+http://jplayer.org/latest/developer-guide/#jPlayer-play
+
+  - html5 with flash fallback
+  - only plays mp3 that are at multiples of 11025 sample rate
+
+http://cssrevolt.com/upload/files/pimp3/
+
+  - required quicktime plugin, though claimed to be pure js
+  - based on prototype and scriptaculous
+
+http://blog.tremend.ro/tag/javascript-mp3-player/
+
+ - js + flash-backed
+
+http://flash-mp3-player.net/
+
+  - what the above is using for the swf side
+  - a code/js customizable version
+
+http://www.schillmania.com/projects/soundmanager2/doc/getstarted/#intro
+
+  - interesting stuff about detecting flash blockers
+  - inline-playable css class
+
+http://www.strangecube.com/audioplay/
+
+  - flash backed player with very simple ui
+
+http://activeden.net/search?utf8=%E2%9C%93&term=mp3
+
+  - lots of flash mp3 players of different designs
+    and capabilities
+
+http://www.podsnack.com/mp3-player-examples/progress-bar-players.html#1
+  
+  - looks to be tied up in a hosting solution
+
+http://developers.skimlinks.com/2009/02/03/howto-ajax-mp3-player/
+  - flash/ajax + jquery tutorial
+
+https://github.com/josephrmoore/mp3player
+  - pretty html5 only, nice markup and css
+  - uses on own website for own music
+  - explanation of why ogg+mp3 for html5 support
+
+
+https://github.com/juliend2/julienMP3Player
+  - jquery controls for soundmanager2 (swf)
+
+http://www.jquery.wisdomplug.com/jquery-plugins/jquery-media-plugins-jquery-plugins/9-fresh-jquery-media-players/
+  - overview of 9 player solutions
+
+http://www.spacebabies.nl/2010/02/26/unobtrusive-mp3-player/
+
+http://developer.yahoo.com/webplayer/
+http://code.google.com/p/mp3player/
+http://news.softpedia.com/news/Facebook-s-Inline-MP3-Player-137788.shtml
+
+http://musicplayer.sourceforge.net/ - flash
+

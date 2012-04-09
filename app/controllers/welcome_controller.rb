@@ -22,6 +22,7 @@ class WelcomeController < ApplicationController
     @hits = []
     term = params[:term]
     t = "#{term}%"
+    tt = "%#{term}%"
     # Get some tags
     if @hits.size < @size_limit
       @tags = Tag.where('name like ?',t)
@@ -40,7 +41,7 @@ class WelcomeController < ApplicationController
     # Get some places
     if @hits.size < @size_limit
       @places = Place
-        .where("name like ?",t)
+        .where("name like ?",tt)
         .limit(@size_limit-@hits.size)
         .order(:name)
       @hits += @places.map { |n| n.name }
@@ -81,6 +82,9 @@ class WelcomeController < ApplicationController
                                  :include => [:language, :speaker, :place, :taggings])
     if @items.size > 0 && @items.last.speaker.full_name == params[:q]
       @speaker = @items.last.speaker
+      logger.debug "Setting magic speaker due to #{params[:q]}"
+    else
+      logger.debug "Not setting magic speaker due to #{@items.last.speaker.full_name} vs #{params[:q]}"
     end
     if @items.size == 0
       flash[:notice] = "Nothing found for '#{params[:q]}'"
