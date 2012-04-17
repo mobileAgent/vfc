@@ -23,7 +23,7 @@ $(document).ready(function() {
   });
 
   $(function() {
-     $('.bio').truncate({max_length: 500});
+     $('.bio').truncate({max_length: 500})
   });
     
   $("#q").select();
@@ -36,7 +36,7 @@ $(document).ready(function() {
 
 function play(url,title)
 {
-  ${'.bio').hide()
+  $('.bio').hide()
   $('#jp_container_1').css('margin-left','20%').css('float','none')
   $('.jp-title').html(title)
   $('#jpid').jPlayer('setMedia',{ mp3: url}).jPlayer('play')

@@ -80,12 +80,11 @@ class WelcomeController < ApplicationController
                                  :star => true,
                                  :max_matches => 2500,
                                  :include => [:language, :speaker, :place, :taggings])
+    
     if @items.size > 0 && @items.last.speaker.full_name == params[:q]
       @speaker = @items.last.speaker
-      logger.debug "Setting magic speaker due to #{params[:q]}"
-    else
-      logger.debug "Not setting magic speaker due to #{@items.last.speaker.full_name} vs #{params[:q]}"
     end
+    
     if @items.size == 0
       flash[:notice] = "Nothing found for '#{params[:q]}'"
       redirect_to root_path and return

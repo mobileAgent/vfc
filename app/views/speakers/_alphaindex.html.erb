@@ -1,4 +1,7 @@
 <p class="alpha-index">
+ <% unless skip_top_link %>
+    <%= link_to 'Top', "##{@letters.first}" %>
+ <% end %>
  <% @letters.each do |alpha| %>
    <%= link_to alpha ,"##{alpha}" %>&nbsp;
  <% end %>

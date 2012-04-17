@@ -1,7 +1,17 @@
 class DatesController < ApplicationController
   
-  # Lists by date added to vfc
+  
+  # list by date preached
   def index
+    @dates = AudioMessage.active
+      .where("event_date is not null")
+      .group("date_format(audio_messages.event_date,'%Y')")
+      .order("audio_messages.event_date DESC")
+      .count
+  end
+
+  # Lists by date added to vfc
+  def years
     use_date = params[:dt] || "created_at"
     @age_limit = (params[:years] || "2").to_i.years.ago
     date_format = "'%Y-%m'"
@@ -22,15 +32,6 @@ class DatesController < ApplicationController
     end
   end
   
-  # list by date preached
-  def years
-    @dates = AudioMessage.active
-      .where("event_date is not null")
-      .group("date_format(audio_messages.event_date,'%Y')")
-      .order("audio_messages.event_date DESC")
-      .count
-  end
-
   # List speakers with counts for messages preached in a given year
   def year
     @year = params[:id].to_i

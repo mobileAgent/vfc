@@ -1,22 +1,7 @@
 <% title("Dates") %>
-<p>This list is organized by the date the message was added to our collection. You can also see a list organized by the <%= link_to "year the message was delivered", {:action => :years} %>.</p>
+<p>This list is organized by the year the message was delivered. You can also view a list organized by the <%= link_to "date the message was added", {:action => :years} %> to our collection.</p>
 <ul>
-<% @dates.each do |date,total| %>
-  <li>
-    <%= date %>, <%= pluralize(total,'message') %>
-    <ul>
-      <% list = @speakers_by_date[date].sort { |a,b| b[1] <=> a[1] } %>
-      <% list.each do |id,count| %>
-        <% s = Speaker.find(id) %>
-        <li><%= s.catalog_name %> <%=link_to pluralize(count,'message'), {:action => :speaker, :date => date, :speaker_id => s.id}  %></li>
-      <% end %>
-      <% if list.size == @group_limit %>
-        <li><%= link_to "All for #{date}&hellip;".html_safe, "/dates/show/#{date}" %></li>
-      <% end %>
-    </ul>
-  </li>
-<% end %>
-<% unless params[:years] %>
-  <li><%= link_to "Older", {:action => :index, :years => 6 } %></li>
+<% @dates.keys.each do |year| %>
+   <li><%= year %>, <%= link_to pluralize(@dates[year],'message'), {:action => :year, :id => year } %></li>
 <% end %>
 </ul>
