@@ -36,7 +36,8 @@ $(document).ready(function() {
 
 function play(url,title)
 {
+  ${'.bio').hide()
   $('#jp_container_1').css('margin-left','20%').css('float','none')
   $('.jp-title').html(title)
-  $('#jpid').jPlayer('setMedia',{ mp3: url}).jPlayer('play',120)
+  $('#jpid').jPlayer('setMedia',{ mp3: url}).jPlayer('play')
 }
