@@ -21,12 +21,20 @@ Vfc::Application.routes.draw do
   match '/languages/:id/speakers' => 'languages#speakers'
   match '/speakers/:id/place/:place_id' => 'speakers#place'
   match '/speakers/:id/language/:language_id' => 'speakers#language'
-  match '/VFC-GOLD/:speaker_name/:filename' => 'audio_messages#gold'
-  match ':controller(/:action(/:id(.:format)))'
-  
 
-  #map.connect ':controller/:action/:id'
-  #map.connect ':controller/:action/:id.:format'
+  # Line up with stuff from the old static site
+  match '/VFC-GOLD/:speaker_name/:filename' => 'audio_messages#gold'
+  match '/about' => 'welcome#about'
+  match '/contact' => 'welcome#contact'
+  match '/order' => 'welcome#index'
+  match '/friends' => 'welcome#index'
+
+  # Errors 
+  match '/404', :to => 'errors#not_found'
+  match '/500', :to => 'errors#error'
+
+  # Default route
+  match ':controller(/:action(/:id(.:format)))'
   
   # Sample of named route:
   #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase

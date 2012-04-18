@@ -28,12 +28,19 @@ class SpeakersController < ApplicationController
   end
 
   def name
-    @speaker = Speaker.where("last_name = ?",params[:id]).first
-    messages_by_speaker
   end
 
   def show
-    @speaker = Speaker.find(params[:id])
+    if params[:id].match(/([A-Z][A-Za-z]+)/)
+      @speaker = Speaker.where("concat(last_name,first_name,middle_name) = ?",$1).first
+    else
+      @speaker = Speaker.find(params[:id])
+    end
+    
+    unless @speaker
+      flash[:notice] = "Speaker not matched"
+      redirect_to :action => :index and return
+    end
     messages_by_speaker
   end
 

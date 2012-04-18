@@ -65,5 +65,10 @@ Vfc::Application.configure do
   
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
   # config.assets.precompile += %w( search.js )
-  
+
+  config.middleware.use ExceptionNotifier,
+    :email_prefix => "[VFC] ",
+    :sender_address => %{"Exception Notifier" <webmaster@voicesforchrist.org>},
+    :exception_recipients => %w{flester@gmail.com}  
+
 end
