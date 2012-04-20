@@ -6,6 +6,14 @@
      <br />
      More by <%= link_to @motm.audio_message.speaker.full_name, @motm.audio_message.speaker %>
      
+    <%= link_to(
+        icon(:arrow_down, :title => 'Download MP3'),
+        {:controller => :audio_messages, :action => :show, :id => @motm.audio_message, :dl => true}) %>
+    <span class='player' onclick="play('<%= url_for(:controller => :audio_messages, :action => :show, :id => @motm.audio_message)%>','<%=j @motm.audio_message.full_title%>')">
+       <%= image_tag 'pixel.gif', :title => 'Play' %>
+    </span>
+     
+     
   </div>
   <script>$("#motm").corner("30px")</script>
 <% end %>

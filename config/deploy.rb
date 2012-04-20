@@ -75,15 +75,6 @@ task :config_setup, :roles => :app do
   # memcached.clear
   # update_configuration
   sphinx.restart
-  precompile_assets
-end
-
-desc "precompile the assets"
-task :precompile_assets, :roles => :web, :except => { :no_release => true } do
-  run "cd #{current_path}; RAILS_ENV=production bundle exec rake assets:clean assets:precompile"
-  #run_locally("rake assets:clean && rake precompile")
-  #upload("public/assets", "#{release_path}/public/assets", :via =>
-  #       :scp, :recursive => true)
 end
 
 namespace :sphinx do

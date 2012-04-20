@@ -28,7 +28,7 @@
 # | place        | varchar(16)  | YES  |     | NULL                |                |
 class VfcRecord < ActiveRecord::Base
 
-  set_table_name :vfc
+  self.table_name :vfc
 
   def self.instance_method_already_implemented?(method_name)
     return true if (method_name == 'changed?' || method_name == 'changed')

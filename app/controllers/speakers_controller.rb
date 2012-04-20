@@ -32,7 +32,7 @@ class SpeakersController < ApplicationController
 
   def show
     if params[:id].match(/([A-Z][A-Za-z]+)/)
-      @speaker = Speaker.where("concat(last_name,first_name,middle_name) = ?",$1).first
+      @speaker = Speaker.where("concat(last_name,first_name,ifnull(middle_name,'')) = ?",$1).first
     else
       @speaker = Speaker.find(params[:id])
     end
