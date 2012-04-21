@@ -1,30 +1,42 @@
-FactoryGirl.define :place do |u|
-  u.name "Zendia"
-  u.cc "ZN"
-end
+FactoryGirl.define do
+  
+  factory :place do
+    name "Zendia"
+    cc "ZN"
+  end
 
-FactoryGirl.define :speaker do |u|
-  u.last_name "Last#{rand(1000)}"
-  u.first_name "A"
-  u.middle_name "B"
-  u.bio "Was a great man, truly."
-end
+  factory :speaker do
+    sequence :last_name do |n|
+      "Last#{n}"
+    end
+    first_name "A"
+    middle_name "B"
+    bio "Was a great man, truly."
+  end
 
-FactoryGirl.define :language do |u|
-  u.name "Zendian"
-end
+  factory :language do 
+    name "Zendian"
+  end
 
-FactoryGirl.define :audio_message do |u|
-  u.title "Message Title"
-  u.subj "The Subject"
-  u.groupmsg "V-#{rand(1000)}-#{rand(99)}"
-  u.filename "FOLDER/file.mp3"
-  u.duration "12345"
-  u.filesize "54321"
-  u.event_date Date.parse("1986-09-06")
-end
+  factory :audio_message do
+    sequence :title do
+      "Message Title #{n}"
+    end
+    sequence :subj do
+      "The Subject #{n}"
+    end
+    sequence :groupmsg do
+      "V-#{n}-#{n}"
+    end
+    filename "FOLDER/file.mp3"
+    duration "12345"
+    filesize "54321"
+    speaker FactoryGirl.create(:speaker)
+    event_date Date.parse("1986-09-06")
+  end
 
-FactoryGirl.define :motm do |u|
-  u.audio_message Factory(:audio_message)
-end
+  factory :motm do 
+    audio_message FactoryGirl.create(:audio_message)
+  end
 
+end

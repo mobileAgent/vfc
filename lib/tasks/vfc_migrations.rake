@@ -6,7 +6,7 @@ namespace :vfc do
   task :migrate => :environment do
     @table_name = ENV['table'] ? ENV['table'].to_sym : :vfc
     if @table_name != :vfc
-      records = VfcRecord.set_table_name @table_name
+      records = VfcRecord.table_name = @table_name
       VfcRecord.convert_records(records)
       count = records.size
     else
