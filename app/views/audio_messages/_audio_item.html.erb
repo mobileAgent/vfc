@@ -22,7 +22,7 @@
        </span>
      <% end %>
   </td>
-  <td><%= item.human_date %></td>
-  <td><%= item.place ? item.place.name : '' %></td>
+  <%= optional_cell(item.human_date) %>
+  <%= optional_cell(item.place) %>
   <td><%= flags_for_lang(item.language.name, :class => 'flag') if item.language %></td>
 </tr>

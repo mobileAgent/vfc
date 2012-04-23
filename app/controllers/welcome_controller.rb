@@ -1,6 +1,8 @@
 class WelcomeController < ApplicationController
-
+  
+  include ApplicationHelper
   include SpeakerHelper
+  
 
   def index
     @motm = Rails.cache.fetch('motm',:expires => 30.minutes) {
@@ -75,7 +77,7 @@ class WelcomeController < ApplicationController
     @items = AudioMessage.search(params[:q],
                                  :page => params[:page],
                                  :per_page => AudioMessage.per_page,
-                                 :order => "#{sort_column} #{sort_direction}",
+                                 :order => sort_column,
                                  :match_mode => :boolean,
                                  :star => true,
                                  :max_matches => 2500,
