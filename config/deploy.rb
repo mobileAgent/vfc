@@ -74,12 +74,19 @@ task :config_setup, :roles => :app do
   # create_symlinks
   # memcached.clear
   # update_configuration
-  sphinx.restart
+  sphinx.rebuild
+  precompile_assets
+end
+
+desc "precompile the assets"
+task :precompile_assets, :roles => :web, :except => { :no_release => true } do
+  run "cd #{current_release}; rm -rf public/assets/*"
+  run "cd #{current_release}; RAILS_ENV=production bundle exec rake assets:precompile"
 end
 
 namespace :sphinx do
   desc "Restart sphinx"
-  task :restart do
+  task :rebuild do
     rake = fetch(:rake, "rake")
     rails_env = fetch(:environment, "production")
     begin
