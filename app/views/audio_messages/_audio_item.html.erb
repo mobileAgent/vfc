@@ -7,7 +7,13 @@
        <%= image_tag 'pixel.gif', :title => 'Play' %>
     </span>
   </td>
-  <td><%= item.speaker.catalog_name %></td>
+  <td>
+    <% if local_assigns.has_key?(:link_speaker) && link_speaker %>
+      <%= link_to item.speaker.catalog_name, speaker_path(item.speaker) %>
+    <% else %>
+      <%= item.speaker.catalog_name %>
+    <% end %>
+  </td>
   <td title='<%= "Size #{item.human_filesize}, duration #{item.human_duration}" %>'>
      <%= item.full_title %>
      <% if item.created_at > (DateTime.now - 30)%>

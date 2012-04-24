@@ -216,6 +216,7 @@ table, .sortable, .msglist {
    padding: 5px 0 0 5px;
 }
 
+.msglist th,
 .msglist thead a:link,
 .msglist thead a:visited {
    font-size: 12px;
@@ -266,14 +267,12 @@ table, .sortable, .msglist {
    letter-spacing: normal;
    color: #002D47;
    text-decoration: none;
-   border-bottom: 1px solid #002D47;
 }
 .msglist td a:visited {
    text-transform: none;
    letter-spacing: normal;
-   color: #A6B6BF;
+   color: #002D47;
    text-decoration: none;
-   border-bottom: 1px solid #A6B6BF;
 }
 
 .msglist td a:hover,
@@ -282,8 +281,8 @@ table, .sortable, .msglist {
    color: #000000;
    text-decoration: none;
    letter-spacing: normal;
-   border-bottom: 2px solid #000000;
    background:none;
+   border-bottom: 2px solid #000000;
 }
 
 .msglist img {
@@ -435,10 +434,15 @@ div.bio img {
    font-size: 0.7em;
 }   
 
-td.audio-control {
+th#play_col {
    width: 44px;
+}
+
+th#date_col {
+   width: 8em;
 }
 
 td.ua {
    color: #d0d0d0;
 }
+
