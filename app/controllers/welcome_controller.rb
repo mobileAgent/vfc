@@ -1,6 +1,5 @@
 class WelcomeController < ApplicationController
   
-  include ApplicationHelper
   include SpeakerHelper
   
 

@@ -4,6 +4,8 @@ class ApplicationController < ActionController::Base
   before_filter :load_cacheable_data
   helper_method :sort_column, :sort_column_ar, :sort_direction
   
+  include ApplicationHelper
+  
   protected
 
   def load_cacheable_data

@@ -7,7 +7,7 @@ class TagsController < ApplicationController
                 :conditions => {:tags => params[:id]},
                 :page => params[:page] || 1,
                 :per_page => AudioMessage.per_page,
-                :order => "#{sort_column} #{sort_direction}",
+                :order => sort_column,
                 :include => [:language, :speaker, :place])
     logger.debug "Found #{@items.size} items"
     render :template => 'welcome/index'

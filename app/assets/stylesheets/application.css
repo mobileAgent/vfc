@@ -231,10 +231,10 @@ table, .sortable, .msglist {
 .msglist thead a:active {
    font-size: 12px;
    text-transform: uppercase;
-   font-weight: bold;
    text-decoration: underline;
+   font-weight: bold;
    letter-spacing: 1px;
-   color: #FFFFFF;
+   color: red;
    border: none;
    background: #002D47;
 }
