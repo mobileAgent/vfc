@@ -28,7 +28,7 @@ class LanguagesController < ApplicationController
     @query_title = "Messages by language #{@language.name}"
     @items = AudioMessage.search('',
                                  :with => { :language_id => @language.id},
-                                 :order => "#{sort_column} #{sort_direction}",
+                                 :order => sort_column,
                                  :match_mode => :boolean,
                                  :page => params[:page],
                                  :max_matches => 2500,
