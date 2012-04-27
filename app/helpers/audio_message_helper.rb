@@ -6,7 +6,11 @@ module AudioMessageHelper
     elsif v
       "<td>#{v}</td>".html_safe
     else
-      "<td class='ua'>unavailable</td>".html_safe
+      unavailable_cell
     end
+  end
+
+  def unavailable_cell
+      "<td class='ua'>unavailable</td>".html_safe
   end
 end

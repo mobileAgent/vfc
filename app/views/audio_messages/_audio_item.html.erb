@@ -24,6 +24,10 @@
      <% end %>
   </td>
   <%= optional_cell(item.human_date) %>
-  <%= optional_cell(item.place) %>
+  <% if item.place %>
+    <td><%= link_to(item.place.name, place_path(item.place))%></td>
+  <% else %>
+    <%= unavailable_cell %>
+  <% end %>
   <td><%= flags_for_lang(item.language.name, :class => 'flag') if item.language %></td>
 </tr>
