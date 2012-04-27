@@ -373,6 +373,18 @@ div.bio img {
   font-style: italic;
 }
 
+.taglist .tag a, .taglist .tag a:visited {
+  background-color: #d0daff;
+  color: #4a6b82;
+  font-size: .9em;
+  text-decoration: none;
+}
+.taglist .tag a:hover, .taglist .tag a:active {
+  color: #d0daff;
+  background-color: #4a6b82;
+}
+
+
 .leftcol {
   float: left;
   width: 50%;
@@ -446,3 +458,11 @@ td.ua {
    color: #d0d0d0;
 }
 
+.alpha-index {
+  padding: 10px;
+  margin: 2em 30% 2em 25px;
+  background-color: #d0daff;
+  border: 2px solid #002d47;
+  -moz-border-radius: 2em;
+  -webkit-border-radius: 2em;
+}

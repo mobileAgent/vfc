@@ -9,6 +9,7 @@ class AudioMessage < ActiveRecord::Base
   self.per_page = 50
   
   scope :active, where("publish = ?",true).includes(:speaker,:language,:place)
+  scope :year, lambda { |yr| where("date_format(event_date,'%Y') = ?",yr) }
 
   define_index do
     where "publish = 1"

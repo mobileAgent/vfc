@@ -8,11 +8,7 @@
     </span>
   </td>
   <td>
-    <% if local_assigns.has_key?(:link_speaker) && link_speaker %>
-      <%= link_to item.speaker.catalog_name, speaker_path(item.speaker) %>
-    <% else %>
-      <%= item.speaker.catalog_name %>
-    <% end %>
+    <%= link_to item.speaker.catalog_name, speaker_path(item.speaker) %>
   </td>
   <td title='<%= "Size #{item.human_filesize}, duration #{item.human_duration}" %>'>
      <%= item.full_title %>
@@ -20,10 +16,9 @@
         <span class='new-item'>New</span>
      <% end %>
      <% if item.tag_list.size > 0 %>
-       ~
        <span class="taglist">
          <% item.tag_list.sort.each do |tag| %>
-           <span class="tag"><%= tag %></span>
+           <span class="tag"><%= link_to tag, tag_path(tag), :title => "Search messages tagged with #{tag}" %></span>
          <% end %>
        </span>
      <% end %>

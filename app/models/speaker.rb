@@ -38,4 +38,6 @@ class Speaker < ActiveRecord::Base
     bio ? RDiscount.new(bio).to_html : nil
   end
 
+  attr_accessor :message_count
+
 end

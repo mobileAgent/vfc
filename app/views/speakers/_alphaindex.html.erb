@@ -3,6 +3,10 @@
     <%= link_to 'Top', "##{@letters.first}" %>
  <% end %>
  <% @letters.each do |alpha| %>
-   <%= link_to alpha ,"##{alpha}" %>&nbsp;
+   <% if alpha == current_letter %>
+     <%= alpha %>&nbsp;
+   <% else %>
+      <%= link_to alpha ,"##{alpha}" %>&nbsp;
+    <% end %>
  <% end %>
 </p> 

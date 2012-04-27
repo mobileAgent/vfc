@@ -36,11 +36,11 @@ class DatesController < ApplicationController
   def year
     @year = params[:id].to_i
     @date_format = "'%Y'"
-    @speaker_counts = AudioMessage.active
+    @speakers = Speaker.active
+      .joins(:audio_messages)
+      .order("last_name, first_name asc")
       .where("date_format(audio_messages.event_date,#{@date_format}) = ?", @year)
-      .group(:speaker_id)
-      .count
-    @speaker_counts = @speaker_counts.sort { |a,b| b[1] <=> a[1] }
+      .group("speakers.id")
   end
   
   # list speakers of all messages added on a given yyyy-mm
