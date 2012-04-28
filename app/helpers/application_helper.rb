@@ -18,7 +18,11 @@ module ApplicationHelper
 
   def sort_link_to(column, title = nil)
     title ||= column.titleize
-    css_class = column == params[:sort] ? "current #{sort_direction}" : nil
+    if (column == params[:sort]) || (column == "speaker_name" && params[:sort].nil?)
+      css_class = "current #{sort_direction}"
+    else
+      css_class = nil
+    end
     tip = column == params[:sort] ? "click to reverse sort order" : "click to sort"
     direction = column == params[:sort] && sort_direction == "asc" ? "desc" : "asc"
     url = url_for(params.merge({:sort => column, :direction => direction}))
@@ -35,6 +39,8 @@ module ApplicationHelper
         "#{ps} #{sort_direction}, full_title asc"
       elsif %w(place language event_date).include?(ps)
         "#{ps} #{sort_direction}, speaker_name asc, full_title asc"
+      else
+        "#{ps} #{sort_direction}"
       end
     else
         "speaker_name asc, full_title asc"

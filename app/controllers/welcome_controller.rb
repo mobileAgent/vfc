@@ -71,7 +71,7 @@ class WelcomeController < ApplicationController
     end
     
     @query_title = params[:q]
-    logger.debug "Sphinx search for '#{params[:q]}'"
+    logger.debug "Sphinx search for '#{params[:q]}' order #{sort_column}"
     
     @items = AudioMessage.search(params[:q],
                                  :page => params[:page],

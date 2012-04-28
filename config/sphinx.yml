@@ -96,6 +96,7 @@ test:
   min_prefix_len: 2
   enable_star: 1
   wordforms: db/sphinx/wordforms.txt
+  port: 9313
   <<: *charset
   
 production:
