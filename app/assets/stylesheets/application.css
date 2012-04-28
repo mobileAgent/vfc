@@ -374,10 +374,13 @@ div.bio img {
 }
 
 .taglist .tag a, .taglist .tag a:visited {
-  background-color: #d0daff;
+  border: 2px solid #d0daff;
   color: #4a6b82;
   font-size: .9em;
   text-decoration: none;
+  padding: 2px 4px;
+  -moz-border-radius: 1em;
+  -webkit-border-radius: 1em;
 }
 .taglist .tag a:hover, .taglist .tag a:active {
   color: #d0daff;
