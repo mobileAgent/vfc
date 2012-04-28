@@ -10,7 +10,11 @@ class PlacesController < ApplicationController
   end
 
   def show
-    @place = Place.find(params[:id])
+    if params[:id].match(/([A-Z][A-Za-z]+)/)
+      @place = Place.find(:first, :conditions => ["name like ?","#{params[:id]}%"])
+    else
+      @place = Place.find(params[:id])
+    end
     @query_title = "Messages in #{@place.name}"
     @items = AudioMessage.search('',
                                  :with =>  { :place_id => @place.id },
