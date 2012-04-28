@@ -55,4 +55,5 @@ group :development, :test do
    gem 'webrat'
    gem 'factory_girl_rails'
    gem 'autotest'
+   gem 'simplecov', :require => false
 end

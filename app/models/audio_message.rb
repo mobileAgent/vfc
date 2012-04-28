@@ -32,7 +32,7 @@ class AudioMessage < ActiveRecord::Base
   end
 
   def autocomplete_title
-    full_title.gsub(/[-,:;~!?&()]+/,' ').gsub(/[\"\']+/,'')
+    full_title.gsub(/[-,:;~!?&()]+/,' ').gsub(/[\"\']+/,'').gsub(/  +/,' ').gsub(/ +$/,'')
   end
 
   def year
