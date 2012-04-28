@@ -17,7 +17,15 @@
       <div class="leftcol">
 	<ul>
           <% Hymn.all.each_with_index do |h,i| %>
-            <li><%= link_to h.title,"/hymns/#{i}"%></li>
+            <li>
+               <%= link_to(
+                      icon(:arrow_down, :title => 'Download MP3'),
+                          {:controller => :hymns, :action => :show, :id => i}) %>
+               <span class='player' onclick="play('<%= url_for(:controller => :hymns, :action => :show, :id => i)%>','<%=j h.title%>')">
+                  <%= image_tag 'pixel.gif', :title => 'Play' %>
+                </span>
+                <%= h.title %>
+             </li>
           <% end %>
 	</ul>
       </div>

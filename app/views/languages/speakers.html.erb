@@ -1,6 +1,15 @@
 <%- title(@language.name) -%>
+<% @letter = '!' %>
 <ul>
   <% @speakers.each do |speaker| %>
+  <% if @letters && @letter != speaker.index_letter %>
+    <% @letter = speaker.index_letter %>
+    <% if @letter != '!'  %>
+      </ul>
+    <% end %>
+    <%= render :partial => 'shared/alphaindex', :locals => { :skip_top_link => @letter == 'A', :current_letter => @letter } %>
+    <ul>
+  <% end %>
     <li>
       <%= speaker.catalog_name %>:
       <%= link_to pluralize(@speakers_counts[speaker.id],'message'),"/speakers/#{speaker.id}/language/#{@language.id}" %>

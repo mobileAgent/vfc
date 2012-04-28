@@ -21,6 +21,9 @@ class LanguagesController < ApplicationController
       .group(:speaker_id)
       .where(["language_id = ?",@language.id])
       .count
+    if @speakers.size > 50
+      @letters = @speakers.collect(&:index_letter).sort.uniq
+    end
   end
 
   def show

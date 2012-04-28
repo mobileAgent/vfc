@@ -7,8 +7,7 @@
     <% if @letter != '!'  %>
       </ul>
     <% end %>
-    <a name='<%=@letter%>'/>
-    <%= render :partial => 'alphaindex', :locals => { :skip_top_link => @letter == 'A', :current_letter => @letter } %>
+    <%= render :partial => 'shared/alphaindex', :locals => { :skip_top_link => @letter == 'A', :current_letter => @letter } %>
     <ul>
   <% end %>
   <li>
