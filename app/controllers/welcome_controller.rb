@@ -4,10 +4,10 @@ class WelcomeController < ApplicationController
   
 
   def index
-    @motm = Rails.cache.fetch('motm',:expires => 30.minutes) {
+    @motm = Rails.cache.fetch('motm',:expires_in => 30.minutes) {
       Motm.active.last
     }
-    @tag_cloud = Rails.cache.fetch('tag_cloud', :expires => 10.minutes) {
+    @tag_cloud = Rails.cache.fetch('tag_cloud', :expires_in => 10.minutes) {
       AudioMessage.tag_counts(:conditions => {:publish => true}, :order => :name)
     }
   end

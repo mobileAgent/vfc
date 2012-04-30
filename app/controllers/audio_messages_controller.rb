@@ -39,7 +39,7 @@ class AudioMessagesController < ApplicationController
   protected
   
   def check_blocked_hosts
-    @blocked_hosts = Rails.cache.fetch("blocked_hosts",:expires => 30.minutes) {
+    @blocked_hosts = Rails.cache.fetch("blocked_hosts",:expires_in => 30.minutes) {
       BlockedHost.all.inject([]) { |arr,bh| arr << bh.ip_address }
     }
     if @blocked_hosts.include?(request.remote_ip)

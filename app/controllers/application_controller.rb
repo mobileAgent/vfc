@@ -14,8 +14,8 @@ class ApplicationController < ActionController::Base
     AudioMessage
     
     @tagline = 
-      Rails.cache.fetch("tagline",:expires => 30.minutes) {
-        "#{AudioMessage.active.count} messages, #{Speaker.count} speakers, #{Language.count} languages"
+      Rails.cache.fetch("tagline",:expires_in => 30.minutes) {
+        "#{AudioMessage.active.count} messages, #{Speaker.active.count} speakers, #{Language.count} languages"
     }
     @tagline2 = "One Lord Jesus Christ."
   end

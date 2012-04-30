@@ -3,7 +3,7 @@ class SpeakersController < ApplicationController
   include SpeakerHelper
   
   def index
-    @speakers = Rails.cache.fetch('speaker_cloud',:expires => 30.minutes) {
+    @speakers = Rails.cache.fetch('speaker_cloud',:expires_in => 30.minutes) {
       generate_speaker_list_with_counts
     }
     @letters = @speakers.collect(&:index_letter).sort.uniq
