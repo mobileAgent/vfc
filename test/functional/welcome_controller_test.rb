@@ -57,8 +57,8 @@ class WelcomeControllerTest < ActionController::TestCase
     assert_response :redirect 
   end
 
-  test "show a message without an event date" do
-    a = FactoryGirl.create(:audio_message, :event_date => nil)
+  test "show a message without optional fields" do
+    a = FactoryGirl.create(:audio_message, :event_date => nil, :place => nil)
     AudioMessage.expects(:search).returns([a].paginate)
     get :search, :q => 'blah'
     assert_response :success
