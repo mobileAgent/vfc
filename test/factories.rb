@@ -11,11 +11,12 @@ FactoryGirl.define do
     end
     first_name "A"
     middle_name "B"
+    hidden false
     bio "Was a great man, truly."
   end
 
   factory :language do 
-    name "Zendian"
+    name "English"
   end
 
   factory :audio_message do
@@ -31,12 +32,19 @@ FactoryGirl.define do
     filename "FOLDER/file.mp3"
     duration "12345"
     filesize "54321"
+    publish true
+    language FactoryGirl.create(:language)
+    place FactoryGirl.create(:place)
     speaker FactoryGirl.create(:speaker)
     event_date Date.parse("1986-09-06")
   end
 
   factory :motm do 
     audio_message FactoryGirl.create(:audio_message)
+  end
+
+  factory :blocked_host do
+    ip_address "123.123.123.123"
   end
 
 end

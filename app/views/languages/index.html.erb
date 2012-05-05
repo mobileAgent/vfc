@@ -9,7 +9,6 @@
              "/languages/#{lang.id}/speakers" %>
     <ul>
       <%- bslice = rand([lang.speakers.count-@limit,0].max) -%>
-      <%- puts "Slice starts at #{bslice}, runs to #{bslice+@limit} of #{lang.speakers.count} speakers for language #{lang.name}" -%>
       <%- lang.speakers[bslice..(bslice+@limit)].each do |speaker| -%>
         <li><%= speaker.catalog_name %> <%= link_to pluralize(@speakers_counts[lang.id][speaker.id],'message'), "/speakers/#{speaker.id}/language/#{lang.id}" %></li>
       <%- end -%>

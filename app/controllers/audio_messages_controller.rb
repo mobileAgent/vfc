@@ -3,7 +3,11 @@ class AudioMessagesController < ApplicationController
   before_filter :check_blocked_hosts
 
   def show
-    @mp3 = AudioMessage.find(params[:id],:conditions => ['publish = ?',true])
+    begin
+      @mp3 = AudioMessage.find(params[:id],:conditions => ['publish = ?',true])
+    rescue
+      logger.debug "Request for non existent msg id #{params[:id]}"
+    end
     unless @mp3
       flash[:notice] = "No such record"
       redirect_to root_path
@@ -32,7 +36,8 @@ class AudioMessagesController < ApplicationController
       redirect_to :action => :show, :id => @mp3.id, :dl => true and return
     else
       logger.debug "Looking for VFC-GOLD path #{path} found nothing"
-      render :text => "Nothing found for #{path}", :status => 404
+      flash[:notice] = "No such file"
+      redirect_to root_path
     end
   end
 

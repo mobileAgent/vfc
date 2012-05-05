@@ -6,10 +6,6 @@ module ApplicationHelper
     image_tag("icons/#{s}.png",options)
   end
 
-  def flag(s,options = {})
-    image_tag("flags/#{s}.png",options)
-  end
-
   def flags_for_lang(lang, options = {})
     options[:alt] = "#{lang} language" unless options[:alt]
     options[:title] = "#{lang} language" unless options[:title]

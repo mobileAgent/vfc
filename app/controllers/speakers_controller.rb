@@ -34,7 +34,11 @@ class SpeakersController < ApplicationController
     if params[:id].match(/([A-Z][A-Za-z]+)/)
       @speaker = Speaker.where("concat(last_name,first_name,ifnull(middle_name,'')) = ?",$1).first
     else
-      @speaker = Speaker.find(params[:id])
+      begin
+        @speaker = Speaker.find(params[:id])
+      rescue
+        # No such speaker
+      end
     end
     
     unless @speaker
@@ -51,7 +55,6 @@ class SpeakersController < ApplicationController
     @query_title << " by #{@speaker.full_name}"
     @conditions ||= {}
     @conditions[:speaker_id] = @speaker.id
-    puts "Build title #{@query_title} and conditions #{@conditions}"
     @items = AudioMessage.search('',
                                  :with => @conditions,
                                  :order => sort_column,

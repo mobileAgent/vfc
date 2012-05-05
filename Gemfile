@@ -56,4 +56,5 @@ group :development, :test do
    gem 'factory_girl_rails'
    gem 'autotest'
    gem 'simplecov', :require => false
+   gem "mocha", :require => false
 end
