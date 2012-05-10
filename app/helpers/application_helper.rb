@@ -60,4 +60,24 @@ module ApplicationHelper
     %w(asc desc).include?(params[:direction]) ? params[:direction] : "asc"
   end
 
+  def authorize
+    if !session[:user_id] || !User.find_by_id(session[:user_id])
+      session[:original_uri] = request.url
+      flash[:notice] = "Please log in for access"
+      redirect_to(:controller => "login", :action => "login")
+    end
+  end
+
+  def authorize_admin
+    session[:original_uri] = request.url
+    if session[:user_id]
+      user = User.find_by_id(session[:user_id])
+      unless user && user.admin?
+        redirect_to root_path
+      end
+    else
+      redirect_to root_path
+    end
+  end
+
 end

@@ -1,0 +1,25 @@
+<% title("Login") %>
+  <fieldset>
+     <legend>Login</legend>
+
+     <p><em>New User? <%= link_to 'Create an account', :controller => 'user', :action => 'add_user' %></em></p>
+   
+     <%= form_tag do %>
+        <p>
+          <label for="email" class="col1">Email Address:</label>
+          <%= text_field_tag :email, params[:email], :size => 50 %>
+        </p>
+
+        <p>
+          <label for="password" class="col1">Password:</label>
+          <%= password_field_tag :password, params[:password], :size => 50 %>
+        </p>
+
+        <p>
+          <%= submit_tag "Login", :class => "Submit" %>
+        </p>
+
+        <p><em>Forgotten password? <%= link_to 'Get a new one mailed to you.', :controller => 'login', :action => 'forgotten_password' %></em></p>
+
+   <% end %>
+ </fieldset>

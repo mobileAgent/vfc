@@ -15,7 +15,7 @@ Vfc::Application.routes.draw do
   
   root :to => "welcome#index"
 
-  match '/login' => 'welcome#login'
+  match '/login' => 'login#login'
   match '/featured' => 'motms#index'
   match '/speaker/name/:id' => 'speakers#name'
   match '/places/:id/speakers' => 'places#speakers'

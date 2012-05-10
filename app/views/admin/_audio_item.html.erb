@@ -1,18 +1,17 @@
-<tr class='<%=rclass%>'>
-  <td>
-    <a href="/VFC-GOLD/<%=item.filename%>" title="Download the mp3">
-      <img src="/images/listen.gif"/>
-    </a>
+<tr>
+  <td class='audio-control'>
+    <%= link_to(
+        icon(:arrow_down, :title => 'Download MP3'),
+        {:controller => :audio_messages, :action => :show, :id => item, :dl => true}) %>
+    <span class='player' onclick="play('<%= url_for(:controller => :audio_messages, :action => :show, :id => item)%>','<%=j item.full_title%>')">
+       <%= image_tag 'pixel.gif', :title => 'Play' %>
+    </span>
   </td>
-  <!--
-  <td class='edit'><%=h item.filename %></td>
-  <td class='edit'><%=h item.groupmsg %></td>
-  -->
-  <td class='edit'><%=h item.speaker %></td>
-  <td class='edit'><%=h item.msg %></td>
-  <td class='edit'><%=h item.subj %></td>
-  <td><%=h item.filesize/1024/1024 %>Mb</td>
-  <td class='edit'><%=h item.duration %></td>
-  <td class='edit'><%=h item.date %></td>
-  <td class='edit'><%=  item.place %></td>
+  <td class='edit'><%= item.speaker ? item.speaker.catalog_name : "" %></td>
+  <td class='edit'><%= item.full_title %></td>
+  <td><%= item.human_filesize %></td>
+  <td class='edit'><%= item.human_duration %></td>
+  <td class='edit'><%= item.human_date %></td>
+  <td class='edit'><%= item.place %></td>
+  <td class='edit'><%= item.language %></td>
 </tr>

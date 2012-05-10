@@ -1,6 +1,6 @@
 class AdminController < ApplicationController
 
-  before_filter :authenticate
+  before_filter :authorize_admin
   
   def show
     if params[:q]

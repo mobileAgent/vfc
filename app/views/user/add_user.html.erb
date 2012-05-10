@@ -1,0 +1,28 @@
+<% title("Account") %>
+<div class="user-form">
+
+  <fieldset>
+     <legend>Enter User Details</legend>
+   
+     <%= form_for :user do |form| %>
+
+        <p>
+          <label for="user_email" class="col1">Email Address:</label>
+          <%= form.text_field :email, :size => 50 %>
+        </p>
+
+        <p>
+          <label for="user_password" class="col1">Password:</label>
+          <%= form.password_field :password, :size => 50 %>
+        </p>
+
+        <p>
+          <label for="user_password_confirmation" class="col1">Confirm:</label>
+          <%= form.password_field :password_confirmation, :size => 50 %>
+        </p>
+
+        <%= submit_tag "Create Account", :class => "Submit" %>
+
+   <% end %>
+ </fieldset>
+</div>

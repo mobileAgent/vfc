@@ -98,11 +98,6 @@ class WelcomeController < ApplicationController
     
   end
 
-  def login
-    flash[:warning] = 'Not implemented yet'
-    redirect_to root_path and return
-  end
-
 end
 
 

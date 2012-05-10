@@ -47,4 +47,14 @@ FactoryGirl.define do
     ip_address "123.123.123.123"
   end
 
+  factory :user do
+    sequence :email do |n|
+      "user#{n*2}@example.com"
+    end
+    activated true
+    last_visit Date.today - 30
+    password "secret"
+    admin false
+  end
+  
 end

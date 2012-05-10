@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111212023509) do
+ActiveRecord::Schema.define(:version => 20120509015821) do
 
   create_table "audio_messages", :force => true do |t|
     t.string   "title"
@@ -430,6 +430,18 @@ ActiveRecord::Schema.define(:version => 20111212023509) do
 
   create_table "tags", :force => true do |t|
     t.string "name"
+  end
+
+  create_table "users", :force => true do |t|
+    t.string   "email",           :limit => 128, :default => "",    :null => false
+    t.string   "hashed_password",                :default => "",    :null => false
+    t.string   "salt",                                              :null => false
+    t.boolean  "admin",                          :default => false, :null => false
+    t.boolean  "activated",                      :default => false, :null => false
+    t.integer  "lock_version",                   :default => 0,     :null => false
+    t.datetime "last_visit",                                        :null => false
+    t.datetime "created_at",                                        :null => false
+    t.datetime "updated_at",                                        :null => false
   end
 
   create_table "vfc", :force => true do |t|
