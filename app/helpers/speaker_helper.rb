@@ -7,9 +7,10 @@ module SpeakerHelper
     speakers.each do |s|
       if message_counts[s.id] && message_counts[s.id] > 0
         list << OpenStruct.new(:full_name => s.full_name,
-                            :speaker_id => s.id,
-                            :index_letter => s.index_letter,
-                            :count => message_counts[s.id])
+                               :catalog_name => s.catalog_name,
+                               :speaker_id => s.id,
+                               :index_letter => s.index_letter,
+                               :count => message_counts[s.id])
       end
     end
     list

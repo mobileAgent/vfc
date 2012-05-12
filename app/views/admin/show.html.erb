@@ -5,7 +5,17 @@
 <% if @items && @items.size > 0 %>
 <%= will_paginate @items, :id => true, :class => 'apple_pagination' %>
 <table id="msgtable" class="sortable msglist">
-  <%= render :partial => 'audio_messages/audio_table_head' %>
+  <thead>
+    <tr>
+      <th id="play_col"></th>
+      <th id="speaker_col"><%=sort_link_to "speaker_name", "Speaker" %></th>
+      <th id="title_col"><%=sort_link_to "full_title", "Title and Tags" %></th>
+      <th id="size_col">Size</th>
+      <th id="duration_col">Duration</th>
+      <th id="date_col"><%=sort_link_to "event_date", "Date" %></th>
+      <th id="place_col"><%=sort_link_to "place" %></th>
+      <th id="lang_col"><%=sort_link_to "language", "Lang" %></th>
+  </thead>
   <tbody>
     <% @items.each do |item| %>
       <%= render :partial => 'audio_item', :locals => {:item => item } %>

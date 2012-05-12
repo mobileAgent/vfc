@@ -12,6 +12,6 @@
   <td><%= item.human_filesize %></td>
   <td class='edit'><%= item.human_duration %></td>
   <td class='edit'><%= item.human_date %></td>
-  <td class='edit'><%= item.place %></td>
-  <td class='edit'><%= item.language %></td>
+  <td class='edit'><%= item.place ? item.place.name : "" %></td>
+  <td class='edit'><%= item.language ? item.language.name : ""%></td>
 </tr>

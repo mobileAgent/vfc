@@ -12,7 +12,7 @@
   <% end %>
   <li>
     <%- # careful this is the cache ostruct, not a real speaker ar object -%>
-    <%=h speaker.full_name %>
+    <%= speaker.catalog_name %>
       ~ <%= link_to pluralize(speaker.count,'message'), "/speakers/show/#{speaker.speaker_id}" %>
   </li>
 <% end %>
