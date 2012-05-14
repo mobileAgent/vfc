@@ -64,8 +64,10 @@ module ApplicationHelper
     if !session[:user_id] || !User.find_by_id(session[:user_id])
       session[:original_uri] = request.url
       flash[:notice] = "Please log in for access"
-      redirect_to(:controller => "login", :action => "login")
+      redirect_to(:controller => "login", :action => "login") and return
     end
+    @current_user = User.find_by_id(session[:user_id])
+    # login( link_to @curent_user.email, '/account')
   end
 
   def authorize_admin
@@ -73,11 +75,13 @@ module ApplicationHelper
     if session[:user_id]
       user = User.find_by_id(session[:user_id])
       unless user && user.admin?
-        redirect_to root_path
+        redirect_to root_path and return
       end
     else
-      redirect_to root_path
+      redirect_to root_path and return
     end
+    @current_user = User.find_by_id(session[:user_id])
+    # login( link_to @curent_user.email, '/account')
   end
 
 end

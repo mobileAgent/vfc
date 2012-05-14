@@ -26,7 +26,12 @@ class LoginControllerTest < ActionController::TestCase
     @user = User.find(@user.id)
     assert @old_password != @user.password
   end
-
+  
+  test "reset password on bogus email fails" do
+    post :reset_password, :email => "xyzzy@example.com"
+    assert_match /.*does not match.*/,flash[:notice]
+  end
+  
   test "logout clears session" do
     @user = FactoryGirl.create(:user)
     session[:user_id] = @user.id #  login

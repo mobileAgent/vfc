@@ -11,6 +11,12 @@ class UserControllerTest < ActionController::TestCase
     get :change_password
     assert_response :success
   end
+  
+  test "access protected action without login mus fail" do
+    session[:user_id] = nil
+    get :change_password
+    assert_redirected_to "/login"
+  end
 
   test "change of password saved through" do
     post :update_password, :user => {:password => "newpass", :password_confirmation => "newpass" }

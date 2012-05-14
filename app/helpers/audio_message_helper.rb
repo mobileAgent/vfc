@@ -1,9 +1,7 @@
 module AudioMessageHelper
 
   def optional_cell(v)
-    if v && v.respond_to?(:name)
-      "<td>#{v.name}</td>".html_safe
-    elsif v
+    if v
       "<td>#{v}</td>".html_safe
     else
       unavailable_cell

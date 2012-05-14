@@ -63,5 +63,12 @@ class WelcomeControllerTest < ActionController::TestCase
     get :search, :q => 'blah'
     assert_response :success
   end
+  
+  test "show a message with optional fields" do
+    a = FactoryGirl.create(:audio_message)
+    AudioMessage.expects(:search).returns([a].paginate)
+    get :search, :q => 'blah'
+    assert_response :success
+  end
 
 end

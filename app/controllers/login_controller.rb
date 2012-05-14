@@ -1,6 +1,6 @@
 class LoginController < ApplicationController
 
-  before_filter :authorize, :except => [:login, :forgotten_password, :reset_password]
+  before_filter :authorize, :except => [:login, :forgotten_password, :reset_password, :logout]
 
   def index
      redirect_to :action => 'login'
@@ -19,11 +19,10 @@ class LoginController < ApplicationController
           session[:user_id] = user.id
           if user.admin?
              flash[:notice] = "Kenichiwa, #{user.email}! (Adminstrator)"
-             redirect_to(uri || {:controller => "admin" , :action => "list_registration"}) and return
           else
              flash[:notice] = "Hi, #{user.email}!"
-             redirect_to(uri || {:controller => "registration" , :action => "register"}) and return
-           end
+          end
+         redirect_to root_path and return
        else
           flash[:notice] = "The information you provided does not match our records"
        end
@@ -34,7 +33,7 @@ class LoginController < ApplicationController
 
   def logout
     session[:user_id] = nil
-    redirect_to :controller => "welcome", :action => "index" and return
+    redirect_to root_path and return
   end
 
   def forgotten_password
