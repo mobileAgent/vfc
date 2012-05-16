@@ -1,5 +1,5 @@
 <% title("Dates") %>
-<p>This list is organized by the date the message was added to our collection. You can also see a list organized by the <%= link_to "year the message was delivered", {:action => :index} %>.</p>
+<p class="alpha-index">This list is organized by the date the message was added to our collection. You can also see a list organized by the <%= link_to "year the message was delivered", {:action => :index} %>.</p>
 <ul>
 <% @dates.each do |date,total| %>
   <li>
@@ -17,6 +17,6 @@
   </li>
 <% end %>
 <% unless params[:years] %>
-  <li><%= link_to "Older", {:action => :index, :years => 6 } %></li>
+  <li><%= link_to "Older", {:action => :years, :years => 6 } %></li>
 <% end %>
 </ul>

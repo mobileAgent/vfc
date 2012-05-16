@@ -8,6 +8,8 @@ class DatesController < ApplicationController
       .group("date_format(audio_messages.event_date,'%Y')")
       .order("audio_messages.event_date DESC")
       .count
+    # Peek at most recent load date
+    @latest_addition_date = AudioMessage.maximum('created_at')
   end
 
   # Lists by date added to vfc
