@@ -300,6 +300,7 @@ div.bio {
   -moz-border-radius: 2em;
   -webkit-border-radius: 2em;
   border-radius: 2em;
+  behavior: url(/assets/PIE.htc);
   background-color: #b1d6f5;
   overflow-y: hidden;
 }
@@ -307,9 +308,9 @@ div.bio {
 div.bio img {
   float: left;
   margin: 12px;
-  box-shadow: 5px 5px 5px rgba(0, 0, 128, 0.45);
-  -moz-box-shadow: 5px 5px 5px rgba(0, 0, 128, 0.45);
-  -webkit-box-shadow: 5px 5px 5px rgba(0, 0, 128, 0.45);
+  box-shadow: rgba(0, 0, 128, 0.45) 5px 5px 5px;
+  -moz-box-shadow: rgba(0, 0, 128, 0.45) 5px 5px 5px;
+  -webkit-box-shadow: rgba(0, 0, 128, 0.45) 5px 5px 5px;
 }
 
 .moreless {
@@ -317,6 +318,7 @@ div.bio img {
   -moz-border-radius: 2em;
   -webkit-border-radius: 2em;
   border-radius: 2em;
+  behavior: url(/assets/PIE.htc);
   background: #A6B6BF;
   padding: 0 6px 0 3px;
   text-decoration: none;
@@ -328,15 +330,17 @@ div.bio img {
 }
 
 #motm {
-  border: 3px solid #002d47;
-  -moz-border-radius: 2em;
-  -webkit-border-radius: 2em;
   width: 80%;
   margin-left: 10%;
   margin-bottom: 20px;
   padding: 1.5em;
   text-align: center;
   background-color: #b1d6f5;
+  border: 3px solid #002d47;
+  -moz-border-radius: 2em;
+  -webkit-border-radius: 2em;
+  border-radius: 2em;
+  behavior: url(/assets/PIE.htc);
 }
 
 #motm .title {
@@ -381,6 +385,8 @@ div.bio img {
   padding: 2px 4px;
   -moz-border-radius: 1em;
   -webkit-border-radius: 1em;
+  border-radius: 1em;
+  behavior: url(/assets/PIE.htc);
 }
 .taglist .tag a:hover, .taglist .tag a:active {
   color: #d0daff;
@@ -402,6 +408,8 @@ div.bio img {
   border: 3px solid #002d47;
   -moz-border-radius: 2em;
   -webkit-border-radius: 2em;
+  border-radius: 2em;
+  behavior: url(/assets/PIE.htc);
   color: #002d47;
   background-color: #b1d6f5;
   padding: 10px;
@@ -450,7 +458,7 @@ div.bio img {
 }   
 
 th#play_col {
-   width: 44px;
+   width: 46px;
 }
 
 th#date_col {
@@ -468,4 +476,6 @@ td.ua {
   border: 2px solid #002d47;
   -moz-border-radius: 2em;
   -webkit-border-radius: 2em;
+  border-radius: 2em;
+  behavior: url(/assets/PIE.htc);
 }
