@@ -126,13 +126,13 @@ class Hymn
     Hymn.new("Hymns/Solo-D_Stallings-I-Know-Whom-I-Have-Believ_ed.mp3","Solo - D. Stallings-I Know Whom I Have Believed"),
     Hymn.new("Hymns/Solo-D_Stallings-I-Surrender-All.mp3","Solo - D. Stallings-I Surrender All"),
     Hymn.new("Hymns/Solo-D_Stallings-Jesus-Is-The-Sweetest-Name.mp3","Solo - D. Stallings-Jesus Is The Sweetest Name I Know"),
-    Hymn.new("Hymns/Solo-D_Stallings-Nothing-Between.mp3","Solo - D. Stallings-Nothing Between"),
-    Hymn.new("Hymns/Solo-D_Stallings-The-Broken-Heart.mp3","Solo - D. Stallings-The Broken Heart"),
-    Hymn.new("Hymns/Solo-D_Stallings-The-Love-Of-God.mp3","Solo - D. Stallings-The Love Of God"),
-    Hymn.new("Hymns/Solo-D_Stallings-Yield-Not-To-Temptation.mp3","Solo - D. Stallings-Yield Not To Temptation"),
-    Hymn.new("Hymns/Solo-M_Greenhill-I-Want-To-See-My-Saviour.mp3","Solo - M. Greenhill-I Want To See My Savoiur"),
-    Hymn.new("Hymns/Solo-M_Greenhill-Jesus-Wept.mp3","Solo - M. Greenhill-Jesus Wept"),
-    Hymn.new("Hymns/Solo-M_Greenhill-More-Time-Alone.mp3","Solo - M. Greenhill-More Time Alone"),
+    Hymn.new("Hymns/Solo-D_Stallings-Nothing-Between.mp3","Solo - D. Stallings - Nothing Between"),
+    Hymn.new("Hymns/Solo-D_Stallings-The-Broken-Heart.mp3","Solo - D. Stallings - The Broken Heart"),
+    Hymn.new("Hymns/Solo-D_Stallings-The-Love-Of-God.mp3","Solo - D. Stallings - The Love Of God"),
+    Hymn.new("Hymns/Solo-D_Stallings-Yield-Not-To-Temptation.mp3","Solo - D. Stallings - Yield Not To Temptation"),
+    Hymn.new("Hymns/Solo-M_Greenhill-I-Want-To-See-My-Saviour.mp3","Solo - M. Greenhill - I Want To See My Savoiur"),
+    Hymn.new("Hymns/Solo-M_Greenhill-Jesus-Wept.mp3","Solo - M. Greenhill - Jesus Wept"),
+    Hymn.new("Hymns/Solo-M_Greenhill-More-Time-Alone.mp3","Solo - M. Greenhill - More Time Alone"),
     Hymn.new("Hymns/Solo-M_Greenhill-Song-Of-The-Soul-Set-Free.mp3","Solo - M. Greenhill-Song Of The Soul Set Free"),
   Hymn.new("Hymns/Trio-Its-Not-An-Easy-Road.mp3","Trio - It's Not An Easy Road"),
   Hymn.new("Hymns/Trio-Medly-Peace.mp3","Trio - Medley Peace"),
@@ -143,7 +143,7 @@ class Hymn
   Hymn.new("Hymns/Music-Skyland-Conf-1979.mp3","Skyland Conference Music-1979"),
   Hymn.new("Hymns/Music-Skyland-Conf-1980.mp3","Skyland Conference Music-1980"),
   Hymn.new("Hymns/Music-Skyland-Conf-1981.mp3","Skyland Conference Music-1981"),
-  Hymn.new("Hymns/ValleyBibleChapelConcert1981.mp3","Valey Bible Chapel Concert - 1981")
+  Hymn.new("Hymns/ValleyBibleChapelConcert1981.mp3","Valley Bible Chapel Concert - 1981")
                    ]
   
 end

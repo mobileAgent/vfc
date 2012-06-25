@@ -29,6 +29,8 @@ Vfc::Application.routes.draw do
   match '/contact' => 'welcome#contact'
   match '/order' => 'welcome#index'
   match '/friends' => 'welcome#index'
+  match '/index.shtml' => 'welcome#index'
+  match '/index.html' => 'welcome#index'
 
   # Errors 
   match '/404', :to => 'errors#not_found'
