@@ -33,6 +33,7 @@ class SpeakersController < ApplicationController
   def show
     if params[:id].match(/([A-Z][A-Za-z]+)/)
       @speaker = Speaker.where("concat(last_name,first_name,ifnull(middle_name,'')) = ?",$1).first
+      # help emacs ruby mode get back in sync"
     else
       begin
         @speaker = Speaker.find(params[:id])
@@ -62,7 +63,11 @@ class SpeakersController < ApplicationController
                                  :page => params[:page],
                                  :max_matches => 2500,
                                  :include => [:language, :speaker, :place])
-    render :template => 'welcome/index'
+    if params[:download] && download_zipline(@items,@query_title)
+      return
+    else
+      render :template => 'welcome/index'
+    end
   end
 
 end

@@ -7,6 +7,9 @@ gem 'rails', '3.2.6'
 
 gem 'mysql2'
 
+# Streaming zip file output
+gem 'zipline', :git => 'git://github.com/fringd/zipline.git'
+
 # Use unicorn as the web server
 # gem 'unicorn'
 

@@ -36,7 +36,13 @@ class LanguagesController < ApplicationController
                                  :page => params[:page],
                                  :max_matches => 2500,
                                  :include => [:language, :speaker, :place])
-    render :template => 'welcome/index'
+    
+    if params[:download] && download_zipline(@items,@query_title)
+      return
+    else
+      render :template => 'welcome/index'
+    end
+    
   end
   
 end

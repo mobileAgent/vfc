@@ -14,6 +14,7 @@ tmp
 Thumbs.db
 *~
 db/sphinx/development
+db/sphinx/development/*
 public/assets
 public/audio
 public/photos

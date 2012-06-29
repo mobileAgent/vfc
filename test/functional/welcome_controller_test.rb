@@ -38,6 +38,15 @@ class WelcomeControllerTest < ActionController::TestCase
     assert_response :success
   end
   
+  test "download responds with zip file" do
+    a = FactoryGirl.create(:audio_message)
+    AudioMessage.expects(:search).returns([a].paginate)
+    FileFile.expects(:new).at_least_once.returns(nil)
+    get :search, :q => a.speaker.last_name, :download => true
+    assert_response :success
+    assert_equal 'application/zip',response.header['Content-Type']
+  end
+  
   test "search by full name assigns bio" do
     a = FactoryGirl.create(:audio_message)
     AudioMessage.expects(:search).returns([a].paginate)

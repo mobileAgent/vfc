@@ -10,7 +10,13 @@ class TagsController < ApplicationController
                 :order => sort_column,
                 :include => [:language, :speaker, :place])
     logger.debug "Found #{@items.size} items"
-    render :template => 'welcome/index'
+
+    if params[:download] && download_zipline(@items,@query_title)
+      return
+    else
+      render :template => 'welcome/index'
+    end
+
   end
   
 end

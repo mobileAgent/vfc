@@ -1,6 +1,5 @@
 class DatesController < ApplicationController
   
-  
   # list by date preached
   def index
     @dates = AudioMessage.active
@@ -67,9 +66,15 @@ class DatesController < ApplicationController
       .where("date_format(audio_messages.created_at,#{@date_format}) = ?",@date)
       .order(sort_column_ar + " " + sort_direction)
       .paginate(:page => params[:page], :per_page => AudioMessage.per_page)
-    render :template => 'welcome/index'
+    
+    if params[:download] && download_zipline(@items,@query_title)
+      return
+    else
+      render :template => 'welcome/index'
+    end
+    
   end
-  
+
   # list full details of all messages preached by speaker in year
   def delivered
     @date = params[:id]
@@ -81,7 +86,13 @@ class DatesController < ApplicationController
       .where("speaker_id = ?",@speaker.id)
       .order(sort_column_ar + " " + sort_direction)
       .paginate(:page => params[:page], :per_page => AudioMessage.per_page)
-    render :template => 'welcome/index'
+    
+    if params[:download] && download_zipline(@items,@query_title)
+      return
+    else
+      render :template => 'welcome/index'
+    end
+    
   end
     
   

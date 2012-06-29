@@ -15,3 +15,5 @@ PHOTOS_PATH = "#{Rails.root.to_s}/public/photos/"
 
 AUDIO_MIME_PLAY = "audio/mpeg"
 AUDIO_MIME_DL = "application/binary"
+
+require 'file_file'

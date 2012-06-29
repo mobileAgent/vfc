@@ -50,7 +50,9 @@ class AudioMessagesController < ApplicationController
     if @blocked_hosts.include?(request.remote_ip)
       logger.debug "Blocked host #{request.remote_ip} attempted mp3 access"
       redirect_to root_path
+      return false
     end
+    return true
   end
 
 end

@@ -1,7 +1,7 @@
 module ApplicationHelper
 
   include TagsHelper
-
+  
   def icon(s, options = {})
     image_tag("icons/#{s}.png",options)
   end

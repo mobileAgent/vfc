@@ -1,7 +1,6 @@
 class WelcomeController < ApplicationController
   
   include SpeakerHelper
-  
 
   def index
     @motm = Rails.cache.fetch('motm',:expires_in => 30.minutes) {
@@ -71,17 +70,8 @@ class WelcomeController < ApplicationController
     end
     
     @query_title = params[:q]
-    logger.debug "Sphinx search for '#{params[:q]}' order #{sort_column}"
     
-    @items = AudioMessage.search(params[:q],
-                                 :page => params[:page],
-                                 :per_page => AudioMessage.per_page,
-                                 :order => sort_column,
-                                 :match_mode => :boolean,
-                                 :star => true,
-                                 :max_matches => 2500,
-                                 :include => [:language, :speaker, :place, :taggings])
-    
+    @items = sphinx_search
     if @items.size > 0 && @items.last.speaker.full_name == params[:q]
       @speaker = @items.last.speaker
     end
@@ -90,12 +80,29 @@ class WelcomeController < ApplicationController
       flash[:notice] = "Nothing found for '#{params[:q]}'"
       redirect_to root_path and return
     end
-
-    respond_to do |format|
-      format.html { render :action => :index }
-      format.m3u { render :action => :playlist, :layout => false }
-    end
     
+    if params[:download] && download_zipline(@items,params[:q])
+      return
+    else
+      respond_to do |format|
+        format.html { render :action => :index }
+        format.m3u  { render :action => :playlist, :layout => false }
+      end
+    end
+  end
+
+  private
+
+  def sphinx_search
+    logger.debug "Sphinx search for '#{params[:q]}' order #{sort_column}"
+    AudioMessage.search(params[:q],
+                        :page => params[:page],
+                        :per_page => AudioMessage.per_page,
+                        :order => sort_column,
+                        :match_mode => :boolean,
+                        :star => true,
+                        :max_matches => 2500,
+                        :include => [:language, :speaker, :place, :taggings])
   end
 
 end
