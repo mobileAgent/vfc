@@ -24,7 +24,7 @@ class PlacesController < ApplicationController
                                  :max_matches => 2500,
                                  :include => [:language, :speaker, :place])
     
-    if params[:download] && download_zipline(@items,@query_title)
+    if params[:download] && download_zipline(@items,@query_title,params[:page])
       return
     else
       render :template => 'welcome/index'

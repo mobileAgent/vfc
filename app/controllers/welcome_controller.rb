@@ -81,7 +81,7 @@ class WelcomeController < ApplicationController
       redirect_to root_path and return
     end
     
-    if params[:download] && download_zipline(@items,params[:q])
+    if params[:download] && download_zipline(@items,params[:q],params[:page])
       return
     else
       respond_to do |format|
@@ -97,7 +97,7 @@ class WelcomeController < ApplicationController
     logger.debug "Sphinx search for '#{params[:q]}' order #{sort_column}"
     AudioMessage.search(params[:q],
                         :page => params[:page],
-                        :per_page => AudioMessage.per_page,
+                        :per_page => params[:per_page] || AudioMessage.per_page,
                         :order => sort_column,
                         :match_mode => :boolean,
                         :star => true,

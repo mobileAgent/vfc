@@ -11,7 +11,7 @@ class TagsController < ApplicationController
                 :include => [:language, :speaker, :place])
     logger.debug "Found #{@items.size} items"
 
-    if params[:download] && download_zipline(@items,@query_title)
+    if params[:download] && download_zipline(@items,@query_title,params[:page])
       return
     else
       render :template => 'welcome/index'

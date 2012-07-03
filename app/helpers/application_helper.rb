@@ -1,6 +1,7 @@
 module ApplicationHelper
 
   include TagsHelper
+  include Zipline
   
   def icon(s, options = {})
     image_tag("icons/#{s}.png",options)
@@ -83,5 +84,23 @@ module ApplicationHelper
     @current_user = User.find_by_id(session[:user_id])
     # login( link_to @curent_user.email, '/account')
   end
+
+  
+  def download_zipline(audio_items,query_string,page=1)
+    page = 1 if page.blank?
+    page = page.to_i
+    zipfn = "vfc-" + query_string.gsub(/[^a-zA-Z0-9]+/,'-') + "-" + DateTime.now.strftime("%Y-%m-%d") + (page > 1 ? "-#{page}" : "") + ".zip"
+    begin
+      logger.debug "Ziplining #{audio_items.size} mp3s for #{zipfn}"
+      downloads = audio_items.map{ |mp3| [FileFile.new(AUDIO_PATH + mp3.filename),mp3.download_filename] }
+      zipline( downloads, zipfn )
+      true
+    rescue
+      logger.info "Zipline failed for #{audio_items.size} items #{$!}"
+      flash[:notice] = "Sorry we had trouble with that request. Try them individually"
+      false
+    end
+  end
+
 
 end
