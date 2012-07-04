@@ -88,6 +88,7 @@ development:
   min_prefix_len: 2
   enable_star: 1
   wordforms: db/sphinx/wordforms.txt
+  exceptions: db/sphinx/exceptions.txt
   <<: *charset
 test:
   bin_path: /usr/local/bin
@@ -96,6 +97,7 @@ test:
   min_prefix_len: 2
   enable_star: 1
   wordforms: db/sphinx/wordforms.txt
+  exceptions: db/sphinx/exceptions.txt
   port: 9313
   <<: *charset
   
@@ -105,4 +107,5 @@ production:
   min_prefix_len: 2
   enable_star: 1
   wordforms: db/sphinx/wordforms.txt
+  exceptions: db/sphinx/exceptions.txt
   <<: *charset

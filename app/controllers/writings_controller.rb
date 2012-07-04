@@ -4,7 +4,7 @@ class WritingsController < ApplicationController
   end
 
   def get
-    file_path = WRITINGS_PATH + params[:name]
+    file_path = "#{WRITINGS_PATH}#{params[:name]}"
     file_path.gsub!(/\.\./,'')
     if File.exists?(file_path)
       if (file_path.index(/\.pdf$/))
