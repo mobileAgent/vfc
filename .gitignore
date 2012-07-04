@@ -13,6 +13,7 @@ tmp
 .DS_Store?
 Thumbs.db
 *~
+config/development.sphinx.conf
 db/sphinx/development
 db/sphinx/development/*
 public/assets
