@@ -1,10 +1,10 @@
   <thead>
     <tr>
-      <th id="play_col">
-         <%= link_to(icon("cd_burn",:title => "Download Results as Zip file"),
-             params.merge(:download => true),
-             :data => {:confirm => "This will download the audio files on this page as a zip file. " +
-             " Press OK if that is what you want to do, cancel otherwise!"} ) %>
+      <th id="play_col" title="Download a zip file of the messages">
+        <form method="POST" action="<%=request.url%>" onsubmit="return confirm('This will download the audio files on this page as a zip file. Press OK if that is what you want to do, cancel otherwise!');">
+          <input type="hidden" name="download" value="true"/>
+          <input type="submit" id="zipline" value=""/>
+         </form>
       </th>
       <th id="speaker_col"><%=sort_link_to "speaker_name", "Speaker" %></th>
       <th id="title_col"><%=sort_link_to "full_title", "Title and Tags" %></th>

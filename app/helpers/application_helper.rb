@@ -91,7 +91,7 @@ module ApplicationHelper
     page = page.to_i
     zipfn = "vfc-" + query_string.gsub(/[^a-zA-Z0-9]+/,'-') + "-" + DateTime.now.strftime("%Y-%m-%d") + (page > 1 ? "-#{page}" : "") + ".zip"
     begin
-      logger.debug "Ziplining #{audio_items.size} mp3s for #{zipfn}"
+      logger.info "Zipline #{audio_items.size} mp3s for #{zipfn}"
       downloads = audio_items.map{ |mp3| [FileFile.new(AUDIO_PATH + mp3.filename),mp3.download_filename] }
       zipline( downloads, zipfn )
       true

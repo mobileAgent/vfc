@@ -104,6 +104,18 @@ input#ssu {
    border: 0;
 }
 
+tr>th#play_col {
+  text-align: center;
+}
+
+input#zipline {
+  background-image: url(/assets/icons/cd_burn.png);
+  height: 16px;
+  width: 16px;
+  border: 0;
+  background-color: transparent;
+}
+
 input::-webkit-input-placeholder {
    color: #a1b2c3; text-shadow: 0px -1px 0px #38506b;
 }
