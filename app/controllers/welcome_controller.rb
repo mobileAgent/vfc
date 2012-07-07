@@ -81,7 +81,7 @@ class WelcomeController < ApplicationController
       redirect_to root_path and return
     end
     
-    if params[:download] && download_zipline(@items,params[:q],params[:page])
+    if request.post? && params[:download] && download_zipline(@items,params[:q],params[:page])
       return
     else
       respond_to do |format|

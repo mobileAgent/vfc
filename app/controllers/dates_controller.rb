@@ -67,7 +67,7 @@ class DatesController < ApplicationController
       .order(sort_column_ar + " " + sort_direction)
       .paginate(:page => params[:page], :per_page => AudioMessage.per_page)
     
-    if params[:download] && download_zipline(@items,@query_title,params[:page])
+    if request.post? && params[:download] && download_zipline(@items,@query_title,params[:page])
       return
     else
       render :template => 'welcome/index'
@@ -87,7 +87,7 @@ class DatesController < ApplicationController
       .order(sort_column_ar + " " + sort_direction)
       .paginate(:page => params[:page], :per_page => AudioMessage.per_page)
     
-    if params[:download] && download_zipline(@items,@query_title,params[:page])
+    if request.post? && params[:download] && download_zipline(@items,@query_title,params[:page])
       return
     else
       render :template => 'welcome/index'

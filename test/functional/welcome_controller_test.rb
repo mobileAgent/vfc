@@ -42,7 +42,7 @@ class WelcomeControllerTest < ActionController::TestCase
     a = FactoryGirl.create(:audio_message)
     AudioMessage.expects(:search).returns([a].paginate)
     FileFile.expects(:new).at_least_once.returns(nil)
-    get :search, :q => a.speaker.last_name, :download => true
+    post :search, :q => a.speaker.last_name, :download => true
     assert_response :success
     assert_equal 'application/zip',response.header['Content-Type']
   end
