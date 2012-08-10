@@ -11,7 +11,11 @@
     <%= link_to item.speaker.catalog_name, speaker_path(item.speaker) %>
   </td>
   <td title='<%= "Size #{item.human_filesize}, duration #{item.human_duration}" %>'>
-     <%= item.full_title %>
+    <% if session[:user] && session[:user].admin? %>
+        <%=  link_to(item.full_title, {:controller => :audio_messages, :action => :edit, :id => item}) %>
+     <% else %>
+        <%= item.full_title %>
+     <% end %>
      <% if item.created_at > (DateTime.now - 30)%>
         <span class='new-item'>New</span>
      <% end %>

@@ -1,6 +1,8 @@
 class AudioMessagesController < ApplicationController
 
   before_filter :check_blocked_hosts
+  before_filter :authorize_admin, :only => [:edit, :update]
+  
 
   def show
     begin
@@ -39,6 +41,21 @@ class AudioMessagesController < ApplicationController
       flash[:notice] = "No such file"
       redirect_to root_path
     end
+  end
+
+  def edit
+    @places = Place.order(:name)
+    @speakers = Speaker.active.order(:first_name,:last_name)
+    @languages = Language.order(:name)
+    @audio_message = AudioMessage.find(params[:id])
+  end
+
+  def update
+    @audio_message = AudioMessage.find(params[:id])
+    if @audio_message.update_attributes(params[:audio_message])
+      flash[:notice] = "Updated"
+    end
+    redirect_to :action => :edit, :id => params[:id] and return
   end
 
   protected

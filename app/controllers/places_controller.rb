@@ -1,5 +1,7 @@
 class PlacesController < ApplicationController
 
+  before_filter :authorize_admin, :only => [:edit, :update, :new, :create]
+  
   def index
     @places = Place.order(:name)
   end
@@ -30,6 +32,29 @@ class PlacesController < ApplicationController
       render :template => 'welcome/index'
     end
     
+  end
+
+  def new
+    @place = Place.new
+    render :edit
+  end
+
+  def create
+    @place = Place.create(params[:place])
+    flash[:notice] = "Created"
+    redirect_to :action => :edit, :id => @place.id and return
+  end
+
+  def edit
+    @place = Place.find(params[:id])
+  end
+
+  def update
+    @place = Place.find(params[:id])
+    if @place.update_attributes(params[:place])
+      flash[:notice] = "Updated"
+    end
+    redirect_to :action => :edit, :id => @place.id and return
   end
   
 end

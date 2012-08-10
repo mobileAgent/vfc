@@ -1,0 +1,47 @@
+<h2>Edit Message Details</h2>
+<br />
+<%= form_for @audio_message do |f| %>
+
+    <%= f.label :title %>
+    <%= f.text_field :title, :size => 50 %>
+    <br />
+    
+    <%= f.label :subj %>
+    <%= f.text_field :subj, :size => 50 %>
+    <br />
+
+    <%= f.label :language %>
+    <%= f.collection_select(:language_id, @languages, :id, :name ) %>
+    <br />
+
+    <%= f.label :speaker %>
+    <%= f.collection_select(:speaker_id, @speakers, :id, :full_name, {:include_blank => true }) %>
+    <br />
+
+    <%= f.label :place %>
+    <%= f.collection_select(:place_id, @places, :id, :name, {:include_blank => true}) %>
+    <br />
+
+    <%= f.label :filename %>
+    <%= f.text_field :filename, :size => 50 %>
+    <br />
+
+    <%= f.label :duration %>
+    <%= f.text_field :duration %>
+    <br />
+
+    <%= f.label :filesize %>
+    <%= f.text_field :filesize %>
+    <br />
+
+    <%= f.label :event_date %>
+    <%= f.date_select :event_date %>
+    <br />
+
+    <%= f.label :publish %>
+    <%= f.check_box :publish %>
+    <br />
+
+  <%= f.submit %>
+
+<% end %>

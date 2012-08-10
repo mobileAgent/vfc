@@ -1,6 +1,7 @@
 class SpeakersController < ApplicationController
 
   include SpeakerHelper
+  before_filter :authorize_admin, :only => [:edit, :update, :new, :create]
   
   def index
     @speakers = Rails.cache.fetch('speaker_cloud',:expires_in => 30.minutes) {
@@ -47,6 +48,31 @@ class SpeakersController < ApplicationController
       redirect_to :action => :index and return
     end
     messages_by_speaker
+  end
+
+  def new
+    @speaker = Speaker.new
+    render :edit
+  end
+
+  def edit
+    @speaker = Speaker.find(params[:id])
+  end
+
+  def create
+    @speaker = Speaker.create(params[:speaker])
+    Rails.cache.delete('speaker_cloud')
+    flash[:notice] = "Created"
+    redirect_to :action => :edit, :id => @speaker.id and return
+  end
+
+  def update
+    @speaker = Speaker.find(params[:id])
+    if @speaker.update_attributes(params[:speaker])
+      Rails.cache.delete('speaker_cloud')
+      flash[:notice] = "Updated"
+    end
+    redirect_to :action => :edit, :id => @speaker.id and return
   end
 
   private

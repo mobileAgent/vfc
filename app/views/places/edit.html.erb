@@ -1,0 +1,17 @@
+<h2>Edit Place</h2>
+<br />
+
+<%= form_for @place do |f| %>
+
+  <%= f.label :name %>
+  <%= f.text_field :name, :size => 20 %>
+  <br />
+
+  <%= f.label :cc %>
+  <%= f.text_field :cc, :size => 2 %>
+  <br />
+
+  <%= f.submit %>
+
+<% end %>
+  

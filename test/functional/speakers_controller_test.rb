@@ -1,7 +1,7 @@
 require 'test_helper'
 require 'will_paginate/array'
 
-class SpeakersControllerTest < ActionController::TestCase
+class SpeakersControllerTest < AuthenticatedTest
 
   def setup
     @speaker = FactoryGirl.create(:speaker, :last_name => "Jack", :first_name => "Jimmy", :middle_name => nil);
@@ -51,6 +51,44 @@ class SpeakersControllerTest < ActionController::TestCase
     AudioMessage.expects(:search).returns(@paginated_collection)
     get :language, :id => @speaker.id, :language_id => @collection.first.language_id
     assert_response :success
+  end
+
+  test "new speaker page available to admin" do
+    login(true)
+    get :new
+    assert_response :success
+    assert_not_nil assigns(:speaker)
+  end
+  
+  test "new speaker page not available to non-admin" do
+    login
+    get :new
+    assert_response :redirect
+  end
+
+  test "create new speaker post" do
+    login(true)
+    assert_difference('Speaker.count') do
+      post :create, :speaker => FactoryGirl.attributes_for(:speaker)
+    end
+  end
+
+  test "edit speaker" do
+    login(true)
+    @speaker = FactoryGirl.create(:speaker)
+    get :edit, :id => @speaker.id
+    assert_response :success
+    assert_not_nil assigns(:speaker)
+  end
+
+  test "update speaker" do
+    login(true)
+    @speaker = FactoryGirl.create(:speaker)
+    @speaker.first_name = "Rumplestiltskin"
+    post :update, :id => @speaker.id, :speaker => @speaker.attributes
+    assert_response :redirect
+    assert_not_nil assigns(:speaker)
+    assert_equal "Rumplestiltskin",Speaker.find(@speaker.id).first_name
   end
   
 end

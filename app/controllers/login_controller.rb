@@ -17,6 +17,7 @@ class LoginController < ApplicationController
           #session = request.session # overwrite the current session
           session[:original_uri] = nil
           session[:user_id] = user.id
+          session[:user] = user
           if user.admin?
              flash[:notice] = "Kenichiwa, #{user.email}! (Adminstrator)"
           else

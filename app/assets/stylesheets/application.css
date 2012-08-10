@@ -491,3 +491,10 @@ td.ua {
   border-radius: 2em;
   behavior: url(/assets/PIE.htc);
 }
+
+label {
+  float: left;
+  width: 100px;
+  margin-left: 30px;
+  padding-right: 10px;
+}

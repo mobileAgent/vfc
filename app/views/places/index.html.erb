@@ -1,10 +1,16 @@
 <% title("Places") %>
 <ul>
+  <% if session[:user] && session[:user].admin? %>
+     <li><%= link_to "New Place", :action => :new %></li>
+  <% end %>
 <% @places.each do |place| %>
   <li>
     <%= place.name %>:
        <%=link_to  pluralize(place.audio_messages.active.count,'message'),"/places/#{place.id}" %> by
        <%= link_to pluralize(place.speakers.count,'speaker'), "/places/#{place.id}/speakers"%>
+       <% if session[:user] && session[:user].admin? %>
+         (<%= link_to "edit", :action => :edit, :id => place%>)
+       <% end %>
   </li>
 <% end %>
 </ul>

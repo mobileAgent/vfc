@@ -59,5 +59,40 @@ class AudioMessagesControllerTest < ActionController::TestCase
     assert Rails.cache.read('blocked_hosts'), "blocked hosts should be cached"
     assert_redirected_to root_path
   end
+
+  test "edit audio message" do
+    login(true)
+    @a = FactoryGirl.create(:audio_message)
+    get :edit, :id => @a.id
+    assert_response :success
+    assert_not_nil assigns(:audio_message)
+  end
+
+  test "update audio message" do
+    login(true)
+    @a = FactoryGirl.create(:audio_message)
+    @p = FactoryGirl.create(:place)
+    @s = FactoryGirl.create(:speaker)
+    @a.title = "A new title"
+    @a.subj = "A new subj"
+    @a.place_id = @p.id
+    @a.speaker_id = @s.id
+    post :update, :id => @a.id, :audio_message => @a.attributes
+    assert_response :redirect
+    assert_not_nil assigns(:audio_message)
+    @newa = AudioMessage.find(@a.id)
+    assert_equal "A new title",@newa.title
+    assert_equal "A new subj", @newa.subj
+    assert_equal @p.id, @newa.place_id
+    assert_equal @s.id, @newa.speaker_id
+  end
+  
+  protected
+  
+  def login(admin=false)
+    @user = FactoryGirl.create(:user, :admin => admin)
+    session[:user_id] = @user.id
+    session[:user] = @user
+  end
   
 end

@@ -1,0 +1,36 @@
+<h2>Edit Speaker</h2>
+<br />
+
+<%= form_for @speaker do |f| %>
+
+    <%= f.label :last_name %>
+    <%= f.text_field :last_name, :size => 50 %>
+    <br />
+    
+    <%= f.label :first_name %>
+    <%= f.text_field :first_name, :size => 50 %>
+    <br />
+    
+    <%= f.label :middle_name %>
+    <%= f.text_field :middle_name, :size => 50 %>
+    <br />
+
+    <%= f.label :suffix %>
+    <%= f.text_field :suffix, :size => 50 %>
+    <br />
+
+    <%= f.label :picture_file %>
+    <%= f.text_field :picture_file, :size => 50 %>
+    <br />
+
+    <%= f.label :hidden %>
+    <%= f.check_box :hidden %>
+    <br />
+
+    <%= f.label :bio %>
+    <%= f.text_area :bio %>
+    <br />
+
+  <%= f.submit %>
+
+<% end %>
