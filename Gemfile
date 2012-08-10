@@ -56,8 +56,9 @@ gem 'exception_notification', :require => 'exception_notifier'
 # and rake tasks are available in development mode:
 group :development, :test do
    gem 'webrat'
-   gem 'factory_girl_rails'
    gem 'autotest'
    gem 'simplecov', :require => false
    gem "mocha", :require => false
 end
+
+gem 'factory_girl_rails', :group => :test
