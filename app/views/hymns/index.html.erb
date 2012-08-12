@@ -16,12 +16,12 @@
 
       <div class="leftcol">
 	<ul>
-          <% Hymn.all.each_with_index do |h,i| %>
+          <% @hymns.each do |h| %>
             <li>
                <%= link_to(
                       icon(:arrow_down, :title => 'Download MP3'),
-                          {:controller => :hymns, :action => :show, :id => i}) %>
-               <span class='player' onclick="play('<%= url_for(:controller => :hymns, :action => :show, :id => i)%>','<%=j h.title%>')">
+                          {:controller => :hymns, :action => :show, :id => h.id}) %>
+               <span class='player' onclick="play('<%= url_for(:controller => :hymns, :action => :show, :id => h.id)%>','<%=j h.title%>')">
                   <%= image_tag 'pixel.gif', :title => 'Play' %>
                 </span>
                 <%= h.title %>

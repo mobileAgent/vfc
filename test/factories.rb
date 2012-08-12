@@ -56,5 +56,13 @@ FactoryGirl.define do
     password "secret"
     admin false
   end
+
+  factory :hymn do
+    sequence :title do
+      "Message Title #{n}"
+    end
+    filename "HYMN/hymn.mp3"
+  end
+    
   
 end
