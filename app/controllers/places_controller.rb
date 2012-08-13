@@ -52,7 +52,7 @@ class PlacesController < ApplicationController
   def update
     @place = Place.find(params[:id])
     if @place.update_attributes(params[:place])
-      flash[:notice] = "Updated"
+      flash[:notice] = t(:updated)
     end
     redirect_to :action => :edit, :id => @place.id and return
   end

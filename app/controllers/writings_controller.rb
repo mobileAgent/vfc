@@ -10,14 +10,16 @@ class WritingsController < ApplicationController
       if (file_path.index(/\.pdf$/))
         send_file file_path, :type => 'application/pdf',
            :x_sendfile => (Rails.env == 'production')
-      else
+      elsif File.file?(file_path)
         @content = IO.read(file_path)
         @content.gsub!(/^.*<div id="(intro|content)"[^>]*>/m,'')
         @content.gsub!(/<\/div>\s+<div id="footer">.*/m,'')
         render :article
+      else
+        redirect_to :action => :index
       end
     else
-      flash[:notice] = "That file is missing right now."
+      flash[:notice] = t(:nsf)
       redirect_to :action => :index
     end
     

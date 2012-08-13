@@ -1,10 +1,10 @@
-<% title("Place") %>
-<p>Messages given in <%= @place.name %></p>
+<% title(t("menu.places")) %>
+<p><%= t(:query_by_place, :place => @place.name)%></p>
 <ul>
   <% @speakers.each do |speaker| %>
     <li>
       <%= speaker.catalog_name %>:
-      <%= link_to pluralize(speaker.audio_messages.active.count(:conditions => {:place_id => @place.id}),'message'),"/speakers/#{speaker.id}/place/#{@place.id}" %>
+      <%= link_to pluralize(speaker.audio_messages.active.count(:conditions => {:place_id => @place.id}),t(:message)),"/speakers/#{speaker.id}/place/#{@place.id}" %>
     </li>
   <% end %>
 </ul>  

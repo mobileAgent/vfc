@@ -15,7 +15,7 @@ class HymnsController < ApplicationController
     end
     
     logger.info "Missing file for hymn #{params[:id]}"
-    flash[:warning] = "Sorry, that file is missing right now."
+    flash[:warning] = t(:nsf)
     redirect_to :action => :index
   end
   

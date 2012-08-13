@@ -77,7 +77,7 @@ class WelcomeController < ApplicationController
     end
     
     if @items.size == 0
-      flash[:notice] = "Nothing found for '#{params[:q]}'"
+      flash[:notice] = t(:no_match, :query => params[:q])
       redirect_to root_path and return
     end
     

@@ -1,7 +1,7 @@
-<% title("Dates") %>
-<p class="alpha-index">This list is organized by the year the message was delivered. You can also view a list organized by the <%= link_to "date the message was added", {:action => :years} %> to our collection, or jump right to the <%= link_to "most recent additions", {:action => :show, :id => @latest_addition_date.strftime("%Y-%m") } %>.</p>
+<% title(t("menu.dates")) %>
+<p class="alpha-index"><%= t(".organized") + t(".by_year") + ". " + t(".other_list") %>  <%= link_to t(".by_added"), {:action => :years} %>, <%= t(".jump_to") %> <%= link_to t(".recent_additions"), {:action => :show, :id => @latest_addition_date.strftime("%Y-%m") } %>.</p>
 <ul>
 <% @dates.keys.each do |year| %>
-   <li><%= year %>, <%= link_to pluralize(@dates[year],'message'), {:action => :year, :id => year } %></li>
+   <li><%= year %>, <%= link_to pluralize(@dates[year],t(:message)), {:action => :year, :id => year } %></li>
 <% end %>
 </ul>

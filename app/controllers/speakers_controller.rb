@@ -62,7 +62,7 @@ class SpeakersController < ApplicationController
   def create
     @speaker = Speaker.create(params[:speaker])
     Rails.cache.delete('speaker_cloud')
-    flash[:notice] = "Created"
+    flash[:notice] = t(:created)
     redirect_to :action => :edit, :id => @speaker.id and return
   end
 
@@ -70,7 +70,7 @@ class SpeakersController < ApplicationController
     @speaker = Speaker.find(params[:id])
     if @speaker.update_attributes(params[:speaker])
       Rails.cache.delete('speaker_cloud')
-      flash[:notice] = "Updated"
+      flash[:notice] = t(:updated)
     end
     redirect_to :action => :edit, :id => @speaker.id and return
   end
@@ -78,8 +78,8 @@ class SpeakersController < ApplicationController
   private
 
   def messages_by_speaker
-    @query_title ||= "Messages"
-    @query_title << " by #{@speaker.full_name}"
+    @query_title ||= t(:messages)
+    @query_title << " " + t(:attribution, :speaker => @speaker.full_name)
     @conditions ||= {}
     @conditions[:speaker_id] = @speaker.id
     @items = AudioMessage.search('',

@@ -8,7 +8,7 @@ class WelcomeControllerTest < ActionController::TestCase
     Rails.cache.delete('tag_cloud')
     get :index
     assert_response :success
-    assert Rails.cache.read('tagline'), "Tagline must be cached"
+    assert Rails.cache.read('tagline-en'), "Tagline must be cached by locale"
     assert Rails.cache.read('tag_cloud'),"Tag Cloud must be cached"
     assert assigns(:tagline),"Tagline must be assigned"
     assert assigns(:tag_cloud),"Tag Cloud must be available for home page render"

@@ -1,6 +1,6 @@
-<% title("Speakers") %>
+<% title(t("menu.speakers")) %>
 <% @letter = '!' %>
-<%= link_to "View as Tag Cloud", :action => :index, :view => :cloud %>
+<%= link_to t(".as_cloud"), :action => :index, :view => :cloud %>
 <% if session[:user] && session[:user].admin? %>
   <%= link_to "New speaker", :action => :new %>
   <% admin = true %>
@@ -17,7 +17,7 @@
   <li>
     <%- # careful this is the cache ostruct, not a real speaker ar object -%>
     <%= speaker.catalog_name %>
-      ~ <%= link_to pluralize(speaker.count,'message'), "/speakers/show/#{speaker.speaker_id}" %>
+      ~ <%= link_to pluralize(speaker.count,t(:message)), "/speakers/show/#{speaker.speaker_id}" %>
       <% if admin %>
         (<%= link_to "edit", :action => :edit, :id => speaker.speaker_id %>)
       <% end %>

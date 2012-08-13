@@ -11,7 +11,7 @@ class AudioMessagesController < ApplicationController
       logger.debug "Request for non existent msg id #{params[:id]}"
     end
     unless @mp3
-      flash[:notice] = "No such record"
+      flash[:notice] = t(:nsr)
       redirect_to root_path
       return
     end
@@ -23,7 +23,7 @@ class AudioMessagesController < ApplicationController
       :x_sendfile => (Rails.env == 'production')
     else
       logger.info "Missing file path for audio #{file_path}"
-      flash[:warning] = "Sorry, that file is missing right now."
+      flash[:warning] = t(:nsf)
       redirect_to root_path
     end
   end
@@ -38,7 +38,7 @@ class AudioMessagesController < ApplicationController
       redirect_to :action => :show, :id => @mp3.id, :dl => true and return
     else
       logger.debug "Looking for VFC-GOLD path #{path} found nothing"
-      flash[:notice] = "No such file"
+      flash[:notice] = t(:nsf)
       redirect_to root_path
     end
   end
@@ -53,7 +53,7 @@ class AudioMessagesController < ApplicationController
   def update
     @audio_message = AudioMessage.find(params[:id])
     if @audio_message.update_attributes(params[:audio_message])
-      flash[:notice] = "Updated"
+      flash[:notice] = t(:updated)
     end
     redirect_to :action => :edit, :id => params[:id] and return
   end

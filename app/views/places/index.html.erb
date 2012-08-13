@@ -1,4 +1,4 @@
-<% title("Places") %>
+<% title(t("menu.places")) %>
 <ul>
   <% if session[:user] && session[:user].admin? %>
      <li><%= link_to "New Place", :action => :new %></li>
@@ -6,8 +6,8 @@
 <% @places.each do |place| %>
   <li>
     <%= place.name %>:
-       <%=link_to  pluralize(place.audio_messages.active.count,'message'),"/places/#{place.id}" %> by
-       <%= link_to pluralize(place.speakers.count,'speaker'), "/places/#{place.id}/speakers"%>
+       <%=link_to  pluralize(place.audio_messages.active.count,t(:message)),"/places/#{place.id}" %> by
+       <%= link_to pluralize(place.speakers.count,t(:speaker)), "/places/#{place.id}/speakers"%>
        <% if session[:user] && session[:user].admin? %>
          (<%= link_to "edit", :action => :edit, :id => place%>)
        <% end %>

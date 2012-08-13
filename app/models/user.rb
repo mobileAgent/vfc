@@ -6,11 +6,7 @@ class User < ActiveRecord::Base
 
   validates_presence_of   :email,
                           :with => /\A[-A-Za-z0-9_\.]+@[-A-Za-z_0-9\.]+\.[A-Za-z]{2,6}\Z/,
-                          :message => "is missing or invalid"
-
-#  validates_uniqueness_of :email,
-#                          :on => :create,
-#                          :message => "is already being used"
+                          :message => I18n.t("activerecord.errors.models.user.email_validation")
 
   attr_accessor :password_confirmation
 
@@ -21,7 +17,7 @@ class User < ActiveRecord::Base
   validate :password_check
 
   def password_check
-    errors[:base] << "Missing password" if password.blank?
+    errors[:base] << I18n.t("activerecord.errors.models.user.password_validation") if password.blank?
   end
 
   def self.authenticate(email,password)

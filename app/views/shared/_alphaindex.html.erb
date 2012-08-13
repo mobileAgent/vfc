@@ -1,7 +1,7 @@
 <p class="alpha-index">
  <a name='<%=current_letter%>'/>
  <% unless skip_top_link %>
-    <%= link_to 'Top', "##{@letters.first}" %>
+    <%= link_to t(:top), "##{@letters.first}" %>
  <% end %>
  <% @letters.each do |alpha| %>
    <% if alpha == current_letter %>

@@ -1,28 +1,28 @@
 <tr>
   <td class='audio-control'>
     <%= link_to(
-        icon(:arrow_down, :title => 'Download MP3'),
+        icon(:arrow_down, :title => t("audio.download")),
         {:controller => :audio_messages, :action => :show, :id => item, :dl => true}) %>
     <span class='player' onclick="play('<%= url_for(:controller => :audio_messages, :action => :show, :id => item)%>','<%=j item.full_title%>')">
-       <%= image_tag 'pixel.gif', :title => 'Play' %>
+       <%= image_tag 'pixel.gif', :title => t("audio.play") %>
     </span>
   </td>
   <td>
-    <%= link_to item.speaker.catalog_name, speaker_path(item.speaker) %>
+    <%= link_to item.speaker.catalog_name, speaker_path(item.speaker) if item.speaker%>
   </td>
-  <td title='<%= "Size #{item.human_filesize}, duration #{item.human_duration}" %>'>
+  <td title='<%= t("audio.tooltip", :size => item.human_filesize, :duration => item.human_duration) %>'>
     <% if session[:user] && session[:user].admin? %>
         <%=  link_to(item.full_title, {:controller => :audio_messages, :action => :edit, :id => item}) %>
      <% else %>
         <%= item.full_title %>
      <% end %>
      <% if item.created_at > (DateTime.now - 30)%>
-        <span class='new-item'>New</span>
+        <span class='new-item'><%= t "audio.new"%></span>
      <% end %>
      <% if item.tag_list.size > 0 %>
        <span class="taglist">
          <% item.tag_list.sort.each do |tag| %>
-           <span class="tag"><%= link_to tag, tag_path(tag), :title => "Search messages tagged with #{tag}" %></span>
+           <span class="tag"><%= link_to tag, tag_path(tag), :title => t("audio.tagtip", :tagname => tag) %></span>
          <% end %>
        </span>
      <% end %>

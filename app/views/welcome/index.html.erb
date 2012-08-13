@@ -1,7 +1,7 @@
-<% title(@page_title || "Messages") %>
+<% title(@page_title || t(:messages)) %>
 <%= render "shared/motm" %>
 <%= render "shared/tag_cloud" %>
 <% if @speaker && @place.nil? && @language.nil? %>
   <%= render "shared/speaker_bio" %>
-<% end %>  
+<% end %>
 <%= render "shared/item_list" %>

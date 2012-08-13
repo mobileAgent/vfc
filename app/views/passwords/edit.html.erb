@@ -1,7 +1,7 @@
-<h2>Change your password</h2>
+<h2><%= t "title.password_change"%></h2>
 
 <p>
-  Your password has been reset. Choose a new password below.
+  <%= t ".choose_new_password" %>
 </p>
 
 <% semantic_form_for(:user,
@@ -10,12 +10,12 @@
   <%= form.error_messages %>
   <% form.inputs do -%>
     <%= form.input :password, :as => :password,
-                   :label => "Choose password" %>
+                   :label => t(".password_label") %>
     <%= form.input :password_confirmation, :as => :password,
-                   :label => "Confirm password" %>
+                   :label => t(".confirm_label") %>
   <% end -%>
   <% form.buttons do -%>
-    <%= form.commit_button "Save this password" %>
+    <%= form.commit_button t(".submit_label") %>
   <% end -%>
 <% end %>
 

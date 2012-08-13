@@ -1,14 +1,14 @@
 <% if @items && @items.size > 0 %>
-<%= (page_entries_info @items, :entry_name => "messages").html_safe %> matching '<%= @query_title %>'
+<%= (page_entries_info @items).html_safe %> <%= t(:matching)%> '<%= @query_title %>'
 <% if (@speaker && (@place || @date || @language)) %>
   <br />
-  All messages by <%= link_to(@speaker.full_name,speaker_path(@speaker)) %>,
+  <%= t(:all_by_speaker)%> <%= link_to(@speaker.full_name,speaker_path(@speaker)) %>,
   <% if @place %>
-     All messages from <%= link_to(@place.name,place_path(@place)) %>
+     <%= t(:all_in_place)%> <%= link_to(@place.name,place_path(@place)) %>
   <% elsif @date %>
-     All speakers from <%= link_to(@date,"/dates/year/#{@date}") %>
+     <%= t(:all_on_date)%> <%= link_to(@date,"/dates/year/#{@date}") %>
   <% elsif @language %>
-     All messages in <%= link_to(@language.name,language_path(@language)) %>
+     <%= t(:all_in_language)%> <%= link_to(@language.name,language_path(@language)) %>
   <% end %>
 <% end %>  
 <%= will_paginate @items, :id => true, :class => 'apple_pagination' %>

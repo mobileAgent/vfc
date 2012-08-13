@@ -28,7 +28,7 @@ class LanguagesController < ApplicationController
 
   def show
     @language = Language.find(params[:id])
-    @query_title = "Messages by language #{@language.name}"
+    @query_title = t(:query_by_language, :language => @language.name)
     @items = AudioMessage.search('',
                                  :with => { :language_id => @language.id},
                                  :order => sort_column,

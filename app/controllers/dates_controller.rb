@@ -31,6 +31,8 @@ class DatesController < ApplicationController
         .group(:speaker_id)
         .count
     end
+    # Peek at most recent load date
+    @latest_addition_date = AudioMessage.maximum('created_at')
   end
   
   # List speakers with counts for messages preached in a given year
@@ -49,7 +51,7 @@ class DatesController < ApplicationController
     @date = params[:date]
     @speaker = Speaker.find(params[:speaker_id])
     @date_format = "'%Y-%m'"
-    @query_title = "Messages by #{@speaker.full_name} added on #{@date}"
+    @query_title = t(:query_by_speaker_and_date, :speaker => @speaker.full_name, :date => @date)
     @items = AudioMessage.active
       .where("date_format(audio_messages.created_at,#{@date_format}) = ? and audio_messages.speaker_id = ?",@date,@speaker.id)
       .order(sort_column_ar + " " + sort_direction)
@@ -61,7 +63,7 @@ class DatesController < ApplicationController
   def show
     @date = params[:id]
     @date_format = "'%Y-%m'"
-    @query_title = "Messages added on #{@date}"
+    @query_title = t(:query_by_date, :date => @date)
     @items = AudioMessage.active
       .where("date_format(audio_messages.created_at,#{@date_format}) = ?",@date)
       .order(sort_column_ar + " " + sort_direction)
@@ -80,7 +82,7 @@ class DatesController < ApplicationController
     @date = params[:id]
     @date_format = "'%Y'"
     @speaker = Speaker.find(params[:speaker_id])
-    @query_title = "Messages delivered in #{@date} by #{@speaker.full_name}"
+    @query_title = t(:query_by_speaker_and_year, :date => @date, :speaker => @speaker.full_name)
     @items = AudioMessage.active
       .where("date_format(audio_messages.event_date,#{@date_format}) = ?",@date)
       .where("speaker_id = ?",@speaker.id)

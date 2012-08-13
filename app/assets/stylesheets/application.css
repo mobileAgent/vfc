@@ -498,3 +498,8 @@ label {
   margin-left: 30px;
   padding-right: 10px;
 }
+
+.transltion_missing {
+  color: white;
+  background-color: red;
+}

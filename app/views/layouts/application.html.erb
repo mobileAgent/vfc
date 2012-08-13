@@ -1,7 +1,7 @@
 <!DOCTYPE html>  
 <html>
   <head>
-    <title><%= content_for?(:title) ? "VFC - " + yield(:title) : "Voices For Christ" %></title>
+    <title><%= content_for?(:title) ? t("title.prefix") + yield(:title) : t("title.vfc")  %></title>
     <meta charset="utf-8"/>
     <link rel="shortcut icon" href="/assets/vfc.ico" type="image/x-icon" />
     <%= stylesheet_link_tag "application", :media => 'all' %>
@@ -14,22 +14,22 @@
     <div id="wrap">
       <div id="header">
         <ul id="sidenav">
-          <li><%= link_to "Home", root_path %></li>
-          <li><%= link_to "Featured", '/featured' %></li>
-          <li><%= link_to "Speakers", '/speakers' %></li>
-          <li><%= link_to "Places", '/places' %></li>
-          <li><%= link_to "Dates", '/dates' %></li>
-          <li><%= link_to "Languages", '/languages' %></li>
-          <li><%= link_to "Writings", '/writings' %></li>
-          <li><%= link_to "Hymns", '/hymns' %></li>
-          <%= content_for(:login) ||  link_to("Login", '/login') %>
+          <li><%= link_to t("menu.home"), root_path %></li>
+          <li><%= link_to t("menu.featured"), '/featured' %></li>
+          <li><%= link_to t("menu.speakers"), '/speakers' %></li>
+          <li><%= link_to t("menu.places"), '/places' %></li>
+          <li><%= link_to t("menu.dates"), '/dates' %></li>
+          <li><%= link_to t("menu.languages"), '/languages' %></li>
+          <li><%= link_to t("menu.writings"), '/writings' %></li>
+          <li><%= link_to t("menu.hymns"), '/hymns' %></li>
+          <%= content_for(:login) ||  link_to(t("menu.login"), '/login') %>
         </ul>
         <%= link_to image_tag('logo.jpg'),root_path %>
         <%- if show_title? -%>
           <h1 class="content"><%= yield(:title) %></h1>
           <h2 class="content"><%= yield(:subtitle) %></h2>
         <%- end -%>
-        <p id="tagline"><%= @tagline %>&hellip;<br />&nbsp;&nbsp;&hellip;<%= @tagline2 %></p>
+        <p id="tagline"><%= @tagline %><br />&nbsp;&nbsp;<%= @tagline2 %></p>
       </div>
 
       <%= render "shared/search_form" %>
@@ -46,10 +46,10 @@
     </div>
     <div id="footer">
       <ul id="botnav">
-        <li><%= link_to 'About', '/welcome/about' %></li>
-	<li><%= link_to 'Contact', '/welcome/contact' %></li>
-	<li><%= link_to 'News', '/welcome/news' %></li>
-        <li id="copy">&copy; VoicesForChrist.org, 2005-<%= Time.now.year %></li>
+        <li><%= link_to t('menu.about'), '/welcome/about' %></li>
+	<li><%= link_to t('menu.contact'), '/welcome/contact' %></li>
+	<li><%= link_to t('menu.news'), '/welcome/news' %></li>
+        <li id="copy"><%= t("title.copyright_html", :endyear => Time.now.year) %></li>
       </ul>
     </div>
   </body>

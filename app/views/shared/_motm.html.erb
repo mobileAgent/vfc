@@ -1,16 +1,16 @@
 <% if @motm %>
   <div id="motm">
-     <span class="title">Message of the Month</span>
+     <span class="title"><%= t(".title")%></span>
      <br />
      <%= @motm.audio_message.speaker.full_name %>, <%=link_to @motm.audio_message.full_title, {:controller => :audio_messages, :action => :show, :id => @motm.audio_message, :dl => true} %> 
      <br />
-     More by <%= link_to @motm.audio_message.speaker.full_name, @motm.audio_message.speaker %>
+     <%= t("audio.more") %> <%= link_to @motm.audio_message.speaker.full_name, @motm.audio_message.speaker %>
      
     <%= link_to(
-        icon(:arrow_down, :title => 'Download MP3'),
+        icon(:arrow_down, :title => t("audio.download")),
         {:controller => :audio_messages, :action => :show, :id => @motm.audio_message, :dl => true}) %>
     <span class='player' onclick="play('<%= url_for(:controller => :audio_messages, :action => :show, :id => @motm.audio_message)%>','<%=j @motm.audio_message.full_title%>')">
-       <%= image_tag 'pixel.gif', :title => 'Play' %>
+       <%= image_tag 'pixel.gif', :title => t("audio.play") %>
     </span>
      
      

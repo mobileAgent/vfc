@@ -7,7 +7,7 @@ class LoginController < ApplicationController
   end
 
   def login
-    @title = 'Login'
+    @title = t("title.login")
     session[:user_id] = nil
     if request.post?
        user = User.authenticate(params[:email], params[:password])
@@ -19,13 +19,13 @@ class LoginController < ApplicationController
           session[:user_id] = user.id
           session[:user] = user
           if user.admin?
-             flash[:notice] = "Kenichiwa, #{user.email}! (Adminstrator)"
+             flash[:notice] = t("login.admin", :user => user.email)
           else
-             flash[:notice] = "Hi, #{user.email}!"
+             flash[:notice] = t("login.user", :user => user.email)
           end
          redirect_to root_path and return
        else
-          flash[:notice] = "The information you provided does not match our records"
+          flash[:notice] = t("login.fail")
        end
     else
      session[:original_uri] = nil
@@ -38,7 +38,6 @@ class LoginController < ApplicationController
   end
 
   def forgotten_password
-     @title = 'Forgotten Password'
   end
 
   def reset_password
@@ -49,9 +48,9 @@ class LoginController < ApplicationController
            user.password=new_password
            user.save
            UserMailer.password(user, new_password).deliver
-           flash[:notice] = "New password has been mailed to #{params[:email]}."
+           flash[:notice] = t("login.reset", :email => params[:email])
         else
-           flash[:notice] = "The information you provided does not match our records"
+           flash[:notice] = t("login.fail")
         end
      end
      redirect_to :controller => 'login', :action => 'login' and return

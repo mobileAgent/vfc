@@ -1,17 +1,17 @@
-<% title("Dates") %>
-<p class="alpha-index">This list is organized by the date the message was added to our collection. You can also see a list organized by the <%= link_to "year the message was delivered", {:action => :index} %>.</p>
+<% title(t("menu.dates")) %>
+<p class="alpha-index"><%= t("dates.index.organized") + t("dates.index.by_added") + ". " + t("dates.index.other_list") %>  <%= link_to t("dates.index.by_year"), {:action => :index} %>, <%= t("dates.index.jump_to") %> <%= link_to t("dates.index.recent_additions"), {:action => :show, :id => @latest_addition_date.strftime("%Y-%m") } %>.</p>
 <ul>
 <% @dates.each do |date,total| %>
   <li>
-    <%= date %>, <%= pluralize(total,'message') %>
+    <%= date %>, <%= pluralize(total,t(:message)) %>
     <ul>
       <% list = @speakers_by_date[date].sort { |a,b| b[1] <=> a[1] } %>
       <% list.each do |id,count| %>
         <% s = Speaker.find(id) %>
-        <li><%= s.catalog_name %> <%=link_to pluralize(count,'message'), {:action => :speaker, :date => date, :speaker_id => s.id}  %></li>
+        <li><%= s.catalog_name %> <%=link_to pluralize(count,t(:message)), {:action => :speaker, :date => date, :speaker_id => s.id}  %></li>
       <% end %>
       <% if list.size == @group_limit %>
-        <li><%= link_to "All for #{date}&hellip;".html_safe, "/dates/show/#{date}" %></li>
+        <li><%= link_to t(".all_for_date_html", :date => date), "/dates/show/#{date}" %></li>
       <% end %>
     </ul>
   </li>
