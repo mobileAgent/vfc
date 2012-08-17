@@ -494,7 +494,7 @@ td.ua {
 
 label {
   float: left;
-  width: 100px;
+  width: 150px;
   margin-left: 30px;
   padding-right: 10px;
 }
@@ -502,4 +502,9 @@ label {
 .transltion_missing {
   color: white;
   background-color: red;
+}
+
+fieldset {
+  width: 90%;
+  margin-left: 5%;
 }

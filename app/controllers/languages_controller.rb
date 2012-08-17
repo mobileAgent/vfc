@@ -2,6 +2,14 @@ class LanguagesController < ApplicationController
 
   def index
     @languages = Language.all(:order => :name)
+    @locale = I18n.default_locale
+    @languages.each do |lang|
+      if lang.cc == @locale
+        # move it to the top of the list
+        @languages.prepend(@languages.delete(lang))
+        break
+      end
+    end
     @language_counts = AudioMessage.active.group(:language_id).count
     @languages.reject! {|l| @language_counts[l.id].nil? }
     @speakers_counts = {}

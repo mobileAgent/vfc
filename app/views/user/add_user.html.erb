@@ -2,26 +2,31 @@
 <div class="user-form">
 
   <fieldset>
-     <legend>Enter User Details</legend>
+     <legend><% t("login.login.create_account") %></legend>
    
      <%= form_for :user do |form| %>
 
         <p>
-          <label for="user_email" class="col1">Email Address:</label>
+          <label for="user_name" class="col1"><%= t("user.index.username") %></label>
+          <%= form.text_field :name, :size => 50 %>
+        </p>
+
+        <p>
+          <label for="user_email" class="col1"><%= t("login.login.email") %></label>
           <%= form.text_field :email, :size => 50 %>
         </p>
 
         <p>
-          <label for="user_password" class="col1">Password:</label>
+          <label for="user_password" class="col1"><%= t("password.edit.password_label") %></label>
           <%= form.password_field :password, :size => 50 %>
         </p>
 
         <p>
-          <label for="user_password_confirmation" class="col1">Confirm:</label>
+          <label for="user_password_confirmation" class="col1"><%= t("password.edit.confirm_label") %></label>
           <%= form.password_field :password_confirmation, :size => 50 %>
         </p>
 
-        <%= submit_tag "Create Account", :class => "Submit" %>
+        <%= submit_tag t("login.login.create_account"), :class => "Submit" %>
 
    <% end %>
  </fieldset>

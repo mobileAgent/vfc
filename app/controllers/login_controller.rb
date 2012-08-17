@@ -1,7 +1,5 @@
 class LoginController < ApplicationController
 
-  before_filter :authorize, :except => [:login, :forgotten_password, :reset_password, :logout]
-
   def index
      redirect_to :action => 'login'
   end

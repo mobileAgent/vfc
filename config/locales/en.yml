@@ -2,8 +2,8 @@ en:
   tagline_html: "%{messages} messages, %{speakers} speakers, %{languages} languages &hellip;"
   tagline2_html: "&hellip; One Lord Jesus Christ."
   
-  nsr: "No such record"
-  nsf: "Sorry, that file is missing right now."
+  nsr: No such record
+  nsf: Sorry, that file is missing right now.
   updated: Updated
   created: Created
   messages: Messages
@@ -14,6 +14,8 @@ en:
   no_match: "Nothing found for '%{query}'"
   top: Top
   matching: matching
+  favorite: Favorite
+  unfavorite: Remove Favorite
 
   query_by_date: "Messages added on %{date}"
   query_by_speaker_and_date: "Messages by %{speaker} added on %{date}"
@@ -45,26 +47,27 @@ en:
       multi_page_html: "Displaying %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> of <b>%{count}</b> "
       
   title:
-        prefix: "VFC - "
-        vfc: "Voices For Christ"
-        copyright_html: "&copy; VoicesForChrist.org, 2005-%{endyear}"
-        login: Login
-        password_change: "Change Password"
-        password_reset: "Forgotten Password"
+    prefix: "VFC - "
+    vfc: "Voices For Christ"
+    copyright_html: "&copy; VoicesForChrist.org, 2005-%{endyear}"
+    login: Login
+    password_change: "Change Password"
+    password_reset: "Forgotten Password"
 
   menu:
-        home: Home
-        featured: Featured
-        speakers: Speakers
-        places: Places
-        dates: Dates
-        languages: Languages
-        writings: Writings
-        hymns: Hymns
-        login: Login
-        about: About
-        contact: Contact
-        news: News
+    home: Home
+    featured: Featured
+    speakers: Speakers
+    places: Places
+    dates: Dates
+    languages: Languages
+    writings: Writings
+    hymns: Hymns
+    login: Login
+    about: About
+    contact: Contact
+    news: News
+    account: Account
         
   login:
     admin: "Kenichiwa, %{user}! (Administrator)"
@@ -85,6 +88,15 @@ en:
       password: "Password"
       submit: "Login"
       forgotten_link: "Get a new one mailed to you"
+
+  user:
+    index:
+      title: Account Details
+      username: Username
+      registered_email: Registered email
+      created_on: Account created on
+      last_visit: Last Visit
+      logout: Logout
       
   password:
     edit:

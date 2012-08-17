@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120810223519) do
+ActiveRecord::Schema.define(:version => 20120816162052) do
 
   create_table "audio_messages", :force => true do |t|
     t.string   "title"
@@ -449,6 +449,7 @@ ActiveRecord::Schema.define(:version => 20120810223519) do
     t.datetime "last_visit",                                        :null => false
     t.datetime "created_at",                                        :null => false
     t.datetime "updated_at",                                        :null => false
+    t.string   "name",            :limit => 128
   end
 
   create_table "vfc", :force => true do |t|

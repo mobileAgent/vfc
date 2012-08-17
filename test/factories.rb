@@ -51,6 +51,9 @@ FactoryGirl.define do
     sequence :email do |n|
       "user#{n*2}@example.com"
     end
+    sequence :name do |n|
+      "username#{n*2}"
+    end
     activated true
     last_visit Date.today - 30
     password "secret"

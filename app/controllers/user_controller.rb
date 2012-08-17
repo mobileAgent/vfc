@@ -1,15 +1,18 @@
 class UserController < ApplicationController
 
-  before_filter :authorize, :only => [:change_password, :update_password]
-
+  before_filter :authorize, :only => [:change_password, :update_password, :index]
+  
+  def index
+  end
+    
    def add_user
       @user = User.new(params[:user])
       @user.last_visit = Time.now
       if request.post? and @user.save
-         flash.now[:notice] = t("login.created", :email => @user.email)
-         session[:user_id] = @user.id
-         uri = session[:original_uri]
-         redirect_to(uri || {:controller => "welcome" , :action => "index"})
+        flash[:notice] = t("login.created", :email => @user.email)
+        session[:user_id] = @user.id
+        uri = session[:original_uri]
+        redirect_to(uri || {:controller => "welcome" , :action => "index"})
       end
    end
 
