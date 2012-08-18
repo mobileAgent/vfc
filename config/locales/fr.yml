@@ -1,0 +1,197 @@
+fr:
+  tagline_html: "%{messages} messages, %{speakers} speakers, %{languages} languages &hellip;"
+  tagline2_html: "&hellip; One Lord Jesus Christ."
+  
+  nsr: No such record
+  nsf: Sorry, that file is missing right now.
+  updated: Updated
+  created: Created
+  messages: Messages
+  message: message
+  speaker: speaker
+  update_failed: Update failed
+  attribution: "by %{speaker}"
+  no_match: "Nothing found for '%{query}'"
+  top: Top
+  matching: matching
+  favorite: Favorite
+  unfavorite: Remove Favorite
+
+  query_by_date: "Messages added on %{date}"
+  query_by_speaker_and_date: "Messages by %{speaker} added on %{date}"
+  query_by_speaker_and_year: "Messages delivered in %{date} by %{speaker}"
+  query_by_language: "Messages by language %{language}"
+  query_by_tag: "Messages tagged with %{tagname}"
+  query_by_year: "Speakers of messages given in %{year}"
+  query_by_place: "Messages given in %{place}"
+  all_by_speaker: All messages by
+  all_in_place: All messages from
+  all_on_date: All speakers from
+  all_in_language: All messages in
+
+  will_paginate:
+    previous_label: "&#8592; Previous"
+    next_label: "Next &#8594;"
+    page_gap: "&hellip;"  
+    page_entries_info:
+      single_page:
+        zero:  "No %{model} found"
+        one:   "Displaying 1 %{model}"
+        other: "Displaying all %{count} %{model}"
+      single_page_html:
+        zero:  "No %{model} found"
+        one:   "Displaying <b>1</b> %{model}"
+        other: "Displaying <b>all&nbsp;%{count}</b> %{model}"
+
+      multi_page: "Displaying %{model} %{from} - %{to} of %{count} "
+      multi_page_html: "Displaying %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> of <b>%{count}</b> "
+      
+  title:
+    prefix: "VFC - "
+    vfc: "Voices For Christ"
+    copyright_html: "&copy; VoicesForChrist.org, 2005-%{endyear}"
+    login: Login
+    password_change: "Change Password"
+    password_reset: "Forgotten Password"
+
+  menu:
+    home: Home
+    featured: Featured
+    speakers: Speakers
+    places: Places
+    dates: Dates
+    languages: Languages
+    writings: Writings
+    hymns: Hymns
+    login: Login
+    about: About
+    contact: Contact
+    news: News
+    account: Account
+        
+  login:
+    admin: "Kenichiwa, %{user}! (Administrator)"
+    user: "Hi, %{user}"
+    reset: "New password has been mailed to you at %{email}"
+    fail: "The information provided does not match our records"
+    created: "Account created for %{email}"
+    password_updated: "Password updated"
+    forgotten_password:
+      form_instruction: "Please enter the email address you used to register with us."
+      submit: "Send me a new password"
+      email: "Email Address"
+    login:
+      title: Login
+      form_instruction: "New User?"
+      create_account: "Create an account"
+      email: "Email Address"
+      password: "Password"
+      submit: "Login"
+      forgotten_link: "Get a new one mailed to you"
+
+  user:
+    index:
+      title: Account Details
+      username: Username
+      registered_email: Registered email
+      created_on: Account created on
+      last_visit: Last Visit
+      logout: Logout
+      
+  password:
+    edit:
+      choose_new_password: "Your password has been reset. Choose a new password below."
+      password_label: Choose password
+      confirm_label: Confirm password
+      submit_label: Save this password
+    new:
+      title: Reset your password
+      form_instructions: We will email you a link to reset your password
+      email_label: Email address
+      submit_label: Reset password
+
+  
+  audio:
+    download: "Download MP3"
+    play: "Play"
+    tooltip: "Size %{size}, duration %{duration}"
+    new: New
+    more: More by
+    tagtip: "Search messages tagged with %{tagname}"
+    zipline: "Download a zip file of the messages"
+    zipline_confirm: "This will download the audio files on this page as a zip file. Press OK if that is what you want to do, cancel otherwise!"
+
+    table:
+      speaker: Speaker
+      title: Title and Tags
+      date: Date
+      place: Place
+      language: Lang
+
+  languages:
+    index:
+      more_html: More &hellip;
+      english: English
+      spanish: Spanish
+      portuguese: Portuguese
+      french: French
+
+  dates:
+    index:
+      organized: "This list is organized by the "
+      by_year: "year the message was delivered"
+      by_added: "date the message was added to our collection"
+      other_list: "You can also view a list organized by the "
+      jump_to: "or jump right to the"
+      recent_additions: "most recent additions"
+    years:
+      all_for_date_html: "All for %{date}&hellip;"
+
+  shared:
+    motm:
+      title: Message of the Month
+
+    player:
+      play: play
+      pause: pause
+      stop: stop
+      mute: mute
+      unmute: unmute
+      max_volume: max volume
+      update_required_html: "<span>Update Required</span> To play the media you will need to either update your browser to a recent version or update your <a href='http://get.adobe.com/flashplayer/' target='_blank'>Flash plugin</a>."
+
+    search_form:
+      submit: Search
+
+    tag_cloud:
+      title: Topic or Tag
+
+  speakers:
+    cloud:
+      as_list: View as List
+    index:
+      as_cloud: View as Tag Cloud
+
+  welcome:
+    about:
+      contents_html: "<p><span class='cap'>W</span>elcome! Voices for Christ is an attempt to make Christ-centered ministry available to a wider audience. We are especially interested in helping those on the foreign field, those who have a sincere interest in the infallible Word of God, and any desiring to see the Lord Jesus Christ preeminent in His church.</p> <p>You can browse the list of audio messages available by speaker, date, place, or search by title, subject or speaker. You can download from among the MP3 files that are available or listen to them on-line.</p> <p>We hope you enjoy this ministry as much as we do. It has truly been a labor of love over many years to bring this material into the digital age and make it available.</p> <h2>Legal and Disclaimers</h2> <p><span class='cap'>W</span>e have endeavored to include only audio material that was given in public settings and should therefore be free from copyright considerations. If you have a copyright concern or feel that you are the owner of some of the material that is presented on this website, please contact us at info@voicesforChrist.org and we will remove the material while the details are being worked out with you.</p> <p>The material in the writings section of the website is all presented by permission of the author or his assignees. If you feel something is presented here in error or violation of your copyright please contact us immediately at info@voicesforChrist.org.</p> <p>Because of the nature of this website and the amount of material available here, the views expressed are those of the original speaker or author. Please use this material in conjunction with your own study of God's word, The Bible.</p> <h2>Privacy Policy</h2> <p><span class='cap'>O</span>ur disk ordering process asks for your email address so that we can correspond with your about your order. Your email address is only required if you order media, and will only be used for the purposes of conducting business related to your order. We will not give, rent, or sell your email address to any other party.</p> <p>Our newsletter is delivered by email and subscriptions require your email address for delivery of the newsletter. You can unsubscribe at any time. We do not give, rent, or sell the email addresses on our newsletter mailing address to any other party.</p>"
+    contact:
+      contents_html: "<h2>General Information</h2> <p>Information requests, support and assistance, speaker biographies and notes, message title suggestions, audio quality comments, message recommendations, copyright or intellectual property concerns</p><p>Voices For Christ<br />   4206 Holt School Road<br />   Durham NC 27704<br />   <br />   Email: info [at] voicesforChrist [dot] org<br />   Web: http://www.voicesforChrist.org/<br /></p>   <h2>Issues With the Website</h2> <p>Problems with the website, downloading, MP3 file formats, how to play the messages, software, website hosting, web standards, accessibility, usability, abuse.</p> <p>Email: webmaster [at] voicesforChrist [dot] org</p>"
+    news:
+      contents_html: "<h2><a href='http://www.facebook.com/VoicesForChristMinistries' title='Our Facebook page'>We're on Facebook!</a></h2><h2><a href='http://www.voicesforChrist.org/blog' title='Say On...'>The VFC Blog</a></h2>"
+  errors:
+    error:
+      contents_html: "<h1>Ooops, we missed the mark.</h1> <p>Something went wrong. We will have to look into it.</p> <p>For all have sinned and come short of the glory of God.<br /> Romans 3:23</p>"
+    not_found:
+      contents_html: "<h1>Lost Page</h1> <p>Well, that's interesting, isn't it? We seem to be missing the page you asked for. Perhaps you can find what you were looking for by using the navigation elements above and browsing around.</p> <blockquote> <p>For the preaching of the cross is to them that perish foolishness; but unto us which are saved it is the power of God. </p> <p class='ref'>1 Corinthians 1:18</p> </blockquote>"
+
+
+  activerecord:
+    errors:
+      models:
+        user:
+          email_validation: "is missing or invalid"
+          password_validation: "Missing password"
+          attributes:
+            email: email
+            password: password
