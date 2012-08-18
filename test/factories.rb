@@ -17,6 +17,7 @@ FactoryGirl.define do
 
   factory :language do 
     name "English"
+    cc "en"
   end
 
   factory :audio_message do

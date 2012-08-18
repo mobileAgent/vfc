@@ -7,6 +7,13 @@ module ApplicationHelper
     image_tag("icons/#{s}.png",options)
   end
 
+  def localized_logo_image_tag(options={})
+    locale = I18n.locale
+    base = "#{Rails.root}/app/assets/images/logo"
+    image = File.exist?("#{base}-#{locale}.jpg") ? "logo-#{locale}.jpg" : "logo.jpg"
+    image_tag(image,options)
+  end
+
   def flags_for_lang(lang, options = {})
     options[:alt] = "#{lang} language" unless options[:alt]
     options[:title] = "#{lang} language" unless options[:title]
@@ -104,5 +111,20 @@ module ApplicationHelper
     end
   end
 
+  def safe_t(key,value)
+    begin
+      t(key)
+    rescue
+      value
+    end
+  end
+    
+
 
 end
+
+
+
+
+
+

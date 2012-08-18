@@ -128,6 +128,14 @@ en:
       place: Place
       language: Lang
 
+  languages:
+    index:
+      more_html: More &hellip;
+      english: English
+      spanish: Spanish
+      portuguese: Portuguese
+      french: French
+
   dates:
     index:
       organized: "This list is organized by the "

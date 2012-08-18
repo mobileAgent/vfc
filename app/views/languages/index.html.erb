@@ -1,8 +1,8 @@
-<%- title("Languages") -%>
+<%- title(t("menu.languages")) -%>
 <ul>
 <%- @languages.each do |lang| %>
   <li>
-    <%= lang.name %> <%= flags_for_lang lang.name,{:class => 'flag'} %>
+    <%= safe_t(".#{lang.name.downcase}",lang.name) %> <%= flags_for_lang lang.name,{:class => 'flag'} %>
        <%= link_to pluralize(@language_counts[lang.id],'message'),
              "/languages/show/#{lang.id}" %>,
        <%= link_to pluralize(lang.speakers.count,'speaker'),
@@ -13,7 +13,7 @@
         <li><%= speaker.catalog_name %> <%= link_to pluralize(@speakers_counts[lang.id][speaker.id],'message'), "/speakers/#{speaker.id}/language/#{lang.id}" %></li>
       <%- end -%>
       <%- if @speakers_counts[lang.id].size > @limit -%>
-        <li><%= link_to 'More ...',"/languages/#{lang.id}/speakers"%></li>
+        <li><%= link_to t('.more_html'),"/languages/#{lang.id}/speakers"%></li>
       <%- end -%>
     </ul>
   </li>

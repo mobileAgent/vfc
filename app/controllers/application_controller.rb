@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
     AudioMessage
     
     @tagline = 
-      Rails.cache.fetch("tagline-#{I18n.locale}",:expires_in => 30.minutes) {
+      Rails.cache.fetch("tagline-#{@locale}",:expires_in => 30.minutes) {
         t(:tagline_html,
             :messages => AudioMessage.active.count,
             :speakers => Speaker.active.count,
@@ -26,11 +26,13 @@ class ApplicationController < ActionController::Base
   end
  
   def set_locale
-    I18n.locale =
+    @locale = 
       params[:locale] ||
       extract_locale_from_tld ||
       extract_locale_from_accept_language_header ||
       I18n.default_locale
+    I18n.locale = @locale
+    logger.debug "Locale set to #{@locale}"
   end
  
   def extract_locale_from_accept_language_header
