@@ -101,12 +101,13 @@ en:
   user_mailer:
     password:
       subject: Your VFC password has been reset
-      body: "Someone, possibly you, requested a password reset
-             for your account at Voices For Christ. Your new password is
-
-             %{password}
-
-             Login here:"
+      body: |+
+        Someone, possibly you, requested a password reset
+        for your account at Voices For Christ. Your new password is
+        
+        %{password}
+        
+        Login here:
              
   password:
     edit:
