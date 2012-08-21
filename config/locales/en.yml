@@ -97,7 +97,17 @@ en:
       created_on: Account created on
       last_visit: Last Visit
       logout: Logout
-      
+
+  user_mailer:
+    password:
+      subject: Your VFC password has been reset
+      body: "Someone, possibly you, requested a password reset
+             for your account at Voices For Christ. Your new password is
+
+             %{password}
+
+             Login here:"
+             
   password:
     edit:
       choose_new_password: "Your password has been reset. Choose a new password below."

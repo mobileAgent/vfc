@@ -6,7 +6,7 @@ class UserMailer < ActionMailer::Base
   def password(user,password)
     @user = user
     @password = password
-    mail(:to => @user.email, :subject => 'Your VFC password has been reset')
+    mail(:to => @user.email, :subject => t("user_mailer.password.subject"))
   end
   
 end
