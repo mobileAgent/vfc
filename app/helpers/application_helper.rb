@@ -27,7 +27,7 @@ module ApplicationHelper
     else
       css_class = nil
     end
-    tip = column == params[:sort] ? "click to reverse sort order" : "click to sort"
+    tip = column == params[:sort] ? I18n.t("audio.table.reverse_sort") : I18n.t("audio.table.sort")
     direction = column == params[:sort] && sort_direction == "asc" ? "desc" : "asc"
     url = url_for(params.merge({:sort => column, :direction => direction}))
     link_to title, url,
@@ -71,7 +71,7 @@ module ApplicationHelper
   def authorize
     if !session[:user_id] || !User.find_by_id(session[:user_id])
       session[:original_uri] = request.url
-      flash[:notice] = "Please log in for access"
+      flash[:notice] = I18n.t("login.unauthorized")
       redirect_to(:controller => "login", :action => "login") and return
     end
     @current_user = User.find_by_id(session[:user_id])
@@ -106,7 +106,7 @@ module ApplicationHelper
       true
     rescue
       logger.info "Zipline failed for #{audio_items.size} items #{$!}"
-      flash[:notice] = "Sorry we had trouble with that request. Try them individually"
+      flash[:notice] = I18n.t("audio.zipline_error")
       false
     end
   end

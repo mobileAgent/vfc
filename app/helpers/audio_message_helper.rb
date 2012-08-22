@@ -9,6 +9,6 @@ module AudioMessageHelper
   end
 
   def unavailable_cell
-      "<td class='ua'>unavailable</td>".html_safe
+    "<td class='ua'>#{I18n.t('audio.unavailable')}</td>".html_safe
   end
 end

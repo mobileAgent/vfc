@@ -70,6 +70,7 @@ en:
     account: Account
         
   login:
+    unauthorized: Please log in for access
     admin: "Kenichiwa, %{user}! (Administrator)"
     user: "Hi, %{user}"
     reset: "New password has been mailed to you at %{email}"
@@ -131,6 +132,8 @@ en:
     tagtip: "Search messages tagged with %{tagname}"
     zipline: "Download a zip file of the messages"
     zipline_confirm: "This will download the audio files on this page as a zip file. Press OK if that is what you want to do, cancel otherwise!"
+    zipline_error: Sorry we had trouble with that request. Try the messages individually
+    unavailable: unavailable
 
     table:
       speaker: Speaker
@@ -138,6 +141,8 @@ en:
       date: Date
       place: Place
       language: Lang
+      sort: click to sort
+      reverse_sort: click to reverse sort order
 
   languages:
     index:
