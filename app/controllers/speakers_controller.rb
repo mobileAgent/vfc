@@ -44,7 +44,7 @@ class SpeakersController < ApplicationController
     end
     
     unless @speaker
-      flash[:notice] = "Speaker not matched"
+      flash[:notice] = t(:nsr)
       redirect_to :action => :index and return
     end
     messages_by_speaker

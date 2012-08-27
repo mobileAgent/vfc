@@ -17,6 +17,12 @@ class PlacesController < ApplicationController
     else
       @place = Place.find(params[:id])
     end
+
+    if @place.nil?
+      flash[:notice] = t(:nsr)
+      redirect_to root_path and return
+    end
+
     @query_title = "Messages in #{@place.name}"
     @items = AudioMessage.search('',
                                  :with =>  { :place_id => @place.id },

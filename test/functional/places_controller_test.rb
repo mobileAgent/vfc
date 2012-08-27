@@ -33,6 +33,12 @@ class PlacesControllerTest < AuthenticatedTest
     get :show, :id => @a.place.name, :sort => "speaker_name"
     assert_response :success
   end
+  
+  test "attempt to view unknown place by name" do
+    get :show, :id => 'Xyzzy'
+    assert_response :redirect
+  end
+  
   test "new place page available to admin" do
     login(true)
     get :new
