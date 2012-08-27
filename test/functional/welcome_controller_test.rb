@@ -54,6 +54,15 @@ class WelcomeControllerTest < ActionController::TestCase
     assert_response :success
     assert assigns(:speaker), "No speaker was assigned"
   end
+  
+  test "search by place name assigns place bio" do
+    p = FactoryGirl.create(:place, :bio => "The place is amazing")
+    a = FactoryGirl.create(:audio_message, :place_id => p.id)
+    AudioMessage.expects(:search).returns([a].paginate)
+    get :search, :q => a.place.name
+    assert_response :success
+    assert assigns(:place), "No place was assigned"
+  end
 
   test "search without param goes to home page" do
     get :search
