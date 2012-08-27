@@ -3,5 +3,7 @@
 <%= render "shared/tag_cloud" %>
 <% if @speaker && @place.nil? && @language.nil? %>
   <%= render "shared/speaker_bio" %>
+<% elsif @speaker.nil? && @place && @language.nil? %>
+  <%= render "shared/place_bio" %>
 <% end %>
 <%= render "shared/item_list" %>

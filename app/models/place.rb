@@ -6,4 +6,8 @@ class Place < ActiveRecord::Base
            :conditions => {"audio_messages.publish" => true},
            :order => "last_name,first_name"
   
+  def bio_html
+    bio ? RDiscount.new(bio).to_html : nil
+  end
+  
 end

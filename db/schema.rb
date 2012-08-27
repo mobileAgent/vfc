@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120816162052) do
+ActiveRecord::Schema.define(:version => 20120826234632) do
 
   create_table "audio_messages", :force => true do |t|
     t.string   "title"
@@ -407,6 +407,8 @@ ActiveRecord::Schema.define(:version => 20120816162052) do
     t.string   "cc"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "bio"
+    t.string   "picture_file", :limit => 512
   end
 
   add_index "places", ["name"], :name => "index_places_on_name"

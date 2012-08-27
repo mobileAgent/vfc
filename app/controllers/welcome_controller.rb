@@ -75,6 +75,10 @@ class WelcomeController < ApplicationController
     if @items.size > 0 && @items.last.speaker.full_name == params[:q]
       @speaker = @items.last.speaker
     end
+
+    if @items.size > 0 && @items.last.place && @items.last.place.name == params[:q]
+      @place = @items.last.place
+    end
     
     if @items.size == 0
       flash[:notice] = t(:no_match, :query => params[:q])

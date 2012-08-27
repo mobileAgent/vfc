@@ -1,0 +1,9 @@
+<% if @place && @place.bio -%>
+   <div id='place-bio-<%=@place.id%>' class='bio'>
+      <% if @place.picture_file %>
+        <%= image_tag "#{PHOTOS_URL}/#{@place.picture_file}" %>
+      <% end %>
+      <%= @place.bio_html.html_safe %>
+   </div>
+  <script>$("#place-bio-<%=@place.id%>").corner("30px")</script>
+<% end -%>
