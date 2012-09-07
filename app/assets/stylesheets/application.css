@@ -508,3 +508,9 @@ fieldset {
   width: 90%;
   margin-left: 5%;
 }
+
+.video-list span.player:hover {
+   cursor: pointer;
+   text-decoration: underline;
+}   
+

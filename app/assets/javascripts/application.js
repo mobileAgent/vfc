@@ -28,10 +28,6 @@ $(document).ready(function() {
     
   $("#q").select();
 
-  $("#jpid").jPlayer( {
-                      swfPath: "/assets",
-                      solution: "html,flash"
-                      });
 });
 
 function play(url,title)
@@ -40,4 +36,10 @@ function play(url,title)
   $('#jp_container_1').css('margin-left','20%').css('float','none')
   $('.jp-title').html(title)
   $('#jpid').jPlayer('setMedia',{ mp3: url}).jPlayer('play')
+}
+
+function video_play(url,title)
+{
+  $('.jp-title').html(title)
+  $('#jquery_jplayer_1').jPlayer('setMedia',{ m4v: url}).jPlayer('play')
 }

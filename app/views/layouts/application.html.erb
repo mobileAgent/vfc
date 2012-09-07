@@ -38,7 +38,11 @@
       <%= content_tag :div, msg, :id => "flash_#{name}" %>
       <%- end -%>
 
-      <%= render "shared/player" %>
+      <% if @require_video_player %>
+        <%= render "shared/video_player" %>
+      <% else %>
+        <%= render "shared/player" %>
+      <% end %>
       
       <div id="content">
         <%= yield %>

@@ -1,0 +1,11 @@
+<% title("Video") %>
+
+<ul class="video-list">
+  <% Videos::VIDEOS.each do |k,v| %>
+    <li>
+      <span class='player' onclick="video_play('<%= Videos.url_for(v) %>','<%= k %>')">
+         <%= k %>
+      </span>
+    </li>
+  <% end %>
+</ul>  
