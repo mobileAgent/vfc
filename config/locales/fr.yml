@@ -68,8 +68,10 @@ fr:
     contact: Contact
     news: News
     account: Account
+    videos: Videos
         
   login:
+    unauthorized: Please log in for access
     admin: "Kenichiwa, %{user}! (Administrator)"
     user: "Hi, %{user}"
     reset: "New password has been mailed to you at %{email}"
@@ -97,7 +99,18 @@ fr:
       created_on: Account created on
       last_visit: Last Visit
       logout: Logout
-      
+
+  user_mailer:
+    password:
+      subject: Your VFC password has been reset
+      body: |+
+        Someone, possibly you, requested a password reset
+        for your account at Voices For Christ. Your new password is
+        
+        %{password}
+        
+        Login here:
+             
   password:
     edit:
       choose_new_password: "Your password has been reset. Choose a new password below."
@@ -120,6 +133,8 @@ fr:
     tagtip: "Search messages tagged with %{tagname}"
     zipline: "Download a zip file of the messages"
     zipline_confirm: "This will download the audio files on this page as a zip file. Press OK if that is what you want to do, cancel otherwise!"
+    zipline_error: Sorry we had trouble with that request. Try the messages individually
+    unavailable: unavailable
 
     table:
       speaker: Speaker
@@ -127,6 +142,8 @@ fr:
       date: Date
       place: Place
       language: Lang
+      sort: click to sort
+      reverse_sort: click to reverse sort order
 
   languages:
     index:
