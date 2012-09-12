@@ -95,6 +95,10 @@ class WelcomeController < ApplicationController
     end
   end
 
+  def favicon
+    redirect_to "/assets/vfc.ico"
+  end
+
   private
 
   def sphinx_search
