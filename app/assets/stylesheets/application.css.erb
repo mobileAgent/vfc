@@ -97,7 +97,7 @@ p#tagline {
 }
 
 input#ssu {
-   background-image: url(/assets/icons/search.gif);
+   background-image: url(<%= asset_path 'icons/search.gif'%>);
    margin: -23px 15px 3px auto;
    height: 19px;
    width: 19px;
@@ -109,7 +109,7 @@ tr>th#play_col {
 }
 
 input#zipline {
-  background-image: url(/assets/icons/cd_burn.png);
+  background-image: url(<%= asset_path 'icons/cd_burn.png'%>);
   height: 16px;
   width: 16px;
   border: 0;
@@ -261,11 +261,11 @@ table, .sortable, .msglist {
 }
 
 .msglist thead a.asc {
-  background: url(/assets/icons/bullet_arrow_down.png) top right no-repeat;
+  background: url(<%= asset_path 'icons/bullet_arrow_down.png'%>) top right no-repeat;
 }
 
 .msglist thead a.desc {
-  background: url(/assets/icons/bullet_arrow_up.png) top right no-repeat;
+  background: url(<%= asset_path 'icons/bullet_arrow_up.png'%>) top right no-repeat;
 }
 
 .msglist tbody tr:nth-child(even) { background: #E6EAED; }
@@ -312,7 +312,7 @@ div.bio {
   -moz-border-radius: 2em;
   -webkit-border-radius: 2em;
   border-radius: 2em;
-  behavior: url(/assets/PIE.htc);
+  behavior: url(<%= asset_path 'PIE.htc'%>);
   background-color: #b1d6f5;
   overflow-y: hidden;
 }
@@ -330,7 +330,7 @@ div.bio img {
   -moz-border-radius: 2em;
   -webkit-border-radius: 2em;
   border-radius: 2em;
-  behavior: url(/assets/PIE.htc);
+  behavior: url(<%= asset_path 'PIE.htc'%>);
   background: #A6B6BF;
   padding: 0 6px 0 3px;
   text-decoration: none;
@@ -352,7 +352,7 @@ div.bio img {
   -moz-border-radius: 2em;
   -webkit-border-radius: 2em;
   border-radius: 2em;
-  behavior: url(/assets/PIE.htc);
+  behavior: url(<%= asset_path 'PIE.htc'%>);
 }
 
 #motm .title {
@@ -398,7 +398,7 @@ div.bio img {
   -moz-border-radius: 1em;
   -webkit-border-radius: 1em;
   border-radius: 1em;
-  behavior: url(/assets/PIE.htc);
+  behavior: url(<%= asset_path 'PIE.htc'%>);
 }
 .taglist .tag a:hover, .taglist .tag a:active {
   color: #d0daff;
@@ -421,7 +421,7 @@ div.bio img {
   -moz-border-radius: 2em;
   -webkit-border-radius: 2em;
   border-radius: 2em;
-  behavior: url(/assets/PIE.htc);
+  behavior: url(<%= asset_path 'PIE.htc'%>);
   color: #002d47;
   background-color: #b1d6f5;
   padding: 10px;
@@ -441,11 +441,11 @@ div.bio img {
   height: 20px;
   width: 20px;
   padding: 0;
-  background: url(/assets/play-controls.gif) 0 0 no-repeat;
+  background: url(<%= asset_path 'play-controls.gif'%>) 0 0 no-repeat;
 }
 
 .player:hover>img, .player:active>img {
-  background: url(/assets/play-controls.gif) -20px 0 no-repeat;
+  background: url(<%= asset_path 'play-controls.gif'%>) -20px 0 no-repeat;
   cursor:pointer;
 }
 
@@ -453,11 +453,11 @@ div.bio img {
   height: 20px;
   width: 20px;
   padding: 0;
-  background: url(/assets/play-controls.gif) 0 -20px no-repeat;
+  background: url(<%= asset_path 'play-controls.gif'%>) 0 -20px no-repeat;
 }
 
 .active-player:hover>img, .active-player:active>img {
-  background: url(/assets/play-controls.gif) -20px -20px no-repeat;
+  background: url(<%= asset_path 'play-controls.gif'%>) -20px -20px no-repeat;
   cursor:pointer;
 }
 
@@ -489,7 +489,7 @@ td.ua {
   -moz-border-radius: 2em;
   -webkit-border-radius: 2em;
   border-radius: 2em;
-  behavior: url(/assets/PIE.htc);
+  behavior: url(<%= asset_path 'PIE.htc'%>);
 }
 
 label {

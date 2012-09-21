@@ -59,7 +59,7 @@ GEM
     arel (3.0.2)
     autotest (4.4.6)
       ZenTest (>= 4.4.1)
-    builder (3.0.0)
+    builder (3.0.3)
     capistrano (2.13.3)
       highline
       net-scp (>= 1.0.0)
@@ -79,14 +79,14 @@ GEM
       actionmailer (>= 3.0.4)
     execjs (1.4.0)
       multi_json (~> 1.0)
-    factory_girl (4.0.0)
+    factory_girl (4.1.0)
       activesupport (>= 3.0.0)
-    factory_girl_rails (4.0.0)
-      factory_girl (~> 4.0.0)
+    factory_girl_rails (4.1.0)
+      factory_girl (~> 4.1.0)
       railties (>= 3.0.0)
     highline (1.6.14)
     hike (1.2.1)
-    i18n (0.6.0)
+    i18n (0.6.1)
     journey (1.0.4)
     jquery-rails (2.1.1)
       railties (>= 3.1.0, < 5.0)
@@ -164,6 +164,8 @@ GEM
     treetop (1.4.10)
       polyglot
       polyglot (>= 0.3.1)
+    ts-datetime-delta (1.0.2)
+      thinking-sphinx (>= 1.3.8)
     tzinfo (0.3.33)
     uglifier (1.2.7)
       execjs (>= 0.3.0)
@@ -195,6 +197,7 @@ DEPENDENCIES
   simplecov
   therubyracer
   thinking-sphinx
+  ts-datetime-delta (= 1.0.2)
   uglifier (>= 1.0.3)
   webrat
   will_paginate!

@@ -48,7 +48,7 @@
 <script>
   $(document).ready(function() {
     $("#jquery_jplayer_1").jPlayer( {
-              swfPath: "/assets",
+              swfPath: "<%= asset_path ''%>",
               supplied: "m4v",
               solution: "html,flash",
               cssSelectorAncestor: "#jpid"

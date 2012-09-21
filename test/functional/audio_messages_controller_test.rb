@@ -86,6 +86,14 @@ class AudioMessagesControllerTest < ActionController::TestCase
     assert_equal @p.id, @newa.place_id
     assert_equal @s.id, @newa.speaker_id
   end
+
+  test "delete audio message" do
+    login(true)
+    @a = FactoryGirl.create(:audio_message)
+    post :delete, :id => @a.id
+    assert_response :redirect
+    assert_match /#{@a.full_title}/,flash[:notice]
+  end
   
   protected
   

@@ -22,6 +22,7 @@ class AudioMessage < ActiveRecord::Base
     indexes event_date, :sortable => true
     indexes taggings.tag.name, :as => :tags, :sortable => true
     has filesize, duration, place_id, language_id, speaker_id
+    set_property :delta => :datetime, :threshold => 75.minutes
   end
 
   def full_title

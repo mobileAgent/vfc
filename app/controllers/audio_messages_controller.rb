@@ -1,7 +1,7 @@
 class AudioMessagesController < ApplicationController
 
   before_filter :check_blocked_hosts
-  before_filter :authorize_admin, :only => [:edit, :update]
+  before_filter :authorize_admin, :only => [:edit, :update, :delete]
   
 
   def show
@@ -26,6 +26,13 @@ class AudioMessagesController < ApplicationController
       flash[:warning] = t(:nsf)
       redirect_to root_path
     end
+  end
+
+  def delete
+    @am = AudioMessage.find(params[:id])
+    @am.delete
+    flash[:notice] = "Deleted #{@am.speaker.catalog_name} #{@am.full_title} (#{@am.id})"
+    redirect_to (request.referer || root_path)
   end
 
   def gold

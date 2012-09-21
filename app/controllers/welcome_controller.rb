@@ -49,11 +49,14 @@ class WelcomeController < ApplicationController
 
     # Finally, get some audio messages
     if @hits.size < @size_limit
-      @msgs = AudioMessage.search('',
-                                  :conditions => {:full_title => term},
-                                  :star => true,
-                                  :max_matches => @size_limit-@hits.size)
-      @hits += @msgs.map { |n| "#{n.autocomplete_title}, #{n.speaker.full_name}" }
+      begin
+        @msgs = AudioMessage.search('',
+                                    :conditions => {:full_title => term},
+                                    :star => true,
+                                    :max_matches => @size_limit-@hits.size)
+        @hits += @msgs.map { |n| "#{n.autocomplete_title}, #{n.speaker.full_name}" }
+      rescue ThinkingSphinx::SphinxError
+      end
     end
     render :text => @hits.to_json and return
   end
@@ -72,20 +75,31 @@ class WelcomeController < ApplicationController
     @query_title = params[:q]
     
     @items = sphinx_search
-    if @items.size > 0 && @items.last.speaker.full_name == params[:q]
-      @speaker = @items.last.speaker
-    end
-
-    if @items.size > 0 && @items.last.place && @items.last.place.name == params[:q]
-      @place = @items.last.place
-    end
-    
-    if @items.size == 0
+    # this is weird, the error is on the ThinkingSphinx::Search
+    # object but cannot just catch it by checking .error?
+    # as that blows chunks
+    begin
+      if @items.nil? || @items.size == 0 ||
+          (@items.respond_to?(:error?) && @items.error?)
+        flash[:notice] = t(:no_match, :query => params[:q])
+        redirect_to root_path and return
+      end
+    rescue
+      puts "We had a problem with the results #{$!}"
       flash[:notice] = t(:no_match, :query => params[:q])
       redirect_to root_path and return
     end
+
+    if @items.last.speaker.full_name == params[:q]
+      @speaker = @items.last.speaker
+    end
+
+    if @items.last.place && @items.last.place.name == params[:q]
+      @place = @items.last.place
+    end
     
-    if request.post? && params[:download] && download_zipline(@items,params[:q],params[:page])
+    if request.post? && params[:download] &&
+        download_zipline(@items,params[:q],params[:page])
       return
     else
       respond_to do |format|
@@ -96,7 +110,7 @@ class WelcomeController < ApplicationController
   end
 
   def favicon
-    redirect_to "/assets/vfc.ico"
+    redirect_to asset_path "vfc.ico"
   end
 
   private

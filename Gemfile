@@ -28,7 +28,10 @@ gem 'nokogiri'
 gem 'jquery-rails'
 gem 'will_paginate',
   :git => 'git://github.com/mislav/will_paginate.git'
+
 gem 'thinking-sphinx'
+gem 'ts-datetime-delta', '1.0.2',
+  :require => 'thinking_sphinx/deltas/datetime_delta'
   
 #gem 'acts_as_taggable_on_steroids'
 gem 'acts_as_taggable_on_steroids',
