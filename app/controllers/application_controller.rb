@@ -23,6 +23,11 @@ class ApplicationController < ActionController::Base
             :languages => Language.count).html_safe
     }
     @tagline2 = t(:tagline2_html).html_safe
+
+    @motm = Rails.cache.fetch("motm-#{@locale}",:expires_in => 30.minutes) {
+      Motm.language(@language).active.first
+    }
+    
   end
  
   def set_locale
@@ -32,7 +37,8 @@ class ApplicationController < ActionController::Base
       extract_locale_from_accept_language_header ||
       I18n.default_locale
     I18n.locale = @locale
-    logger.debug "Locale set to #{@locale}"
+    @language = Language.locale(@locale).first || Language.default.first
+    logger.debug "Locale set to #{@locale} #{@language.name}"
   end
  
   def extract_locale_from_accept_language_header

@@ -1,10 +1,15 @@
 class MotmsController < ApplicationController
 
   def index
-    @motm = Rails.cache.fetch('motm',:expires_in => 30.minutes) {
-      Motm.active.last
-    }
-    @motms = Motm.find(:all, :order => "created_at desc")
+    # Users language
+    @motms = Motm.language(@language)
+
+    # Other languages
+    if @motms.size < 30
+      @other_motms = Motm.not_language(@language)
+    else
+      @other_motms = []
+    end
   end
   
 end

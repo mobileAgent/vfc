@@ -15,12 +15,14 @@ class WelcomeControllerTest < ActionController::TestCase
   end
 
   test "should get home page with motm" do
-    Rails.cache.delete('motm')
-    motm = FactoryGirl.create(:motm)
+    l = Language.default.first || FactoryGirl.create(:language)
+    Rails.cache.delete("motm-#{l.cc}")
+    a = FactoryGirl.create(:audio_message, :language => l)
+    motm = FactoryGirl.create(:motm, :audio_message => a)
     get :index
     assert_response :success
-    assert_not_nil assigns(:motm)
-    assert Rails.cache.read('motm')
+    assert_not_nil assigns(:motm),"Motm should be assigned for #{assigns(:locale)} since we have #{motm.audio_message.language.name} for a #{motm.inspect}"
+    assert Rails.cache.read("motm-#{l.cc}"),"Motm should be cached by language/locale"
     assert assigns(:motm), "Motm must be assigned when available"
   end
 

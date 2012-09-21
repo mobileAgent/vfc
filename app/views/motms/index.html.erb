@@ -7,5 +7,9 @@
         <%= render :partial => 'audio_messages/audio_item',
                    :locals => {:item => motm.audio_message } %>
      <% end %>
+     <% @other_motms.each do |motm| %>
+        <%= render :partial => 'audio_messages/audio_item',
+                   :locals => {:item => motm.audio_message } %>
+     <% end %>
   </tbody>
 </table>
