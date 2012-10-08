@@ -30,9 +30,9 @@ class AudioMessagesController < ApplicationController
 
   def delete
     @am = AudioMessage.find(params[:id])
-    @am.delete
+    @am.update_attributes(:publish => false)
     flash[:notice] = "Deleted #{@am.speaker.catalog_name} #{@am.full_title} (#{@am.id})"
-    redirect_to (request.referer || root_path)
+    redirect_to (request.env["HTTP_REFERER"] || root_path)
   end
 
   def gold
@@ -59,10 +59,15 @@ class AudioMessagesController < ApplicationController
 
   def update
     @audio_message = AudioMessage.find(params[:id])
+    referer = params[:audio_message].delete(:referer)
     if @audio_message.update_attributes(params[:audio_message])
       flash[:notice] = t(:updated)
     end
-    redirect_to :action => :edit, :id => params[:id] and return
+    if referer
+      redirect_to referer and return
+    else
+      redirect_to :action => :edit, :id => params[:id] and return
+    end
   end
 
   protected

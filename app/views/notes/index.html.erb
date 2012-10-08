@@ -1,0 +1,19 @@
+<% title("Notes") %>
+<% if @speaker %>
+  <h2>Notes <%=t("attribution",:speaker => @speaker.full_name) %></h2>
+  <% if @speaker.writings.count > 0 %>
+     <p><%=link_to "#{t("menu.writings")} #{t("attribution", :speaker => @speaker.full_name)}", writings_path(@speaker) %></p>
+  <% end %>
+  <% if @speaker.videos.count > 0 %>
+     <p><%=link_to "#{t("menu.videos")} #{t("attribution", :speaker => @speaker.full_name)}", videos_path(@speaker) %></p>
+  <% end %>
+  <p><%= link_to "#{t("all_by_speaker")} #{@speaker.full_name}", speaker_path(@speaker) %></p>
+<% end %>
+
+<ul class="notes-list">
+  <% @notes.each do |n| %>
+    <li>
+      <%= n.speaker.full_name %> - <%= link_to n.title, "/notes/#{n.id}", :target => "_blank" %>
+    </li>
+  <% end %>
+</ul>  

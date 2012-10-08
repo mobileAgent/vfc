@@ -87,8 +87,14 @@ class WelcomeController < ApplicationController
       redirect_to root_path and return
     end
 
-    if @items.last.speaker.full_name == params[:q]
+    if @items.last.nil?
+      flash[:notice] = t(:no_match, :query => params[:q])
+      redirect_to root_path and return
+    end
+    
+    if @items.last.speaker && @items.last.speaker.full_name == params[:q]
       @speaker = @items.last.speaker
+      logger.debug "Setting speaker specific search with name match on query #{@speaker.full_name}"
     end
 
     if @items.last.place && @items.last.place.name == params[:q]
@@ -107,7 +113,7 @@ class WelcomeController < ApplicationController
   end
 
   def favicon
-    redirect_to asset_path "vfc.ico"
+    redirect_to '/assets/vfc.ico'
   end
 
   private

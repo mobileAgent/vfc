@@ -12,6 +12,9 @@ Vfc::Application.routes.draw do
   resources :tags
   resources :places, :has_many => :speakers
   resources :languages, :has_many => :speakers
+  resources :videos
+  resources :writings
+  resources :notes
   
   root :to => "welcome#index"
 

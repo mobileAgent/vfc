@@ -18,6 +18,10 @@
      <% else %>
         <%= item.full_title %>
      <% end %>
+     <% if item.note_id? %>
+       <%= link_to icon(:attach, :title => "Notes are available for this message"),
+           {:controller => :notes, :action => :show, :id => item.note_id}, :target => "_blank" %>
+     <% end %>
      <% if item.created_at > (DateTime.now - 30)%>
         <span class='new-item'><%= t "audio.new"%></span>
      <% end %>

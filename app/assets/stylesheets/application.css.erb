@@ -303,21 +303,7 @@ table, .sortable, .msglist {
    padding: 3px;
 }
 
-div.bio {
-  width: 80%;
-  margin-left: 10%;
-  border: 3px solid #002d47;
-  padding: 10px;
-  margin-bottom: 20px;
-  -moz-border-radius: 2em;
-  -webkit-border-radius: 2em;
-  border-radius: 2em;
-  behavior: url(<%= asset_path 'PIE.htc'%>);
-  background-color: #b1d6f5;
-  overflow-y: hidden;
-}
-
-div.bio img {
+div.bio img, #motm img.speaker {
   float: left;
   margin: 12px;
   box-shadow: rgba(0, 0, 128, 0.45) 5px 5px 5px;
@@ -341,7 +327,7 @@ div.bio img {
   color: red;
 }
 
-#motm {
+#motm, div.bio {
   width: 80%;
   margin-left: 10%;
   margin-bottom: 20px;
@@ -353,6 +339,7 @@ div.bio img {
   -webkit-border-radius: 2em;
   border-radius: 2em;
   behavior: url(<%= asset_path 'PIE.htc'%>);
+  overflow-y: hidden;
 }
 
 #motm .title {

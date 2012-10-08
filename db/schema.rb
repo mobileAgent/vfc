@@ -11,14 +11,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120826234632) do
+ActiveRecord::Schema.define(:version => 20121008160539) do
 
   create_table "audio_messages", :force => true do |t|
     t.string   "title"
     t.string   "subj"
     t.string   "groupmsg"
     t.boolean  "publish"
-    t.integer  "notes_id"
+    t.integer  "note_id"
     t.integer  "language_id"
     t.integer  "speaker_id"
     t.integer  "place_id"
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(:version => 20120826234632) do
     t.datetime "event_date"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "delta",       :default => false
   end
 
   create_table "blocked_hosts", :force => true do |t|
@@ -402,6 +403,16 @@ ActiveRecord::Schema.define(:version => 20120826234632) do
     t.datetime "updated_at"
   end
 
+  create_table "notes", :force => true do |t|
+    t.string   "title",      :limit => 128,                    :null => false
+    t.string   "filename",   :limit => 256,                    :null => false
+    t.integer  "speaker_id"
+    t.integer  "filesize"
+    t.boolean  "delta",                     :default => false
+    t.datetime "created_at",                                   :null => false
+    t.datetime "updated_at",                                   :null => false
+  end
+
   create_table "places", :force => true do |t|
     t.string   "name"
     t.string   "cc"
@@ -409,6 +420,7 @@ ActiveRecord::Schema.define(:version => 20120826234632) do
     t.datetime "updated_at"
     t.text     "bio"
     t.string   "picture_file", :limit => 512
+    t.boolean  "delta",                       :default => false
   end
 
   add_index "places", ["name"], :name => "index_places_on_name"
@@ -423,6 +435,7 @@ ActiveRecord::Schema.define(:version => 20120826234632) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "hidden",       :default => false
+    t.boolean  "delta",        :default => false
   end
 
   add_index "speakers", ["last_name", "middle_name", "first_name"], :name => "index_speakers_on_last_name_and_middle_name_and_first_name"
@@ -477,5 +490,27 @@ ActiveRecord::Schema.define(:version => 20120826234632) do
   end
 
   add_index "vfc", ["groupmsg"], :name => "groupmsg_index"
+
+  create_table "videos", :force => true do |t|
+    t.string   "title",      :limit => 128,                    :null => false
+    t.string   "filename",   :limit => 256,                    :null => false
+    t.integer  "speaker_id"
+    t.integer  "duration"
+    t.boolean  "delta",                     :default => false
+    t.datetime "event_date"
+    t.datetime "created_at",                                   :null => false
+    t.datetime "updated_at",                                   :null => false
+  end
+
+  create_table "writings", :force => true do |t|
+    t.string   "title",      :limit => 128,                    :null => false
+    t.string   "filename",   :limit => 256,                    :null => false
+    t.integer  "speaker_id"
+    t.integer  "filesize"
+    t.boolean  "delta",                     :default => false
+    t.datetime "event_date"
+    t.datetime "created_at",                                   :null => false
+    t.datetime "updated_at",                                   :null => false
+  end
 
 end

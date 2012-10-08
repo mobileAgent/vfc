@@ -9,6 +9,16 @@ WRITINGS_PATH = Rails.env == "production" ?
                "/var/apps/vfc/shared/writings/" :
                "#{Rails.root.to_s}/public/writings/"
 
+VIDEO_URL = "/videos/get"
+VIDEO_PATH = Rails.env == "production" ?
+                "/var/apps/vfc/shared/audio/VFC-GOLD/" :
+                "#{Rails.root.to_s}/public/audio/VFC-GOLD/"
+       
+
+NOTES_URL = "/notes?file="
+NOTES_PATH = Rails.env == "production" ?
+                "/var/apps/vfc/shared/notes/" :
+                "#{Rails.root.to_s}/public/notes/"
 
 PHOTOS_URL = "/photos/"
 PHOTOS_PATH = "#{Rails.root.to_s}/public/photos/"

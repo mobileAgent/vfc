@@ -4,6 +4,7 @@ class AudioMessage < ActiveRecord::Base
   belongs_to :speaker
   belongs_to :language
   belongs_to :place
+  belongs_to :note
 
   acts_as_taggable
   self.per_page = 50
@@ -22,8 +23,9 @@ class AudioMessage < ActiveRecord::Base
     indexes event_date, :sortable => true
     indexes taggings.tag.name, :as => :tags, :sortable => true
     has filesize, duration, place_id, language_id, speaker_id
-    set_property :delta => :datetime, :threshold => 75.minutes
+    set_property :delta => true
   end
+  # emacs sync -> "
 
   def full_title
     if subj && subj.length > 0

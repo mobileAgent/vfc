@@ -38,6 +38,7 @@ FactoryGirl.define do
     place FactoryGirl.create(:place)
     speaker FactoryGirl.create(:speaker)
     event_date Date.parse("1986-09-06")
+    note nil
   end
 
   factory :motm do 
@@ -67,6 +68,29 @@ FactoryGirl.define do
     end
     filename "HYMN/hymn.mp3"
   end
+
+  factory :video do
+    sequence :title do
+      "Video Title #{n}"
+    end
+    filename "VIDEO/video.mp4"
+    speaker FactoryGirl.create(:speaker)
+  end
     
-  
+ factory :writing do
+    sequence :title do
+      "Article Title #{n}"
+    end
+    filename "WRITING/writing.pdf"
+    speaker FactoryGirl.create(:speaker)
+  end
+
+  factory :note do
+    sequence :title do
+      "Note Title #{n}"
+    end
+    filename "NOTE/note.pdf"
+    speaker FactoryGirl.create(:speaker)
+  end
+   
 end

@@ -1,9 +1,19 @@
-<% if @speaker && @speaker.bio -%>
+<% if @speaker && (@speaker.bio || @speaker.videos.count > 0 || @speaker.writings.count > 0) -%>
    <div id='speaker-bio-<%=@speaker.id%>' class='bio'>
       <% if @speaker.picture_file %>
         <%= image_tag "#{PHOTOS_URL}/#{@speaker.picture_file}" %>
       <% end %>
-      <%= @speaker.bio_html.html_safe %>
+      <% if @speaker.bio %>
+         <%= @speaker.bio_html.html_safe %>
+      <% else %>
+         <h3><%= @speaker.full_name %></h3>
+      <% end %>
+      <% if @speaker.videos.count > 0 %>
+         <p><%= link_to "There are #{@speaker.videos.count} videos available", "/videos/speaker/#{@speaker.id}" %></p>
+      <% end %>
+      <% if @speaker.writings.count > 0 %>
+         <p><%= link_to "There are #{@speaker.writings.count} articles available", "/writings/speaker/#{@speaker.id}"%></p>
+      <% end %>
    </div>
   <script>$("#speaker-bio-<%=@speaker.id%>").corner("30px")</script>
 <% end -%>

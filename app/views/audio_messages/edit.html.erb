@@ -2,6 +2,8 @@
 <br />
 <%= form_for @audio_message do |f| %>
 
+    <%= f.hidden_field :referer, :value => request.env["HTTP_REFERER"] %>
+
     <%= f.label :title %>
     <%= f.text_field :title, :size => 50 %>
     <br />
@@ -34,8 +36,12 @@
     <%= f.text_field :filesize %>
     <br />
 
+    <%= f.label :note_id %>
+    <%= f.text_field :note_id %>
+    <br />
+
     <%= f.label :event_date %>
-    <%= f.date_select :event_date %>
+    <%= f.date_select :event_date, :include_blank => true, :start_year => 1940 %>
     <br />
 
     <%= f.label :publish %>

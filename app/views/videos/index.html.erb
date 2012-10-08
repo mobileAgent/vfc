@@ -1,10 +1,17 @@
 <% title(t("menu.videos")) %>
+<% if @speaker %>
+  <h2><%=t("menu.videos")%> <%=t("attribution",:speaker => @speaker.full_name) %></h2>
+  <% if @speaker.writings.count > 0 %>
+     <p><%=link_to "#{t("menu.writings")} #{t("attribution", :speaker => @speaker.full_name)}", writings_path(@speaker) %></p>
+  <% end %>
+  <p><%= link_to "#{t("all_by_speaker")} #{@speaker.full_name}", speaker_path(@speaker) %></p>
+<% end %>
 
 <ul class="video-list">
-  <% Videos::VIDEOS.each do |k,v| %>
+  <% @videos.each do |v| %>
     <li>
-      <span class='player' onclick="video_play('<%= Videos.url_for(v) %>','<%= k %>')">
-         <%= k %>
+      <span class='player' onclick="video_play('<%= video_path v.id %>','<%= v.title %>')">
+         <%= v.title %>, <%= v.duration %>m
       </span>
     </li>
   <% end %>
