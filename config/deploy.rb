@@ -70,6 +70,7 @@ task :config_setup, :roles => :app do
   run "ln -nfs #{deploy_to}/shared/tmp #{release_path}/tmp"
   run "ln -nfs #{deploy_to}/shared/audio #{current_release}/public/audio"
   run "ln -nfs #{deploy_to}/shared/writings #{current_release}/public/writings"
+  run "ln -nfs #{deploy_to}/shared/notes #{current_release}/public/notes"
   
   # create_symlinks
   # memcached.clear

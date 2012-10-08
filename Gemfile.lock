@@ -164,8 +164,6 @@ GEM
     treetop (1.4.10)
       polyglot
       polyglot (>= 0.3.1)
-    ts-datetime-delta (1.0.2)
-      thinking-sphinx (>= 1.3.8)
     tzinfo (0.3.33)
     uglifier (1.2.7)
       execjs (>= 0.3.0)
@@ -197,7 +195,6 @@ DEPENDENCIES
   simplecov
   therubyracer
   thinking-sphinx
-  ts-datetime-delta (= 1.0.2)
   uglifier (>= 1.0.3)
   webrat
   will_paginate!
