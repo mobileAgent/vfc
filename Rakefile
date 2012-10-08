@@ -6,4 +6,3 @@ require 'rake'
 
 Vfc::Application.load_tasks
 
-require 'thinking_sphinx/deltas/datetime_delta/tasks'
