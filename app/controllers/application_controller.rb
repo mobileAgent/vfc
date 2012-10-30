@@ -38,7 +38,7 @@ class ApplicationController < ActionController::Base
       I18n.default_locale
     I18n.locale = @locale
     @language = Language.locale(@locale).first || Language.default.first
-    logger.debug "Locale set to #{@locale} #{@language.name}"
+    logger.info "Locale set to #{@locale} language #{@language.name}"
   end
  
   def extract_locale_from_accept_language_header

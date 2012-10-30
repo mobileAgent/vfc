@@ -48,8 +48,8 @@ es:
       
   title:
     prefix: "VFC - "
-    vfc: "Voices For Christ"
-    copyright_html: "&copy; VoicesForChrist.org, 2005-%{endyear}"
+    vfc: "Voces Para Cristo"
+    copyright_html: "&copy; VocesParaCristo.org, 2005-%{endyear}"
     login: Login
     password_change: "Change Password"
     password_reset: "Forgotten Password"
@@ -69,11 +69,12 @@ es:
     news: News
     account: Account
     videos: Videos
+    thanks: Thanks
         
   login:
     unauthorized: Please log in for access
     admin: "Kenichiwa, %{user}! (Administrator)"
-    user: "Hi, %{user}"
+    user: "Bienvenidos, %{user}"
     reset: "New password has been mailed to you at %{email}"
     fail: "The information provided does not match our records"
     created: "Account created for %{email}"
@@ -128,6 +129,7 @@ es:
     download: "Download MP3"
     play: "Play"
     tooltip: "Size %{size}, duration %{duration}"
+    notes_available: Notes are available for this series or message
     new: New
     more: More by
     tagtip: "Search messages tagged with %{tagname}"
@@ -195,7 +197,9 @@ es:
     contact:
       contents_html: "<h2>General Information</h2> <p>Information requests, support and assistance, speaker biographies and notes, message title suggestions, audio quality comments, message recommendations, copyright or intellectual property concerns</p><p>Voices For Christ<br />   4206 Holt School Road<br />   Durham NC 27704<br />   <br />   Email: info [at] voicesforChrist [dot] org<br />   Web: http://www.voicesforChrist.org/<br /></p>   <h2>Issues With the Website</h2> <p>Problems with the website, downloading, MP3 file formats, how to play the messages, software, website hosting, web standards, accessibility, usability, abuse.</p> <p>Email: webmaster [at] voicesforChrist [dot] org</p>"
     news:
-      contents_html: "<h2><a href='http://www.facebook.com/VoicesForChristMinistries' title='Our Facebook page'>We're on Facebook!</a></h2><h2><a href='http://www.voicesforChrist.org/blog' title='Say On...'>The VFC Blog</a></h2>"
+      contents_html: "<h2><a href='http://www.facebook.com/VoicesForChristMinistries' title='Our Facebook page'>We're on Facebook!</a></h2>"
+    thanks:
+      contents_html: Thanks for your donation!
   errors:
     error:
       contents_html: "<h1>Ooops, we missed the mark.</h1> <p>Something went wrong. We will have to look into it.</p> <p>For all have sinned and come short of the glory of God.<br /> Romans 3:23</p>"
