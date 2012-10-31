@@ -21,7 +21,7 @@ class LoginController < ApplicationController
           else
              flash[:notice] = t("login.user", :user => user.email)
           end
-         redirect_to root_path and return
+         redirect_to root_url and return
        else
           flash[:notice] = t("login.fail")
        end
@@ -32,7 +32,7 @@ class LoginController < ApplicationController
 
   def logout
     session[:user_id] = nil
-    redirect_to root_path and return
+    redirect_to root_url and return
   end
 
   def forgotten_password
@@ -43,7 +43,7 @@ class LoginController < ApplicationController
         user = User.find_by_email(params[:email])
         if user
            new_password = User.generate_password
-           user.password=new_password
+           user.password = new_password
            user.save
            UserMailer.password(user, new_password).deliver
            flash[:notice] = t("login.reset", :email => params[:email])

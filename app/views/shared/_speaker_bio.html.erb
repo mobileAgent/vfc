@@ -1,6 +1,6 @@
-<% if @speaker && (@speaker.bio || @speaker.videos.count > 0 || @speaker.writings.count > 0) -%>
+<% if @speaker && (!@speaker.bio.blank? || @speaker.videos.count > 0 || @speaker.writings.count > 0) -%>
    <div id='speaker-bio-<%=@speaker.id%>' class='bio'>
-      <% if @speaker.picture_file %>
+      <% unless @speaker.picture_file.blank? %>
         <%= image_tag "#{PHOTOS_URL}/#{@speaker.picture_file}" %>
       <% end %>
       <% if @speaker.bio %>

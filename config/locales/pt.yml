@@ -16,6 +16,7 @@ pt:
   matching: matching
   favorite: Favorite
   unfavorite: Remove Favorite
+  unauthorized: Not authorized
 
   query_by_date: "Messages added on %{date}"
   query_by_speaker_and_date: "Messages by %{speaker} added on %{date}"

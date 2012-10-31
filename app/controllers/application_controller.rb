@@ -2,12 +2,16 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   helper :all # include all helpers, all the time
   before_filter :set_locale
+  before_filter :authorize
   before_filter :load_cacheable_data
   helper_method :sort_column, :sort_column_ar, :sort_direction
   
   include ActionController::Streaming
   include ApplicationHelper
   
+  delegate :allow?, to: :current_permission
+  helper_method :current_user, :allow?
+
   protected
 
   def load_cacheable_data
@@ -55,6 +59,24 @@ class ApplicationController < ActionController::Base
     logger.debug "Parsed locale from #{request.host} came out to #{parsed_locale}"
     parsed_locale ||= 'en'
     I18n.available_locales.include?(parsed_locale.to_sym) ? parsed_locale  : nil
+  end
+
+  def current_user
+    @current_user ||= User.find(session[:user_id]) if session[:user_id]
+  end
+  
+  def current_permission
+    @current_permission ||= Permission.new(current_user)
+  end
+
+  def current_resource
+    nil
+  end
+  
+  def authorize
+    if !current_permission.allow?(params[:controller], params[:action], current_resource)
+      redirect_to root_url, notice: t(:unauthorized)
+    end
   end
   
 end

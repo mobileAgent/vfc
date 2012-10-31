@@ -1,52 +1,39 @@
 class AudioMessagesController < ApplicationController
 
   before_filter :check_blocked_hosts
-  before_filter :authorize_admin, :only => [:edit, :update, :delete]
+  # before_filter :authorize_admin, :only => [:edit, :update, :delete]
   
 
   def show
-    begin
-      @mp3 = AudioMessage.find(params[:id],:conditions => ['publish = ?',true])
-    rescue
-      logger.debug "Request for non existent msg id #{params[:id]}"
-    end
-    unless @mp3
-      flash[:notice] = t(:nsr)
-      redirect_to root_path
+    unless current_resource
+      redirect_to root_url, notice: t(:nsr)
       return
     end
-    file_path = AUDIO_PATH + @mp3.filename
+    file_path = AUDIO_PATH + current_resource.filename
     if File.exists?(file_path)
       mime_type = params[:dl] ? AUDIO_MIME_DL : AUDIO_MIME_PLAY
       send_file file_path, :type => mime_type,
-      :filename => @mp3.download_filename,
+      :filename => current_resource.download_filename,
       :x_sendfile => (Rails.env == 'production')
     else
       logger.info "Missing file path for audio #{file_path}"
-      flash[:warning] = t(:nsf)
-      redirect_to root_path
+      redirect_to root_url, warning: t(:nsf)
     end
   end
 
   def delete
-    @am = AudioMessage.find(params[:id])
+    @am = current_resource
     @am.update_attributes(:publish => false)
-    flash[:notice] = "Deleted #{@am.speaker.catalog_name} #{@am.full_title} (#{@am.id})"
-    redirect_to (request.env["HTTP_REFERER"] || root_path)
+    redirect_to (request.env["HTTP_REFERER"] || root_url),
+          notice: "Deleted #{@am.speaker.catalog_name} #{@am.full_title} (#{@am.id})"
   end
 
   def gold
-    path = params[:speaker_name] + "/" + params[:filename] + ".mp3"
-    @mp3 = AudioMessage.find(:first,
-                             :conditions => ['publish = ? and filename = ?',
-                                             true,path])
+    @mp3 = current_resource
     if @mp3
-      logger.debug "Looking for VFC-GOLD path #{path} found #{@mp3.id}"
-      redirect_to :action => :show, :id => @mp3.id, :dl => true and return
+      redirect_to audio_message_url(@mp3,:dl => true) and return
     else
-      logger.debug "Looking for VFC-GOLD path #{path} found nothing"
-      flash[:notice] = t(:nsf)
-      redirect_to root_path
+      redirect_to root_url, notice: t(:nsf)
     end
   end
 
@@ -54,11 +41,11 @@ class AudioMessagesController < ApplicationController
     @places = Place.order(:name)
     @speakers = Speaker.active.order(:first_name,:last_name)
     @languages = Language.order(:name)
-    @audio_message = AudioMessage.find(params[:id])
+    @audio_message = current_resource
   end
 
   def update
-    @audio_message = AudioMessage.find(params[:id])
+    @audio_message = current_resource
     referer = params[:audio_message].delete(:referer)
     if @audio_message.update_attributes(params[:audio_message])
       flash[:notice] = t(:updated)
@@ -66,7 +53,7 @@ class AudioMessagesController < ApplicationController
     if referer
       redirect_to referer and return
     else
-      redirect_to :action => :edit, :id => params[:id] and return
+      redirect_to edit_audio_message_url(@audio_message) and return
     end
   end
 
@@ -78,10 +65,24 @@ class AudioMessagesController < ApplicationController
     }
     if @blocked_hosts.include?(request.remote_ip)
       logger.debug "Blocked host #{request.remote_ip} attempted mp3 access"
-      redirect_to root_path
+      redirect_to root_url
       return false
     end
     return true
+  end
+
+  def current_resource
+    begin
+      if params[:action] == "gold"
+        path = params[:speaker_name] + "/" + params[:filename] + ".mp3"
+        @current_resource = AudioMessage.find(:first,
+                                              :conditions => ['publish = ? and filename = ?',
+                                                              true,path])
+      elsif params[:id]
+        @current_resource ||= AudioMessage.find(params[:id],:conditions => ['publish = ?',true])
+      end
+    rescue
+    end
   end
 
 end

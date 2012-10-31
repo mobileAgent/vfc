@@ -12,15 +12,15 @@ class UserControllerTest < ActionController::TestCase
     assert_response :success
   end
   
-  test "access protected action without login mus fail" do
+  test "access protected action without login must fail" do
     session[:user_id] = nil
     get :change_password
-    assert_redirected_to "/login"
+    assert_redirected_to root_url
   end
 
   test "change of password saved through" do
     post :update_password, :user => {:password => "newpass", :password_confirmation => "newpass" }
-    assert_redirected_to root_path
+    assert_redirected_to root_url
     assert User.authenticate @user.email, "newpass"
   end
 
@@ -32,13 +32,13 @@ class UserControllerTest < ActionController::TestCase
 
 
   test "user account creation page returned on get" do
-    get :add_user
+    get :register
     assert_response :success
   end
 
   test "user account created on page post" do
     assert_difference('User.count') do
-      post :add_user, :user => FactoryGirl.attributes_for(:user)
+      post :register, :user => FactoryGirl.attributes_for(:user)
     end
   end
   

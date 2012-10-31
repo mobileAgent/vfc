@@ -65,7 +65,7 @@ class WelcomeController < ApplicationController
     end
     
     if params[:q].nil?
-      redirect_to root_path
+      redirect_to root_url
       return
     end
     
@@ -78,18 +78,15 @@ class WelcomeController < ApplicationController
     begin
       if @items.nil? || @items.size == 0 ||
           (@items.respond_to?(:error?) && @items.error?)
-        flash[:notice] = t(:no_match, :query => params[:q])
-        redirect_to root_path and return
+        redirect_to root_url, notice: t(:no_match, :query => params[:q]) and return
       end
     rescue
       puts "We had a problem with the results #{$!}"
-      flash[:notice] = t(:no_match, :query => params[:q])
-      redirect_to root_path and return
+      redirect_to root_url, notice: t(:no_match, :query => params[:q]) and return
     end
 
     if @items.last.nil?
-      flash[:notice] = t(:no_match, :query => params[:q])
-      redirect_to root_path and return
+      redirect_to root_url, notice: t(:no_match, :query => params[:q]) and return
     end
     
     if @items.last.speaker && @items.last.speaker.full_name == params[:q]

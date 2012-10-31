@@ -1,7 +1,7 @@
 class SpeakersController < ApplicationController
 
   include SpeakerHelper
-  before_filter :authorize_admin, :only => [:edit, :update, :new, :create]
+  # before_filter :authorize_admin, :only => [:edit, :update, :new, :create]
   
   def index
     @speakers = Rails.cache.fetch('speaker_cloud',:expires_in => 30.minutes) {
@@ -28,24 +28,10 @@ class SpeakersController < ApplicationController
     show
   end
 
-  def name
-  end
-
   def show
-    if params[:id].match(/([A-Z][A-Za-z]+)/)
-      @speaker = Speaker.where("concat(last_name,first_name,ifnull(middle_name,'')) = ?",$1).first
-      # help emacs ruby mode get back in sync"
-    else
-      begin
-        @speaker = Speaker.find(params[:id])
-      rescue
-        # No such speaker
-      end
-    end
-    
+    @speaker = current_resource
     unless @speaker
-      flash[:notice] = t(:nsr)
-      redirect_to :action => :index and return
+      redirect_to place_url, notice: t(:nsr) and return
     end
     messages_by_speaker
   end
@@ -56,23 +42,22 @@ class SpeakersController < ApplicationController
   end
 
   def edit
-    @speaker = Speaker.find(params[:id])
+    @speaker = current_resource
   end
 
   def create
     @speaker = Speaker.create(params[:speaker])
     Rails.cache.delete('speaker_cloud')
-    flash[:notice] = t(:created)
-    redirect_to :action => :edit, :id => @speaker.id and return
+    redirect_to edit_speaker_url(@speaker), notice: t(:created) and return
   end
 
   def update
-    @speaker = Speaker.find(params[:id])
+    @speaker = current_resource
     if @speaker.update_attributes(params[:speaker])
       Rails.cache.delete('speaker_cloud')
       flash[:notice] = t(:updated)
     end
-    redirect_to :action => :edit, :id => @speaker.id and return
+    redirect_to edit_speaker_url(@speaker) and return
   end
 
   private
@@ -96,4 +81,19 @@ class SpeakersController < ApplicationController
     end
   end
 
+  def current_resource
+    if params[:id]
+      if params[:id].match(/([A-Z][A-Za-z]+)/)
+        @current_resource ||= Speaker.where("concat(last_name,first_name,ifnull(middle_name,'')) = ?",$1).first
+        # help emacs ruby mode get back in sync"
+      else
+        begin
+          @current_resource ||= Speaker.find(params[:id])
+        rescue
+          # No such speaker
+        end
+      end
+    end
+  end
+  
 end

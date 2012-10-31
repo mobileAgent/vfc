@@ -11,13 +11,12 @@ class WritingsController < ApplicationController
   end
 
   def show
-    begin
-      @writing = Writing.find(params[:id])
-      @speaker = @writing.speaker
-    rescue
-      flash[:notice] = t(:nsf)
-      redirect_to writings_path and return
+    @writing = current_resource
+    unless @writing
+      redirect_to writings_url, notice: t(:nsf) and return
     end
+    
+    @speaker = @writing.speaker
     file_path = "#{WRITINGS_PATH}/#{@writing.filename}"
     if File.exists?(file_path)
       if (file_path.index(/\.pdf$/))
@@ -34,10 +33,20 @@ class WritingsController < ApplicationController
         redirect_to :action => :speaker, :id => @writing.speaker.id
       end
     else
-      flash[:notice] = t(:nsf)
-      redirect_to :action => :speaker, :id => @writing.speaker.id
+      redirect_to :action => :speaker, :id => @writing.speaker.id, notice: t(:nsf)
     end
     
+  end
+
+  protected
+
+  def current_resource
+    unless params[:action] == "speaker"
+      begin
+        @current_resource ||= Writing.find(params[:id]) if params[:id]
+      rescue
+      end
+    end
   end
   
 end

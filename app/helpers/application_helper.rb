@@ -68,33 +68,6 @@ module ApplicationHelper
     %w(asc desc).include?(params[:direction]) ? params[:direction] : "asc"
   end
 
-  def authorize
-    if !session[:user_id] || !User.find_by_id(session[:user_id])
-      session[:original_uri] = request.url
-      flash[:notice] = I18n.t("login.unauthorized")
-      redirect_to(:controller => "login", :action => "login") and return
-    end
-    @current_user = User.find_by_id(session[:user_id])
-    session[:user] = @current_user
-    # login( link_to @curent_user.email, '/account')
-  end
-
-  def authorize_admin
-    session[:original_uri] = request.url
-    if session[:user_id]
-      user = User.find_by_id(session[:user_id])
-      unless user && user.admin?
-        redirect_to root_path and return
-      end
-    else
-      redirect_to root_path and return
-    end
-    @current_user = User.find_by_id(session[:user_id])
-    session[:user] = @current_user
-    # login( link_to @curent_user.email, '/account')
-  end
-
-  
   def download_zipline(audio_items,query_string,page=1)
     page = 1 if page.blank?
     page = page.to_i

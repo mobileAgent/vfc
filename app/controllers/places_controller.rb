@@ -1,26 +1,20 @@
 class PlacesController < ApplicationController
 
-  before_filter :authorize_admin, :only => [:edit, :update, :new, :create]
+  # before_filter :authorize_admin, :only => [:edit, :update, :new, :create]
   
   def index
     @places = Place.order(:name)
   end
 
   def speakers
-    @place = Place.find(params[:id])
+    @place = current_resource
     @speakers = @place.speakers.order(:last_name, :first_name)
   end
 
   def show
-    if params[:id].match(/([A-Z][A-Za-z]+)/)
-      @place = Place.find(:first, :conditions => ["name like ?","#{params[:id]}%"])
-    else
-      @place = Place.find(params[:id])
-    end
-
+    @place = current_resource
     if @place.nil?
-      flash[:notice] = t(:nsr)
-      redirect_to root_path and return
+      redirect_to root_url, notice: t(:nsr) and return
     end
 
     @query_title = "Messages in #{@place.name}"
@@ -47,20 +41,35 @@ class PlacesController < ApplicationController
 
   def create
     @place = Place.create(params[:place])
-    flash[:notice] = "Created"
-    redirect_to :action => :edit, :id => @place.id and return
+    redirect_to edit_place_url(@place), notice: "Created" and return
   end
 
   def edit
-    @place = Place.find(params[:id])
+    @place = current_resource
   end
 
   def update
-    @place = Place.find(params[:id])
+    @place = current_resource
     if @place.update_attributes(params[:place])
       flash[:notice] = t(:updated)
     end
-    redirect_to :action => :edit, :id => @place.id and return
+    redirect_to edit_place_url(@place) and return
   end
+
+  protected
+  
+  def current_resource
+    if params[:id]
+      begin
+        if params[:id].match(/([A-Z][A-Za-z]+)/)
+          @current_resource ||= Place.find(:first, :conditions => ["name like ?","#{params[:id]}%"])
+        else
+          @current_resource ||= Place.find(params[:id])
+        end
+      rescue
+      end
+    end
+  end
+
   
 end

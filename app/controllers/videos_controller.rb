@@ -17,8 +17,7 @@ class VideosController < ApplicationController
       @video = Video.find(params[:id])
       @speaker = @video.speaker
     rescue
-      flash[:notice] = t(:nsf)
-      redirect_to :action => :index and return
+      redirect_to videos_url, notice: t(:nsf) and return
     end
     
     file_path = "#{VIDEO_PATH}/#{@video.filename}"
@@ -27,8 +26,7 @@ class VideosController < ApplicationController
       send_file file_path, :type => "video/mp4",
       :x_sendfile => (Rails.env == 'production')
     else
-      flash[:notice] = t(:nsf)
-      redirect_to :action => :index
+      redirect_to videos_url, notice: t(:nsf)
     end
   end
 

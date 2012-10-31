@@ -15,8 +15,7 @@ class NotesController < ApplicationController
       @note = Note.find(params[:id])
       @speaker = @note.speaker
     rescue
-      flash[:notice] = t(:nsf)
-      redirect_to root_path and return
+      redirect_to root_url, notice: t(:nsf) and return
     end
     file_path = "#{NOTES_PATH}/#{@note.filename}"
     if File.exists?(file_path)
