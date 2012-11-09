@@ -26,6 +26,8 @@ gem 'nokogiri'
 # gem 'aws-s3', :require => 'aws/s3'
 
 gem 'jquery-rails'
+gem 'turbolinks'
+gem 'jquery-turbolinks'
 gem 'will_paginate',
   :git => 'git://github.com/mislav/will_paginate.git'
 
@@ -50,7 +52,7 @@ group :assets do
   gem 'uglifier', ">= 1.0.3"
 end
    
-gem 'exception_notification', :require => 'exception_notifier'  
+gem 'exception_notification', :require => 'exception_notifier'
 
 # Bundle gems for the local environment. Make sure to
 # put test-only gems in this group so their generators
