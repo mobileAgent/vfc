@@ -12,16 +12,36 @@ class Permission
     allow :places, [:index, :speakers, :show]
     allow :speakers, [:index, :place, :language, :show]
     allow :tags, [:show]
-    allow :user, [:register]
+    allow :user, [:new,:register]
     allow :videos, [:index, :speaker, :show]
     allow :welcome, [:index, :thanks, :search, :contact, :about, :autocomplete, :search, :favicon]
     allow :writings, [:index, :speaker, :show]
+    
     if user
-      allow :user, [:index, :change_password, :update_password]
-      #allow :audio_message, [:edit, :update] do |audio_message|
-      #  audio_message.speaker_id = user.speaker_id
-      #end
-      allow_all if user.admin?
+      if user.admin?
+        allow_all
+      else
+        allow :user, [:index, :change_password, :update_password]
+        if user.audio_message_editor?
+          allow :audio_messages, [:edit, :update]
+          allow_param :audio_message, [:title, :subj, :speaker, :place, :publish, :event_date, :language]
+        end
+        if user.speaker_editor?
+          allow :speakers, [:edit, :update]
+          allow_param :speaker, [:first_name, :last_name, :middle_name, :suffix, :picture_file, :bio]
+        end
+        if user.place_editor?
+          allow :places, [:edit, :update]
+          allow_param :place, [:name, :cc, :picture_file, :bio]
+        end
+        if user.video_editor?
+          allow :videos, [:edit, :update]
+          allow_param :video, [:title]
+        end
+        if user.tags_editor?
+          #allow :tags, [:edit, :update, :create]
+        end
+      end
     end
   end
 
@@ -43,5 +63,32 @@ class Permission
     end
   end
 
+  def allow_param(resources, attributes)
+    @allowed_params ||= {}
+    Array(resources).each do |resource|
+      @allowed_params[resource.to_s] ||= []
+      @allowed_params[resource.to_s] += Array(attributes).map(&:to_s)
+    end
+  end
+
+  def allow_param?(resource, attribute)
+    if @allow_all
+      true 
+    elsif @allowed_params && @allowed_params[resource.to_s]
+      @allowed_params[resource.to_s].include? attribute.to_s
+    end
+  end
+
+  def permit_params!(params)
+    if @allow_all
+      params.permit!
+    elsif @allowed_params
+      @allowed_params.each do |resource, attributes|
+        if params[resource].respond_to? :permit
+          params[resource] = params[resource].permit(*attributes)
+        end
+      end
+    end
+  end
 
 end

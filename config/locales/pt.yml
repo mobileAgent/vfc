@@ -78,7 +78,7 @@ pt:
     user: "Hi, %{user}"
     reset: "New password has been mailed to you at %{email}"
     fail: "The information provided does not match our records"
-    created: "Account created for %{email}"
+    created: "Welcome, %{username}, account created for %{email}"
     password_updated: "Password updated"
     forgotten_password:
       form_instruction: "Please enter the email address you used to register with us."

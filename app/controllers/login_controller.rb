@@ -17,9 +17,9 @@ class LoginController < ApplicationController
           session[:user_id] = user.id
           session[:user] = user
           if user.admin?
-             flash[:notice] = t("login.admin", :user => user.email)
+             flash[:notice] = t("login.admin", :user => user.name)
           else
-             flash[:notice] = t("login.user", :user => user.email)
+             flash[:notice] = t("login.user", :user => user.name)
           end
          redirect_to root_url and return
        else

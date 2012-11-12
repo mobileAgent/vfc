@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121008160539) do
+ActiveRecord::Schema.define(:version => 20121112023300) do
 
   create_table "audio_messages", :force => true do |t|
     t.string   "title"
@@ -455,16 +455,21 @@ ActiveRecord::Schema.define(:version => 20121008160539) do
   end
 
   create_table "users", :force => true do |t|
-    t.string   "email",           :limit => 128, :default => "",    :null => false
-    t.string   "hashed_password",                :default => "",    :null => false
-    t.string   "salt",                                              :null => false
-    t.boolean  "admin",                          :default => false, :null => false
-    t.boolean  "activated",                      :default => false, :null => false
-    t.integer  "lock_version",                   :default => 0,     :null => false
-    t.datetime "last_visit",                                        :null => false
-    t.datetime "created_at",                                        :null => false
-    t.datetime "updated_at",                                        :null => false
-    t.string   "name",            :limit => 128
+    t.string   "email",                :limit => 128, :default => "",    :null => false
+    t.string   "hashed_password",                     :default => "",    :null => false
+    t.string   "salt",                                                   :null => false
+    t.boolean  "admin",                               :default => false, :null => false
+    t.boolean  "activated",                           :default => false, :null => false
+    t.integer  "lock_version",                        :default => 0,     :null => false
+    t.datetime "last_visit",                                             :null => false
+    t.datetime "created_at",                                             :null => false
+    t.datetime "updated_at",                                             :null => false
+    t.string   "name",                 :limit => 128
+    t.boolean  "place_editor"
+    t.boolean  "speaker_editor"
+    t.boolean  "audio_message_editor"
+    t.boolean  "video_editor"
+    t.boolean  "tags_editor"
   end
 
   create_table "vfc", :force => true do |t|

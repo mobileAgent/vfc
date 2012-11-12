@@ -3,33 +3,47 @@
 
 <%= form_for @speaker do |f| %>
 
+    <% if allow_param? :speaker, :last_name %>
     <%= f.label :last_name %>
     <%= f.text_field :last_name, :size => 50 %>
     <br />
+    <% end %>
     
+    <% if allow_param? :speaker, :first_name %>
     <%= f.label :first_name %>
     <%= f.text_field :first_name, :size => 50 %>
     <br />
+    <% end %>
     
+    <% if allow_param? :speaker, :middle_name %>
     <%= f.label :middle_name %>
     <%= f.text_field :middle_name, :size => 50 %>
     <br />
+    <% end %>
 
+    <% if allow_param? :speaker, :suffix %>
     <%= f.label :suffix %>
     <%= f.text_field :suffix, :size => 50 %>
     <br />
+    <% end %>
 
+    <% if allow_param? :speaker, :picture_file %>
     <%= f.label :picture_file %>
     <%= f.text_field :picture_file, :size => 50 %>
     <br />
+    <% end %>
 
+    <% if allow_param? :speaker, :hidden %>
     <%= f.label :hidden %>
     <%= f.check_box :hidden %>
     <br />
+    <% end %>
 
+    <% if allow_param? :speaker, :bio %>
     <%= f.label :bio %>
     <%= f.text_area :bio %>
     <br />
+    <% end %>
 
   <%= f.submit %>
 

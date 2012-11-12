@@ -2,6 +2,10 @@ class UserController < ApplicationController
 
   def index
   end
+
+  def new
+    render :register
+  end
     
   def register
     @user = User.new(params[:user])
@@ -9,7 +13,7 @@ class UserController < ApplicationController
     if request.post? and @user.save
       session[:user_id] = @user.id
       uri = session[:original_uri]
-      redirect_to (uri || root_url), notice: t("login.created", :email => @user.email)
+      redirect_to (uri || root_url), notice: t("login.created", :username => @user.name, :email => @user.email)
     end
   end
   

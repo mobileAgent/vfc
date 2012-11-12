@@ -24,7 +24,7 @@ class AudioMessagesController < ApplicationController
   def delete
     @am = current_resource
     @am.update_attributes(:publish => false)
-    redirect_to (request.env["HTTP_REFERER"] || root_url),
+    redirect_to (request.env["HTTP_X_XHR_REFERER"] || request.env["HTTP_REFERER"] || root_url),
           notice: "Deleted #{@am.speaker.catalog_name} #{@am.full_title} (#{@am.id})"
   end
 
@@ -39,14 +39,14 @@ class AudioMessagesController < ApplicationController
 
   def edit
     @places = Place.order(:name)
-    @speakers = Speaker.active.order(:first_name,:last_name)
+    @speakers = Speaker.active.order(:last_name,:first_name)
     @languages = Language.order(:name)
     @audio_message = current_resource
   end
 
   def update
     @audio_message = current_resource
-    referer = params[:audio_message].delete(:referer)
+    referer = params[:referer][:url]
     if @audio_message.update_attributes(params[:audio_message])
       flash[:notice] = t(:updated)
     end

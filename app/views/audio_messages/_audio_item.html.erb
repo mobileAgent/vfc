@@ -11,12 +11,14 @@
     <%= link_to item.speaker.catalog_name, speaker_path(item.speaker) if item.speaker%>
   </td>
   <td title='<%= t("audio.tooltip", :size => item.human_filesize, :duration => item.human_duration) %>'>
-    <% if session[:user] && session[:user].admin? %>
+    <% if allow? "audio_messages", "edit" %>
         <%=  link_to(item.full_title, {:controller => :audio_messages, :action => :edit, :id => item}) %>
-        <%= link_to icon(:cut, :title => "Delete item"),
-         {:controller => :audio_messages, :action => :delete, :id => item} %>
      <% else %>
         <%= item.full_title %>
+     <% end %>
+    <% if allow? "audio_messages", "delete" %>
+        <%= link_to icon(:cut, :title => "Delete item"),
+         {:controller => :audio_messages, :action => :delete, :id => item} %>
      <% end %>
      <% if item.note_id? %>
        <%= link_to icon(:attach, :title => t("audio.notes_available")),

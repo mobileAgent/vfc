@@ -11,6 +11,9 @@ class ApplicationController < ActionController::Base
   
   delegate :allow?, to: :current_permission
   helper_method :current_user, :allow?
+  
+  delegate :allow_param?, to: :current_permission
+  helper_method :current_user, :allow_param?
 
   protected
 
@@ -74,7 +77,9 @@ class ApplicationController < ActionController::Base
   end
   
   def authorize
-    if !current_permission.allow?(params[:controller], params[:action], current_resource)
+    if current_permission.allow?(params[:controller], params[:action], current_resource)
+      current_permission.permit_params! params
+    else
       redirect_to root_url, notice: t(:unauthorized)
     end
   end

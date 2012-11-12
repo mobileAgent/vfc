@@ -14,7 +14,7 @@ class LoginControllerTest < ActionController::TestCase
     @user = FactoryGirl.create(:user)
     post :login, :email => @user.email, :password => 'secret'
     assert_response :redirect
-    assert_match /Hi, #{@user.email}.*/,flash[:notice]
+    assert_match /Hi, #{@user.name}.*/,flash[:notice]
     assert_equal session[:user_id],@user.id
   end
 
@@ -47,7 +47,7 @@ class LoginControllerTest < ActionController::TestCase
   test "login as admin user" do
     @user = FactoryGirl.create(:user, :admin => true)
     post :login, :email => @user.email, :password => 'secret'
-    assert_match /Kenichiwa, #{@user.email}.*/,flash[:notice]
+    assert_match /Kenichiwa, #{@user.name}.*/,flash[:notice]
     assert_equal session[:user_id],@user.id
   end
 

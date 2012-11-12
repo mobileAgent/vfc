@@ -26,8 +26,15 @@ gem 'nokogiri'
 # gem 'aws-s3', :require => 'aws/s3'
 
 gem 'jquery-rails'
+
+# Strong parameters is the default in rails4
+gem 'strong_parameters'
+
+
+# Turbolinks is the default in rails4
 gem 'turbolinks'
 gem 'jquery-turbolinks'
+
 gem 'will_paginate',
   :git => 'git://github.com/mislav/will_paginate.git'
 

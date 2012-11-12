@@ -1,9 +1,8 @@
 <% title(t("menu.speakers")) %>
 <% @letter = '!' %>
 <%= link_to t(".as_cloud"), :action => :index, :view => :cloud %>
-<% if session[:user] && session[:user].admin? %>
+<% if allow? "speakers","create" %>
   <%= link_to "New speaker", :action => :new %>
-  <% admin = true %>
 <% end %>  
 <% @speakers.each do |speaker| %>
   <% if @letter != speaker.index_letter %>
@@ -18,7 +17,7 @@
     <%- # careful this is the cache ostruct, not a real speaker ar object -%>
     <%= speaker.catalog_name %>
       ~ <%= link_to pluralize(speaker.count,t(:message)), "/speakers/show/#{speaker.speaker_id}" %>
-      <% if admin %>
+      <% if allow? "speakers","edit" %>
         (<%= link_to "edit", :action => :edit, :id => speaker.speaker_id %>)
       <% end %>
   </li>

@@ -3,21 +3,29 @@
 
 <%= form_for @place do |f| %>
 
+  <% if allow_param? :speaker, :name %>
   <%= f.label :name %>
   <%= f.text_field :name, :size => 20 %>
   <br />
+  <% end %>
 
+  <% if allow_param? :speaker, :cc %>
   <%= f.label :cc %>
   <%= f.text_field :cc, :size => 2 %>
   <br />
+  <% end %>
 
-    <%= f.label :picture_file %>
-    <%= f.text_field :picture_file, :size => 50 %>
-    <br />
+  <% if allow_param? :speaker, :picture_file %>
+  <%= f.label :picture_file %>
+  <%= f.text_field :picture_file, :size => 50 %>
+  <br />
+  <% end %>
 
-    <%= f.label :bio %>
-    <%= f.text_area :bio %>
-    <br />
+  <% if allow_param? :speaker, :bio %>
+  <%= f.label :bio %>
+  <%= f.text_area :bio %>
+  <br />
+  <% end %>
 
   <%= f.submit %>
 

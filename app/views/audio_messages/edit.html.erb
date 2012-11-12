@@ -2,51 +2,73 @@
 <br />
 <%= form_for @audio_message do |f| %>
 
-    <%= f.hidden_field :referer, :value => request.env["HTTP_REFERER"] %>
+    <%= hidden_field :referer, :url, :value => (request.env["HTTP_X_XHR_REFERER"] || request.env["HTTP_REFERER"]) %>
 
+    <% if allow_param? :audio_message, :title %>
     <%= f.label :title %>
     <%= f.text_field :title, :size => 50 %>
     <br />
+    <% end %>
     
+    <% if allow_param? :audio_message, :subj %>
     <%= f.label :subj %>
     <%= f.text_field :subj, :size => 50 %>
     <br />
+    <% end %>
 
+    <% if allow_param? :audio_message, :language %>
     <%= f.label :language %>
     <%= f.collection_select(:language_id, @languages, :id, :name ) %>
     <br />
+    <% end %>
 
+    <% if allow_param? :audio_message, :speaker %>
     <%= f.label :speaker %>
     <%= f.collection_select(:speaker_id, @speakers, :id, :full_name, {:include_blank => true }) %>
     <br />
+    <% end %>
 
+    <% if allow_param? :audio_message, :place %>
     <%= f.label :place %>
     <%= f.collection_select(:place_id, @places, :id, :name, {:include_blank => true}) %>
     <br />
+    <% end %>
 
+    <% if allow_param? :audio_message, :filename %>
     <%= f.label :filename %>
     <%= f.text_field :filename, :size => 50 %>
     <br />
+    <% end %>
 
+    <% if allow_param? :audio_message, :duration %>
     <%= f.label :duration %>
     <%= f.text_field :duration %>
     <br />
+    <% end %>
 
+    <% if allow_param? :audio_message, :filesize %>
     <%= f.label :filesize %>
     <%= f.text_field :filesize %>
     <br />
+    <% end %>
 
+    <% if allow_param? :audio_message, :note_id %>
     <%= f.label :note_id %>
     <%= f.text_field :note_id %>
     <br />
+    <% end %>
 
+    <% if allow_param? :audio_message, :event_date %>
     <%= f.label :event_date %>
     <%= f.date_select :event_date, :include_blank => true, :start_year => 1940 %>
     <br />
+    <% end %>
 
+    <% if allow_param? :audio_message, :publish %>
     <%= f.label :publish %>
     <%= f.check_box :publish %>
     <br />
+    <% end %>
 
   <%= f.submit %>
 

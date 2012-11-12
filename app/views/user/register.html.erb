@@ -4,7 +4,7 @@
   <fieldset>
      <legend><% t("login.login.create_account") %></legend>
    
-     <%= form_for :user do |form| %>
+     <%= form_for :user, :url => {:action => :register} do |form| %>
 
         <p>
           <label for="user_name" class="col1"><%= t("user.index.username") %></label>
