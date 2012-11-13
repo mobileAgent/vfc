@@ -60,6 +60,11 @@ FactoryGirl.define do
     last_visit Date.today - 30
     password "secret"
     admin false
+    place_editor false
+    speaker_editor false
+    audio_message_editor false
+    video_editor false
+    tags_editor false
   end
 
   factory :hymn do

@@ -61,7 +61,7 @@ class AudioMessagesControllerTest < ActionController::TestCase
   end
 
   test "edit audio message" do
-    login(true)
+    login(false,true)
     @a = FactoryGirl.create(:audio_message)
     get :edit, :id => @a.id
     assert_response :success
@@ -69,7 +69,7 @@ class AudioMessagesControllerTest < ActionController::TestCase
   end
 
   test "update audio message" do
-    login(true)
+    login(false,true)
     @a = FactoryGirl.create(:audio_message)
     @p = FactoryGirl.create(:place)
     @s = FactoryGirl.create(:speaker)
@@ -86,6 +86,30 @@ class AudioMessagesControllerTest < ActionController::TestCase
     assert_equal @p.id, @newa.place_id
     assert_equal @s.id, @newa.speaker_id
   end
+  
+  test "update audio message protected attribute fails as editor" do
+    login(false,true)
+    @a = FactoryGirl.create(:audio_message)
+    old_size = @a.filesize
+    @a.filesize = old_size * 2
+    post :update, :id => @a.id, :audio_message => @a.attributes
+    assert_response :redirect
+    assert_not_nil assigns(:audio_message)
+    @newa = AudioMessage.find(@a.id)
+    assert_equal old_size, @newa.filesize, "Update on protected attribute must fail"
+  end
+  
+  test "update audio message protected attribute succeeds as admin" do
+    login(true)
+    @a = FactoryGirl.create(:audio_message)
+    old_size = @a.filesize
+    @a.filesize = old_size * 2
+    post :update, :id => @a.id, :audio_message => @a.attributes
+    assert_response :redirect
+    assert_not_nil assigns(:audio_message)
+    @newa = AudioMessage.find(@a.id)
+    assert_equal @a.filesize, @newa.filesize,"Update on protected attribute must succeed"
+  end
 
   test "delete audio message" do
     login(true)
@@ -97,8 +121,8 @@ class AudioMessagesControllerTest < ActionController::TestCase
   
   protected
   
-  def login(admin=false)
-    @user = FactoryGirl.create(:user, :admin => admin)
+  def login(admin=false,editor=false)
+    @user = FactoryGirl.create(:user, :admin => admin, :audio_message_editor => editor)
     session[:user_id] = @user.id
     session[:user] = @user
   end

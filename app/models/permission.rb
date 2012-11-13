@@ -24,7 +24,7 @@ class Permission
         allow :user, [:index, :change_password, :update_password]
         if user.audio_message_editor?
           allow :audio_messages, [:edit, :update]
-          allow_param :audio_message, [:title, :subj, :speaker, :place, :publish, :event_date, :language]
+          allow_param :audio_message, [:title, :subj, :speaker_id, :place_id, :publish, :event_date, :language_id]
         end
         if user.speaker_editor?
           allow :speakers, [:edit, :update]

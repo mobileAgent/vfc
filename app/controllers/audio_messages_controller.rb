@@ -46,7 +46,7 @@ class AudioMessagesController < ApplicationController
 
   def update
     @audio_message = current_resource
-    referer = params[:referer][:url]
+    referer = params[:referer][:url] if (params[:referer] && params[:referer][:url])
     if @audio_message.update_attributes(params[:audio_message])
       flash[:notice] = t(:updated)
     end

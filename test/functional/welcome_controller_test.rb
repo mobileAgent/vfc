@@ -91,4 +91,9 @@ class WelcomeControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "favicon shortcut action" do
+    get :favicon
+    assert_response :redirect
+  end
+
 end

@@ -6,9 +6,9 @@ class LoginController < ApplicationController
 
   def login
     @title = t("title.login")
-    session[:user_id] = nil
+    session[:user_id] = session[:user] = nil
     if request.post?
-       user = User.authenticate(params[:email], params[:password])
+      user = User.authenticate(params[:email], params[:password])
        if user
           uri = session[:original_uri]
           #request.reset_session    # create a new session to stop fixation

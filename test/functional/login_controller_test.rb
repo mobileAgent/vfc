@@ -3,6 +3,7 @@ require 'test_helper'
 class LoginControllerTest < ActionController::TestCase
 
   test "login with wrong password must fail" do
+    session[:user_id] = nil
     @user = FactoryGirl.create(:user)
     post :login, :email => @user.email, :password => 'xyzzy'
     assert_response :success
@@ -11,6 +12,7 @@ class LoginControllerTest < ActionController::TestCase
   end
   
   test "login with correct password" do
+    session[:user_id] = nil
     @user = FactoryGirl.create(:user)
     post :login, :email => @user.email, :password => 'secret'
     assert_response :redirect
@@ -19,6 +21,7 @@ class LoginControllerTest < ActionController::TestCase
   end
 
   test "reset password action generates email and saves new password" do
+    session[:user_id] = nil
     @user = FactoryGirl.create(:user)
     @old_password = @user.password
     post :reset_password, :email => @user.email
@@ -45,8 +48,9 @@ class LoginControllerTest < ActionController::TestCase
   end
 
   test "login as admin user" do
-    @user = FactoryGirl.create(:user, :admin => true)
-    post :login, :email => @user.email, :password => 'secret'
+    session[:user_id] = nil
+    @user = FactoryGirl.create(:user, :admin => true, :password => "admin-secret")
+    post :login, :email => @user.email, :password => 'admin-secret'
     assert_match /Kenichiwa, #{@user.name}.*/,flash[:notice]
     assert_equal session[:user_id],@user.id
   end
