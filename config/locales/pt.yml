@@ -93,7 +93,7 @@ pt:
       submit: "Login"
       forgotten_link: "Get a new one mailed to you"
 
-  user:
+  users:
     index:
       title: Account Details
       username: Username

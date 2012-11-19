@@ -1,8 +1,6 @@
 class AudioMessagesController < ApplicationController
 
   before_filter :check_blocked_hosts
-  # before_filter :authorize_admin, :only => [:edit, :update, :delete]
-  
 
   def show
     unless current_resource

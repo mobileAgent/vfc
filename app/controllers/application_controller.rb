@@ -21,6 +21,7 @@ class ApplicationController < ActionController::Base
     # Cache class warmup
     Motm
     AudioMessage
+    User
     
     @tagline = 
       Rails.cache.fetch("tagline-#{@locale}",:expires_in => 30.minutes) {

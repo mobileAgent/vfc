@@ -6,15 +6,14 @@
   <li><%= t(".registered_email") %>: <%= @current_user.email %></li>
   <li><%= t(".created_on") %>: <%= @current_user.created_at %></li>
   <li><%= t(".last_visit") %>: <%= @current_user.last_visit %></li>
-  <li><%= link_to t("title.password_change"), "/user/change_password" %></li>
+  <li><%= link_to t("title.password_change"), "/users/change_password" %></li>
   <% if @current_user.admin? %>
     <li>administrator</li>
   <% end %>
   <% %w(audio_message speaker place video tags).each do |etype| %>
-    <% if @current_user.send("#{etype}_editor?".to_sym %>
+    <% if @current_user.send("#{etype}_editor?".to_sym) %>
       <li><%= etype %> editor</li>
     <% end %>
   <% end %>
   <li><%= link_to t(".logout"), "/login/logout" %></li>
 </ul>
-  

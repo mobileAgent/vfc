@@ -1,0 +1,37 @@
+<% title("Users") %>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Last Seen</th>
+      <th>Admin</th>
+      <th>Audio</th>
+      <th>Speaker</th>
+      <th>Place</th>
+      <th>Video</th>
+      <th>Tags</th>
+      <th> </th>
+    </tr>
+  </thead>
+  <tbody>
+  <% @users.each do |user| %>
+  <tr>
+     <td><%= user.name %></td>
+     <td><%= user.email %></td>
+     <td><%= user.last_visit %></td>
+     <td><%= user.admin? ? "x" : " "%></td>
+     <td><%= user.audio_message_editor? ? "x" : " "%></td>
+     <td><%= user.speaker_editor? ? "x" : " "%></td>
+     <td><%= user.place_editor? ? "x" : " "%></td>
+     <td><%= user.video_editor? ? "x" : " "%></td>
+     <td><%= user.tags_editor? ? "x" : " "%></td>
+     <td>
+       <%= link_to "E", "/users/edit/#{user.id}" %>
+       <%= link_to "X", "/users/delete/#{user.id}" %>
+     </td>
+  </tr>
+  <% end %>
+  </tbody>
+</table>  
+  

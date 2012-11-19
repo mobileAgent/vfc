@@ -1,0 +1,41 @@
+<% title("User") %>
+<h2>Edit User</h2>
+<br />
+
+<%= form_for @user, :url => "/users/update/#{@user.id}" do |f| %>
+
+       <label for="user_name" class="col1">Name:</label>
+       <%= f.text_field :name, :size => 50 %>
+       <br />
+       
+       <label for="user_email" class="col1">Email:</label>
+       <%= f.text_field :email, :size => 50 %>
+       <br />
+       
+       <label for="user_admin" class="col1">Admin:</label>
+       <%= f.check_box :admin %>
+       <br />
+       
+       <label for="user_audio_message_editor" class="col1">Audio Editor:</label>
+       <%= f.check_box :audio_message_editor %>
+       <br />
+
+       <label for="user_speaker_editor" class="col1">Speaker Editor:</label>
+       <%= f.check_box :speaker_editor %>
+       <br />
+       
+       <label for="user_place_editor" class="col1">Place Editor:</label>
+       <%= f.check_box :place_editor %>
+       <br />
+       
+       <label for="user_video_editor" class="col1">Video Editor:</label>
+       <%= f.check_box :video_editor %>
+       <br />
+       
+       <label for="user_tags_editor" class="col1">Tags Editor:</label>
+       <%= f.check_box :tags_editor %>
+       <br />
+       
+        <%= f.submit %>
+
+<% end %>

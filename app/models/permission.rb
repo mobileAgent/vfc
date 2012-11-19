@@ -1,6 +1,7 @@
 class Permission
 
   def initialize(user)
+    
     allow :audio_messages, [:show, :gold]
     allow :dates, [:index, :years, :year, :speaker, :show, :delivered]
     allow :errors, [:not_found, :error]
@@ -12,7 +13,7 @@ class Permission
     allow :places, [:index, :speakers, :show]
     allow :speakers, [:index, :place, :language, :show]
     allow :tags, [:show]
-    allow :user, [:new,:register]
+    allow :users, [:new,:register]
     allow :videos, [:index, :speaker, :show]
     allow :welcome, [:index, :thanks, :search, :contact, :about, :autocomplete, :search, :favicon]
     allow :writings, [:index, :speaker, :show]
@@ -21,7 +22,7 @@ class Permission
       if user.admin?
         allow_all
       else
-        allow :user, [:index, :change_password, :update_password]
+        allow :users, [:index, :change_password, :update_password]
         if user.audio_message_editor?
           allow :audio_messages, [:edit, :update]
           allow_param :audio_message, [:title, :subj, :speaker_id, :place_id, :publish, :event_date, :language_id]

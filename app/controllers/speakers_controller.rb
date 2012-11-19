@@ -1,7 +1,6 @@
 class SpeakersController < ApplicationController
 
   include SpeakerHelper
-  # before_filter :authorize_admin, :only => [:edit, :update, :new, :create]
   
   def index
     @speakers = Rails.cache.fetch('speaker_cloud',:expires_in => 30.minutes) {

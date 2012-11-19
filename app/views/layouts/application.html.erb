@@ -22,7 +22,7 @@
           <li><%= link_to t("menu.languages"), '/languages' %></li>
           <li><%= link_to t("menu.writings"), '/writings' %></li>
           <li><%= link_to t("menu.hymns"), '/hymns' %></li>
-          <li><%= session[:user_id] ? link_to(t("menu.account"), '/user') : link_to(t("menu.login"), '/login') %></li>
+          <li><%= session[:user_id] ? link_to(t("menu.account"), '/users') : link_to(t("menu.login"), '/login') %></li>
         </ul>
         <%= link_to localized_logo_image_tag,root_path %>
         <%- if show_title? -%>

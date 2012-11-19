@@ -69,6 +69,9 @@ group :development, :test do
    gem 'autotest'
    gem 'simplecov', :require => false
    gem "mocha", :require => false
+   # gem 'guard'
+   # gem 'rb-fsevent', '~> 0.9.1'
+   # gem 'guard-test'
 end
 
 gem 'factory_girl_rails', :group => :test

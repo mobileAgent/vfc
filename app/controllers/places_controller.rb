@@ -1,7 +1,5 @@
 class PlacesController < ApplicationController
 
-  # before_filter :authorize_admin, :only => [:edit, :update, :new, :create]
-  
   def index
     @places = Place.order(:name)
   end
