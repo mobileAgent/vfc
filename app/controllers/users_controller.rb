@@ -32,7 +32,7 @@ class UsersController < ApplicationController
   end
   
   def list
-    @users = User.all
+    @users = User.all(:order => "last_visit desc")
   end
   
   def edit
