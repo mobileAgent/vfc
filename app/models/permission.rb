@@ -15,7 +15,7 @@ class Permission
     allow :tags, [:show]
     allow :users, [:new,:register]
     allow :videos, [:index, :speaker, :show]
-    allow :welcome, [:index, :thanks, :search, :contact, :about, :autocomplete, :search, :favicon]
+    allow :welcome, [:index, :thanks, :search, :contact, :about, :autocomplete, :search, :favicon, :news]
     allow :writings, [:index, :speaker, :show]
     
     if user

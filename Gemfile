@@ -65,13 +65,15 @@ gem 'exception_notification', :require => 'exception_notifier'
 # put test-only gems in this group so their generators
 # and rake tasks are available in development mode:
 group :development, :test do
-   gem 'webrat'
-   gem 'autotest'
-   gem 'simplecov', :require => false
-   gem "mocha", :require => false
-   # gem 'guard'
-   # gem 'rb-fsevent', '~> 0.9.1'
-   # gem 'guard-test'
+  gem 'webrat'
+  gem 'autotest'
+  gem 'simplecov', :require => false
+  gem "mocha", :require => false
+  gem "capybara"
+  gem "poltergeist"
+  # gem 'guard'
+  # gem 'rb-fsevent', '~> 0.9.1'
+  # gem 'guard-test'
 end
 
 gem 'factory_girl_rails', :group => :test
