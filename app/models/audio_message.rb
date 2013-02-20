@@ -16,7 +16,7 @@ class AudioMessage < ActiveRecord::Base
   define_index do
     where "publish = 1"
     indexes [title, subj],  :as => :full_title, :sortable => true
-    indexes [speaker.last_name, speaker.first_name, speaker.middle_name],
+    indexes [speaker.last_name, speaker.first_name, speaker.middle_name, speaker.suffix],
        :as => :speaker_name, :sortable => true
     indexes place.name, :as => :place, :sortable => true
     indexes language.name, :as => :language, :sortable => true
