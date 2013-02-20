@@ -60,11 +60,12 @@ class WelcomeController < ApplicationController
 
   def search
     if request.xhr?
-      autocomplete and return
+      autocomplete
+      return
     end
     
     if params[:q].nil?
-      redirect_to root_url and return
+      redirect_to(root_url) and return
     end
     
     @query_title = params[:q]

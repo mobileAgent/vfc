@@ -21,6 +21,7 @@ class Speaker < ActiveRecord::Base
     s << "#{first_name} " unless first_name.blank?
     s << "#{middle_name} " unless middle_name.blank?
     s << last_name
+    s << ", #{suffix}" unless suffix.blank?
     s
   end
   
@@ -31,6 +32,7 @@ class Speaker < ActiveRecord::Base
     s << "," if (first_name || middle_name)
     s << " #{first_name}" if first_name
     s << " #{middle_name}" if middle_name
+    s << " #{suffix}" unless suffix.blank?
     s
   end
   
