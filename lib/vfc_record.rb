@@ -30,47 +30,12 @@ class VfcRecord < ActiveRecord::Base
 
   self.table_name = "vfc"
 
+  # include VfcConverter
+
   def self.instance_method_already_implemented?(method_name)
     return true if (method_name == 'changed?' || method_name == 'changed')
     super
   end
-
-  def converted_speaker
-    ln,fn,mn = VfcRecord.convert_speaker_name(speaker.strip)
-    conditions = {:last_name => ln,:first_name => fn,:middle_name => mn }
-    Speaker.find(:first, :conditions => conditions) || Speaker.create(conditions)
-  end
-
-  def self.convert_speaker_name(old_name)
-    s = old_name
-    if s.index(/^Van Der Puy/)
-      fn = "Abe"
-      ln = "Van Der Puy"
-    elsif s.index(/^Van /) || s.index(/^Vande /)
-      # Van Ryn August
-      van,ln,fn,mn = s.split ' '
-      ln = [van,ln].join(" ")
-    elsif s.index(' ')
-      # Garnes Arthur
-      # Ironside Harry A.
-      ln,fn,mn = s.split(' ')
-      # Johnson S.Lewis
-      # Nicholson J.B.
-      if mn.nil? && fn.index('.')
-        mn = fn[fn.index('.')+1..-1]
-        fn = fn[0..fn.index('.')]
-      end
-    else
-      # Assorted => Assorted
-      ln = s
-      fn = ""
-    end
-    ln.gsub!('.','') if ln
-    fn.gsub!('.','') if fn
-    mn.gsub!('.','') if mn
-    [ln,fn,mn]
-  end
-    
 
   def converted_place
     {"Turkey Hill" => "Turkey Hill Camp",
@@ -100,56 +65,6 @@ class VfcRecord < ActiveRecord::Base
     end
     nil
   end
-
-  def converted_language
-    lang = nil
-    if language
-      if language.index /^Fr/
-        lang = Language.find_or_create_by_name('French')
-      elsif language.index /^Por/
-        lang = Language.find_or_create_by_name('Portuguese')
-      elsif language.index /^(Esp|Spa)/
-        lang = Language.find_or_create_by_name('Spanish')
-      end
-    end
-    lang = Language.find_or_create_by_name('English') unless lang
-    lang
-  end
-
-  def converted_duration
-    seconds = 0
-    if duration
-      parts = duration.split /:/
-      if parts.length == 3
-        seconds += parts[2].to_i
-        seconds += (parts[1].to_i * 60)
-        seconds += (parts[0].to_i * 3600)
-      elsif parts.length == 2
-        seconds += parts[1].to_i
-        seconds += (parts[2].to_i * 60)
-      end
-    end
-    seconds
-  end
-  
-  def converted_event_date
-    converted = nil
-    if date.present?
-      begin
-        if date.index /--([0-9]{4})--/
-          converted = DateTime.strptime(date,"--%Y--")
-        elsif date =~ /^[0-9]{4}$/
-          converted = DateTime.strptime(date,"%Y")
-        elsif date.index /^[0-9]{2}\/[0-9]{2}\/([0-9]{2})$/
-          converted = DateTime.strptime(date,"%m/%d/%y")
-          converted = converted.years_ago(100) if converted.year > DateTime.now.year
-        end
-      rescue 
-        $stderr.puts "Cannot convert date #{date}"
-      end
-    end
-    converted
-  end
   
   def convert_to_audio_message
     AudioMessage.create(
@@ -167,6 +82,7 @@ class VfcRecord < ActiveRecord::Base
                         :created_at => add_date,
                         :updated_at => change_date
                         )
+
   end
 
   def self.convert_records(records)
