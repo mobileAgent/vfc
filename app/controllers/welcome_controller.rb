@@ -117,14 +117,14 @@ class WelcomeController < ApplicationController
 
   private
 
-  def sphinx_search
+  def sphinx_search(star=true)
     logger.debug "Sphinx search for '#{params[:q]}' order #{sort_column}"
     AudioMessage.search(params[:q],
                         :page => params[:page],
                         :per_page => params[:per_page] || AudioMessage.per_page,
                         :order => sort_column,
                         :match_mode => :boolean,
-                        :star => true,
+                        :star => star,
                         :max_matches => 2500,
                         :include => [:language, :speaker, :place, :taggings])
   end
