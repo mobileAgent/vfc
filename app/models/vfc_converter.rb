@@ -1,11 +1,17 @@
 module VfcConverter
 
-  def place_locator(name)
+  def place_locator(name=nil)
     if (name.nil?  || name.blank?)
       return nil
-    else
-      return Place.find_or_create_by_name(name)
     end
+    p = Place.find_by_name(name)
+    if p.nil?
+      p = Place.find(:first, :conditions => ['name like ?',"#{name}%"])
+    end
+    if p.nil?
+      p = Place.create(:name => name)
+    end
+    p
   end
 
   
@@ -45,22 +51,23 @@ module VfcConverter
     [ln,fn,mn]
   end
 
-  def converted_language(language_name = language)
+  def converted_language(language_name="English")
     lang = nil
     if language_name
-      if language_name.index /^Fr/
+      if language_name.index /^Fre/
         lang = Language.find_or_create_by_name('French')
       elsif language_name.index /^Por/
         lang = Language.find_or_create_by_name('Portuguese')
       elsif language_name.index /^(Esp|Spa)/
         lang = Language.find_or_create_by_name('Spanish')
+      else
+        lang = Language.find_by_name(lang)
       end
     end
-    lang = Language.find_or_create_by_name('English') unless lang
-    lang
+    lang || Language.find_or_create_by_name('English')
   end
 
-  def converted_duration(duration_string = duration)
+  def converted_duration(duration_string)
     seconds = 0
     if duration_string
       parts = duration_string.split /:/
@@ -70,13 +77,13 @@ module VfcConverter
         seconds += (parts[0].to_i * 3600)
       elsif parts.length == 2
         seconds += parts[1].to_i
-        seconds += (parts[2].to_i * 60)
+        seconds += (parts[0].to_i * 60)
       end
     end
     seconds
   end
   
-  def converted_event_date(date_string = date)
+  def converted_event_date(date_string)
     converted = nil
     if date_string.present?
       begin
@@ -87,6 +94,8 @@ module VfcConverter
         elsif date_string.index /^[0-9]{2}\/[0-9]{2}\/([0-9]{2})$/
           converted = DateTime.strptime(date_string,"%m/%d/%y")
           converted = converted.years_ago(100) if converted.year > DateTime.now.year
+        else
+          converted = DateTime.parse(date_string)
         end
       rescue 
         $stderr.puts "Cannot convert date #{date_string}"

@@ -69,6 +69,13 @@ class AudioMessageTest  < Test::Unit::TestCase
     assert_equal "Jack Jimmy - A Lasting Impression",a.playlist_name
   end
 
+  def test_create_audio_with_place_relationship
+    s = FactoryGirl.create(:speaker, :first_name => "Jimmy", :last_name => "Jack", :middle_name => nil)
+    p = FactoryGirl.create(:place, :name => "Mars Hill")
+    a = FactoryGirl.create(:audio_message, :speaker => s, :title => "A Lasting Impression", :subj => nil, :place => p)
+    assert_equal p.id,a.place_id,"Place relationship must be saved"
+  end
+
 
 end
     
