@@ -1,11 +1,15 @@
   <thead>
     <tr>
+      <% if (t('menu.advanced_search') == @query_title) %>
+       <th id="play_col" title='<%=t("audio.play")%>'></th>
+      <% else %>
       <th id="play_col" title='<%=t("audio.zipline")%>'>
         <form method="POST" action="<%=request.url%>" onsubmit="return confirm('<%=t("audio.zipline_confirm")%>');">
           <input type="hidden" name="download" value="true"/>
           <input type="submit" id="zipline" value=""/>
          </form>
       </th>
+      <% end %>
       <th id="speaker_col"><%=sort_link_to "speaker_name", t("audio.table.speaker") %></th>
       <th id="title_col"><%=sort_link_to "full_title", t("audio.table.title") %></th>
       <th id="date_col"><%=sort_link_to "event_date", t("audio.table.date") %></th>

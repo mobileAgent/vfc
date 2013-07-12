@@ -58,6 +58,35 @@ class WelcomeController < ApplicationController
     render :text => @hits.to_json and return
   end
 
+  # Deliver the advanced search page
+  def advanced
+  end
+
+  # Run the advanced search
+  def advanced_search
+    star_mode = "true" != params[:exact_match]
+    sphinx_mode = :boolean
+    
+    conditions = {
+      :full_title => params[:title],
+      :speaker_name => params[:speaker],
+      :tags => params[:tags],
+      :event_date => params[:event_date],
+      :place => params[:place],
+      :language => params[:language] 
+    }
+
+    # remove blank items
+    conditions.delete_if { |k,v| v.blank? }
+    
+    @query_title = t "menu.advanced_search"
+    
+    @items = run_sphinx_search('',star_mode,sphinx_mode,conditions)
+    if @items
+      render_search_results(@items) and return
+    end
+  end
+
   def search
     if request.xhr?
       autocomplete
@@ -70,41 +99,10 @@ class WelcomeController < ApplicationController
     
     @query_title = params[:q]
     
-    @items = sphinx_search
-    # this is weird, the error is on the ThinkingSphinx::Search
-    # object but cannot just catch it by checking .error?
-    # as that blows chunks
-    begin
-      if @items.nil? || @items.size == 0 ||
-          (@items.respond_to?(:error?) && @items.error?)
-        redirect_to root_url, notice: t(:no_match, :query => params[:q]) and return
-      end
-    rescue
-      puts "We had a problem with the results #{$!}"
-      redirect_to root_url, notice: t(:no_match, :query => params[:q]) and return
-    end
-
-    if @items.last.nil?
-      redirect_to root_url, notice: t(:no_match, :query => params[:q]) and return
-    end
+    @items = run_sphinx_search(params[:q])
     
-    if @items.last.speaker && @items.last.speaker.full_name == params[:q]
-      @speaker = @items.last.speaker
-      logger.debug "Setting speaker specific search with name match on query #{@speaker.full_name}"
-    end
-
-    if @items.last.place && @items.last.place.name == params[:q]
-      @place = @items.last.place
-    end
-    
-    if request.post? && params[:download] &&
-        download_zipline(@items,params[:q],params[:page])
-      return
-    else
-      respond_to do |format|
-        format.html { render :action => :index }
-        format.m3u  { render :action => :playlist, :layout => false }
-      end
+    if @items
+      render_search_results(@items) and return
     end
   end
 
@@ -117,16 +115,69 @@ class WelcomeController < ApplicationController
 
   private
 
-  def sphinx_search(star=true)
+  def render_search_results(items)
+    
+    if request.post? && params[:download] &&
+        download_zipline(items,params[:q],params[:page])
+      return
+    end
+
+    if @items.last.speaker && @items.last.speaker.full_name == params[:q]
+      @speaker = @items.last.speaker
+      logger.debug "Setting speaker specific search with name match on query #{@speaker.full_name}"
+    end
+
+    if @items.last.place && @items.last.place.name == params[:q]
+      @place = @items.last.place
+    end
+
+    respond_to do |format|
+      format.html { render :action => :index }
+      format.m3u  { render :action => :playlist, :layout => false }
+    end
+  end
+
+  def run_sphinx_search(query,star=true,match_mode=:boolean,conditions=nil)
+
+    items = sphinx_search(query,star,match_mode,conditions)
+    msg = query.blank? ? t("menu.advanced_search") : query
+    
+    # this is weird, the error is on the ThinkingSphinx::Search
+    # object but cannot just catch it by checking .error?
+    # as that blows chunks
+    begin
+      if items.nil? || items.size == 0 ||
+          (items.respond_to?(:error?) && items.error?)
+        items = nil
+        redirect_to root_url, notice: t(:no_match, :query => msg) and return
+      end
+    rescue
+      puts "We had a problem with the results #{$!}"
+      items = nil
+      redirect_to root_url, notice: t(:no_match, :query => msg) and return
+    end
+
+    if items.last.nil?
+      items = nil
+      redirect_to root_url, notice: t(:no_match, :query => msg) and return
+    end
+
+    items
+  end
+
+  def sphinx_search(query,star=true,match_mode=:boolean,conditions)
     logger.debug "Sphinx search for '#{params[:q]}' order #{sort_column}"
-    AudioMessage.search(params[:q],
-                        :page => params[:page],
-                        :per_page => params[:per_page] || AudioMessage.per_page,
-                        :order => sort_column,
-                        :match_mode => :boolean,
-                        :star => star,
-                        :max_matches => 2500,
-                        :include => [:language, :speaker, :place, :taggings])
+    options = {
+      :page => params[:page],
+      :per_page => params[:per_page] || AudioMessage.per_page,
+      :order => sort_column,
+      :match_mode => match_mode,
+      :star => star,
+      :max_matches => 2500,
+      :include => [:language, :speaker, :place, :taggings]
+    }
+    options[:conditions] = conditions if conditions
+    AudioMessage.search(query,options)
   end
 
 end

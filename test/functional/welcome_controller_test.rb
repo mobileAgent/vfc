@@ -96,4 +96,16 @@ class WelcomeControllerTest < ActionController::TestCase
     assert_response :redirect
   end
 
+  test "get advanced search page" do
+    get :advanced
+    assert_response :success
+  end
+
+  test "perform advanced search" do
+    a = FactoryGirl.create(:audio_message)
+    AudioMessage.expects(:search).returns([a].paginate)
+    post :advanced_search, :title => '"John 14"',:speaker_name => "Jimmy Jack"
+    assert_response :success
+  end    
+
 end
