@@ -1,0 +1,32 @@
+Order Allow,Deny
+
+# komp3.net
+Deny from 175.33.51.72
+# beemp3.com, mp3realm.com, mp3realm.org
+Deny from 77.179.72.113
+Deny from 79.192.240.228
+Deny from 66.60.140.102
+Deny from 84.162.80.197
+Deny from 195.239.104.205
+Deny from 78.46.79.206
+Deny from 219.234.81.89
+Deny from 92.241.182.25
+Deny from 195.239.178.214
+Deny from 64.15.69.3
+Deny from 219.129.83.13
+Deny from 219.234.81.89
+Deny from 195.239.104.198
+Deny from 195.239.178.215
+Deny from 87.241.162.234
+Deny from 213.174.140.69
+Deny from 195.239.178.215
+Deny from 193.47.80.38
+Deny from 199.48.147.41
+
+Allow from all
+
+
+# Canonical Hostname (remove www)
+RewriteEngine on
+RewriteCond %{HTTP_HOST} ^www\.(.+) [NC]
+RewriteRule ^ http://%1%{REQUEST_URI} [L,R=301]
