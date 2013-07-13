@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   before_filter :set_locale
   before_filter :authorize
   before_filter :load_cacheable_data
+  before_filter :utf8_work_around
   helper_method :sort_column, :sort_column_ar, :sort_direction
   
   include ActionController::Streaming
@@ -36,6 +37,10 @@ class ApplicationController < ActionController::Base
       Motm.language(@language).active.first
     }
     
+  end
+
+  def utf8_work_around
+    @utf8_enforcer_tag_enabled = browser.ie?
   end
  
   def set_locale

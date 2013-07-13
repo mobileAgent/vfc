@@ -81,7 +81,7 @@ class WelcomeController < ApplicationController
     
     @query_title = t "menu.advanced_search"
     
-    @items = run_sphinx_search('',star_mode,sphinx_mode,conditions)
+    @items = run_sphinx_search('',star_mode,sphinx_mode,conditions,'/welcome/advanced')
     if @items
       render_search_results(@items) and return
     end
@@ -137,7 +137,7 @@ class WelcomeController < ApplicationController
     end
   end
 
-  def run_sphinx_search(query,star=true,match_mode=:boolean,conditions=nil)
+  def run_sphinx_search(query,star=true,match_mode=:boolean,conditions=nil,redirect_url=root_url)
 
     items = sphinx_search(query,star,match_mode,conditions)
     msg = query.blank? ? t("menu.advanced_search") : query
@@ -149,17 +149,17 @@ class WelcomeController < ApplicationController
       if items.nil? || items.size == 0 ||
           (items.respond_to?(:error?) && items.error?)
         items = nil
-        redirect_to root_url, notice: t(:no_match, :query => msg) and return
+        redirect_to redirect_url, notice: t(:no_match, :query => msg) and return
       end
     rescue
       puts "We had a problem with the results #{$!}"
       items = nil
-      redirect_to root_url, notice: t(:no_match, :query => msg) and return
+      redirect_to redirect_url, notice: t(:no_match, :query => msg) and return
     end
 
     if items.last.nil?
       items = nil
-      redirect_to root_url, notice: t(:no_match, :query => msg) and return
+      redirect_to redirect_url, notice: t(:no_match, :query => msg) and return
     end
 
     items

@@ -30,6 +30,8 @@ gem 'jquery-rails'
 # Strong parameters is the default in rails4
 gem 'strong_parameters'
 
+# Only use the snowman stuff on broken browsers
+gem 'utf8_enforcer_workaround'
 
 # Turbolinks is the default in rails4
 gem 'turbolinks'
