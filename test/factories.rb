@@ -21,13 +21,13 @@ FactoryGirl.define do
   end
 
   factory :audio_message do
-    sequence :title do
+    sequence :title do |n|
       "Message Title #{n}"
     end
-    sequence :subj do
+    sequence :subj do |n|
       "The Subject #{n}"
     end
-    sequence :groupmsg do
+    sequence :groupmsg do |n|
       "V-#{n}-#{n}"
     end
     filename "FOLDER/file.mp3"
@@ -68,14 +68,14 @@ FactoryGirl.define do
   end
 
   factory :hymn do
-    sequence :title do
+    sequence :title do |n|
       "Message Title #{n}"
     end
     filename "HYMN/hymn.mp3"
   end
 
   factory :video do
-    sequence :title do
+    sequence :title do |n|
       "Video Title #{n}"
     end
     filename "VIDEO/video.mp4"
@@ -83,7 +83,7 @@ FactoryGirl.define do
   end
     
  factory :writing do
-    sequence :title do
+    sequence :title do |n|
       "Article Title #{n}"
     end
     filename "WRITING/writing.pdf"
@@ -91,7 +91,7 @@ FactoryGirl.define do
   end
 
   factory :note do
-    sequence :title do
+    sequence :title do |n|
       "Note Title #{n}"
     end
     filename "NOTE/note.pdf"

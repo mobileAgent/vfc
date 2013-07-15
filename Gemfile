@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '~> 3.2'
+gem 'rails', '3.2.13'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -26,6 +26,7 @@ gem 'nokogiri'
 # gem 'aws-s3', :require => 'aws/s3'
 
 gem 'jquery-rails'
+gem 'jquery-ui-rails'
 
 # Strong parameters is the default in rails4
 gem 'strong_parameters'
@@ -56,10 +57,16 @@ gem 'therubyracer'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'sass-rails',   "~> 3.2"
-  gem 'coffee-rails', "~> 3.2"
-  gem 'uglifier', ">= 1.0"
+  gem 'sass-rails',   "~> 3.2.3"
+  gem 'coffee-rails', "~> 3.2.1"
+  gem 'uglifier', ">= 1.0.3"
 end
+
+# To use ActiveModel has_secure_password
+ gem 'bcrypt-ruby', '~> 3.0.0'
+
+# To use Jbuilder templates for JSON
+# gem 'jbuilder'
    
 gem 'exception_notification', :require => 'exception_notifier'
 
@@ -67,6 +74,7 @@ gem 'exception_notification', :require => 'exception_notifier'
 # put test-only gems in this group so their generators
 # and rake tasks are available in development mode:
 group :development, :test do
+  gem 'thin'
   gem 'webrat'
   gem 'autotest'
   gem 'simplecov', :require => false
