@@ -8,6 +8,7 @@ set :branch, "master"
 set :user, 'vfcnet'
 set :group, 'vfcnet'
 set :deploy_to, "/var/apps/#{application}"
+set :use_sudo, false
 
 set :server_name, "voicesforchrist.net"
 role :web, "#{server_name}"
