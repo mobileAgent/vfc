@@ -87,3 +87,6 @@ group :development, :test do
 end
 
 gem 'factory_girl_rails', :group => :test
+
+gem 'pry', :group => :development
+gem 'pry-doc', :group => :development

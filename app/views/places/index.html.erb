@@ -11,6 +11,9 @@
        <% if allow? "places","edit" %>
          (<%= link_to "edit", :action => :edit, :id => place%>)
        <% end %>
+       <% if (place.bio && place.bio.length > 0) %>
+         <span><%= place.bio[0..80] %>...</span>
+       <% end %>
   </li>
 <% end %>
 </ul>

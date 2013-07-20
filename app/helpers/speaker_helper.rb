@@ -10,6 +10,7 @@ module SpeakerHelper
                                :catalog_name => s.catalog_name,
                                :speaker_id => s.id,
                                :index_letter => s.index_letter,
+                               :snippet => s.bio ? s.bio[0..80] : nil,
                                :count => message_counts[s.id])
       end
     end

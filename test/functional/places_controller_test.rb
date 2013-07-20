@@ -76,5 +76,17 @@ class PlacesControllerTest < AuthenticatedTest
     assert_not_nil assigns(:place)
     assert_equal "AnotherPlace",Place.find(@place.id).name
   end
+  
+  test "update place with no picture should not create empty picture string" do
+    login(true)
+    @place = FactoryGirl.create(:place)
+    @place.name = "AnotherPlace"
+    @place.picture_file = ""
+    post :update, :id => @place.id, :place => @place.attributes
+    assert_response :redirect
+    assert_not_nil assigns(:place)
+    assert_equal "AnotherPlace",Place.find(@place.id).name
+    assert_nil Place.find(@place.id).picture_file
+  end
 
 end

@@ -20,6 +20,9 @@
       <% if allow? "speakers","edit" %>
         (<%= link_to "edit", :action => :edit, :id => speaker.speaker_id %>)
       <% end %>
+      <% if (speaker.snippet && speaker.snippet.length > 0) %>
+         <span><%= speaker.snippet.html_safe %></span>
+      <% end %>
   </li>
 <% end %>
 </ul>

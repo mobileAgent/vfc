@@ -1,4 +1,8 @@
 <h2>Edit Place</h2>
+
+<% if (@place && !@place.new_record?) %>
+   <h3><%= link_to "View #{@place.name}", "/places/#{@place.id}" %></h3>
+<% end %>
 <br />
 
 <%= form_for @place do |f| %>

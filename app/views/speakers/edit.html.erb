@@ -1,4 +1,7 @@
 <h2>Edit Speaker</h2>
+<% if (@speaker && !@speaker.new_record?) %>
+   <h3><%= link_to "View #{@speaker.full_name}", "/speakers/#{@speaker.id}" %></h3>
+<% end %>
 <br />
 
 <%= form_for @speaker do |f| %>

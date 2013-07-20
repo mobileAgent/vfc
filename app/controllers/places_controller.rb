@@ -48,6 +48,7 @@ class PlacesController < ApplicationController
 
   def update
     @place = current_resource
+    params[:place].delete(:picture_file) if params[:place][:picture_file].blank?
     if @place.update_attributes(params[:place])
       flash[:notice] = t(:updated)
     end

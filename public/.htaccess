@@ -22,6 +22,10 @@ Deny from 213.174.140.69
 Deny from 195.239.178.215
 Deny from 193.47.80.38
 Deny from 199.48.147.41
+Deny from 212.227.127.180
+Deny from 65.38.168.164
+Deny from 221.148.132.163
+
 
 Allow from all
 
