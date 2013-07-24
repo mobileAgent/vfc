@@ -4,7 +4,7 @@ namespace :tags do
   task :autotag => :environment do
 
     starting_id = (ENV['starting_id'] || "1").to_i
-    %w(Missions Salvation Easter Christmas Passover Tabernacle Joshua Noah Abraham Joseph Grace Israel Creation Prophecy Crucifixion Resurrection Elijah Elisha Solomon David Love Jacob Esau Isaac Prayer Jesus Christ Messiah Parables Jonah Judas Satan Josiah Hezekiah Gideon Miracles Golgotha Gethsemane Moses CMML Genesis Exodus Leviticus Numbers Deuteronomy Judges Ruth Esther Ezra Nehemiah Job Psalm Proverbs Ecclesiastes Jeremiah Isaiah Lamentations Ezekiel Hosea Joel Amos Obadiah Micah Nahum Habakkuk Zephaniah Haggai Zecharaiah Malachi Matthew Mark Luke Acts Romans Galatians Ephesians Philippians Colossians Titus Philemon Hebrews James Jude Revelation Mother Wife Children Women Repentance Heaven Hell).each do |label|
+    %w(Missions Salvation Easter Christmas Passover Tabernacle Joshua Noah Abraham Joseph Grace Israel Creation Prophecy Crucifixion Resurrection Elijah Elisha Solomon David Love Jacob Esau Isaac Prayer Jesus Christ Messiah Parables Jonah Judas Satan Josiah Hezekiah Gideon Miracles Golgotha Gethsemane Moses CMML Genesis Exodus Leviticus Numbers Deuteronomy Judges Ruth Esther Ezra Nehemiah Job Psalm Proverbs Ecclesiastes Jeremiah Isaiah Lamentations Ezekiel Hosea Joel Amos Obadiah Micah Nahum Habakkuk Zephaniah Haggai Zecharaiah Malachi Matthew Mark Luke Acts Romans Galatians Ephesians Philippians Colossians Titus Philemon Hebrews James Jude Revelation Mother Wife Children Women Repentance Heaven Hell Daniel Rahab Samson Noah).each do |label|
       AudioMessage.search('',
                           :conditions => {:full_title => label},
                           :match_mode => :extended,
