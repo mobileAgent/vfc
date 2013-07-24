@@ -1,5 +1,7 @@
 class AudioMessage < ActiveRecord::Base
 
+  nilify_blanks
+  
   has_one :motm
   belongs_to :speaker
   belongs_to :language

@@ -1,4 +1,6 @@
 class Place < ActiveRecord::Base
+
+  nilify_blanks  
   
   has_many :audio_messages
   has_many :languages, :through => :audio_messages, :uniq => true

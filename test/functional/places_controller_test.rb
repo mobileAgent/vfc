@@ -88,5 +88,17 @@ class PlacesControllerTest < AuthenticatedTest
     assert_equal "AnotherPlace",Place.find(@place.id).name
     assert_nil Place.find(@place.id).picture_file
   end
+  
+  test "update place to remove a picture should end up using null in the database" do
+    login(true)
+    @place = FactoryGirl.create(:place, :picture_file => "foo.jpg")
+    @place.name = "AnotherPlace"
+    @place.picture_file = ""
+    post :update, :id => @place.id, :place => @place.attributes
+    assert_response :redirect
+    assert_not_nil assigns(:place)
+    assert_equal "AnotherPlace",Place.find(@place.id).name
+    assert_nil Place.find(@place.id).picture_file
+  end
 
 end

@@ -30,6 +30,7 @@ gem 'jquery-ui-rails'
 
 # Strong parameters is the default in rails4
 gem 'strong_parameters'
+gem "nilify_blanks"
 
 # Only use the snowman stuff on broken browsers
 gem 'utf8_enforcer_workaround'

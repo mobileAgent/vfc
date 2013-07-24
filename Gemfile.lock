@@ -137,6 +137,9 @@ GEM
     net-ssh (2.6.8)
     net-ssh-gateway (1.2.0)
       net-ssh (>= 2.6.5)
+    nilify_blanks (1.0.1)
+      activerecord (>= 3.0.0)
+      activesupport (>= 3.0.0)
     nokogiri (1.6.0)
       mini_portile (~> 0.5.0)
     poltergeist (1.0.2)
@@ -258,6 +261,7 @@ DEPENDENCIES
   jquery-ui-rails
   mocha
   mysql2
+  nilify_blanks
   nokogiri
   poltergeist
   pry
