@@ -58,3 +58,10 @@ function document_setup()
 
 $(document).ready(document_setup)
 $(document).on("page:load",document_setup)
+
+$(document).on('page:fetch', function() {
+  $('#content').fadeOut('slow')
+});
+$(document).on('page:restore', function() {
+  $('#content').fadeIn('slow');
+});

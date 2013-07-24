@@ -6,14 +6,12 @@
 <% @places.each do |place| %>
   <li>
     <%= place.name %>:
-       <%=link_to  pluralize(place.audio_messages.active.count,t(:message)),"/places/#{place.id}" %> by
-       <%= link_to pluralize(place.speakers.count,t(:speaker)), "/places/#{place.id}/speakers"%>
+       <%=link_to  pluralize(place.active_message_count,t(:message)),"/places/#{place.id}" %> by
+       <%= link_to pluralize(place.active_speaker_count,t(:speaker)), "/places/#{place.id}/speakers"%>
        <% if allow? "places","edit" %>
          (<%= link_to "edit", :action => :edit, :id => place%>)
        <% end %>
-       <% if (place.bio && place.bio.length > 0) %>
-         <span><%= place.bio[0..80] %>...</span>
-       <% end %>
+       <span><%= place.bio_snippet %></span>
   </li>
 <% end %>
 </ul>

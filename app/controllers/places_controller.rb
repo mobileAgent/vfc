@@ -1,12 +1,15 @@
 class PlacesController < ApplicationController
 
+  include PlaceHelper
+
   def index
-    @places = Place.order(:name)
+    @places = generate_place_list_with_counts
+    
   end
 
   def speakers
     @place = current_resource
-    @speakers = @place.speakers.order(:last_name, :first_name)
+    @speakers = generate_place_speaker_list_with_counts(@place)
   end
 
   def show

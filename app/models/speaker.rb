@@ -17,6 +17,13 @@ class Speaker < ActiveRecord::Base
   
   scope :active, where("hidden = ?",false)
 
+  attr_accessor :active_message_count, :active_speaker_count
+
+  # this alias is for acts_as_taggable
+  def count
+    active_message_count || 0
+  end
+  
   # Fn M Ln
   def full_name
     s = ""
@@ -47,6 +54,10 @@ class Speaker < ActiveRecord::Base
     bio ? RDiscount.new(bio).to_html : nil
   end
 
-  attr_accessor :message_count
+  def bio_snippet(length=80)
+    bio ? "#{bio[0..length]}&hellip;".html_safe : ""
+  end
+  
+
 
 end

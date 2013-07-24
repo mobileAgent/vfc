@@ -4,7 +4,7 @@
   <% @speakers.each do |speaker| %>
     <li>
       <%= speaker.catalog_name %>:
-      <%= link_to pluralize(speaker.audio_messages.active.count(:conditions => {:place_id => @place.id}),t(:message)),"/speakers/#{speaker.id}/place/#{@place.id}" %>
+      <%= link_to pluralize(speaker.active_message_count,t(:message)),"/speakers/#{speaker.id}/place/#{@place.id}" %>
     </li>
   <% end %>
 </ul>  
