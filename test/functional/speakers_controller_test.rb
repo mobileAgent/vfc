@@ -20,7 +20,7 @@ class SpeakersControllerTest < AuthenticatedTest
     10.times { |i| s = FactoryGirl.create(:speaker); 10.times {|j| FactoryGirl.create(:audio_message, :speaker => s) } }
     get :index, :view => 'cloud'
     assert_response :success
-    assert Rails.cache.read('speaker_cloud')
+    assert Rails.cache.read('speaker_cloud_v2')
   end
 
   test "should get speaker messages by name on url" do

@@ -174,7 +174,7 @@ class WelcomeController < ApplicationController
       :match_mode => match_mode,
       :star => star,
       :max_matches => 2500,
-      :include => [:language, :speaker, :place, :taggings]
+      :include => [:language, :speaker, :place, {:taggings => :tags} ]
     }
     options[:conditions] = conditions if conditions
     AudioMessage.search(query,options)
