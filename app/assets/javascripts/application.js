@@ -3,7 +3,7 @@
 //= require jquery-corner
 //= require jquery.grab
 //= require jquery.transform
-//= require jquery.truncator
+//= require jquery.expander
 //= require jquery.jplayer.min
 //= require jquery_ujs
 //= require turbolinks

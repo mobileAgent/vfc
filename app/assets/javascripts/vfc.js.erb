@@ -47,13 +47,17 @@ function document_setup()
        }        
   });
   $(function() {
-     $('.bio').truncate({max_length: 500})
+     $('.bio').expander({
+       slicePoint: 500,
+       expandEffect: 'fadeIn',
+       expandText: '<%= I18n.t("languages.index.more_html") %>',
+       userCollapseText: '[^]'});
+     $("#q").select();
+     if (document.location.href.indexOf("/videos/") > -1)
+       video_player_start();
+     else
+       audio_player_start();
   });
-  $("#q").select();
-  if (document.location.href.indexOf("/videos/") > -1)
-    video_player_start();
-  else
-    audio_player_start();
 };
 
 $(document).ready(document_setup)
