@@ -56,6 +56,7 @@ class DatesController < ApplicationController
       .where("date_format(audio_messages.created_at,#{@date_format}) = ? and audio_messages.speaker_id = ?",@date,@speaker.id)
       .order(sort_column_ar + " " + sort_direction)
       .paginate(:page => params[:page], :per_page => AudioMessage.per_page)
+      .includes(:language, :speaker, :place, :tags)
     render :template => 'welcome/index'
   end
   
@@ -68,6 +69,7 @@ class DatesController < ApplicationController
       .where("date_format(audio_messages.created_at,#{@date_format}) = ?",@date)
       .order(sort_column_ar + " " + sort_direction)
       .paginate(:page => params[:page], :per_page => AudioMessage.per_page)
+      .includes(:language, :speaker, :place, :tags)
     
     if request.post? && params[:download] && download_zipline(@items,@query_title,params[:page])
       return
@@ -88,6 +90,7 @@ class DatesController < ApplicationController
       .where("speaker_id = ?",@speaker.id)
       .order(sort_column_ar + " " + sort_direction)
       .paginate(:page => params[:page], :per_page => AudioMessage.per_page)
+      .includes(:language, :speaker, :place, :tags)
     
     if request.post? && params[:download] && download_zipline(@items,@query_title,params[:page])
       return
