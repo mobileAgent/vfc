@@ -3,7 +3,7 @@
 <ul>
 <% @speakers.each do |s| %>
    <li>
-     <%= s.catalog_name %>, <%= link_to pluralize(s.audio_messages.year(@year).count,t(:message)), {:action => :delivered, :id => @year, :speaker_id => s.id } %>
+     <%= s.catalog_name %>, <%= link_to pluralize(s.active_message_count,t(:message)), {:action => :delivered, :id => @year, :speaker_id => s.id } %>
    </li>
 <% end %>
 </ul>

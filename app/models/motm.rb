@@ -4,11 +4,11 @@ class Motm < ActiveRecord::Base
                  :order => "motms.created_at desc",
                  :include => {:audio_message => [:language, :place, :speaker]}
 
-  scope :language, lambda { |l| includes(:audio_message => [:speaker, :place, :language])
+  scope :language, lambda { |l| includes(:audio_message => [:speaker, :place, :language, :tags])
                                .where("audio_messages.language_id = ? and audio_messages.publish = ?",l.id,true)
                                .order("motms.created_at desc")}
 
-  scope :not_language, lambda { |l| includes(:audio_message => [:speaker, :place, :language])
+  scope :not_language, lambda { |l| includes(:audio_message => [:speaker, :place, :language, :tags])
                                .where("audio_messages.language_id <> ? and audio_messages.publish = ?",l.id,true)
                                .order("motms.created_at desc")}
 end

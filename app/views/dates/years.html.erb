@@ -5,13 +5,13 @@
   <li>
     <%= date %>, <%= pluralize(total,t(:message)) %>
     <ul>
-      <% list = @speakers_by_date[date].sort { |a,b| b[1] <=> a[1] } %>
-      <% list.each do |id,count| %>
-        <% s = Speaker.find(id) %>
-        <li><%= s.catalog_name %> <%=link_to pluralize(count,t(:message)), {:action => :speaker, :date => date, :speaker_id => s.id}  %></li>
-      <% end %>
-      <% if list.size == @group_limit %>
-        <li><%= link_to t(".all_for_date_html", :date => date), "/dates/show/#{date}" %></li>
+      <% @speakers_by_date[date].each_with_index do |s,i| %>
+        <% if i < 10 %>
+           <li><%= s.catalog_name %> <%=link_to pluralize(s.active_message_count,t(:message)), {:action => :speaker, :date => date, :speaker_id => s.id}  %></li>
+        <% else %>
+          <li><%= "(+#{@speakers_by_date[date].size-10})" %> <%= link_to t(".all_for_date_html", :date => date), "/dates/show/#{date}" %></li>
+          <% break %>
+        <% end %>
       <% end %>
     </ul>
   </li>

@@ -1,4 +1,6 @@
 class DatesController < ApplicationController
+
+  include DateHelper
   
   # list by date preached
   def index
@@ -22,14 +24,9 @@ class DatesController < ApplicationController
       .order("audio_messages.#{use_date} DESC")
       .count
     @speakers_by_date = {}
-    @group_limit = 5
     @dates.keys.each do |date|
       @speakers_by_date[date] =
-        AudioMessage.active
-        .where("date_format(#{use_date},#{date_format}) = ?", date)
-        .limit(@group_limit)
-        .group(:speaker_id)
-        .count
+        generate_speaker_list_with_counts_for_date(date,date_format,use_date)
     end
     # Peek at most recent load date
     @latest_addition_date = AudioMessage.maximum('created_at')
@@ -38,12 +35,8 @@ class DatesController < ApplicationController
   # List speakers with counts for messages preached in a given year
   def year
     @year = params[:id].to_i
-    @date_format = "'%Y'"
-    @speakers = Speaker.active
-      .joins(:audio_messages)
-      .order("last_name, first_name asc")
-      .where("date_format(audio_messages.event_date,#{@date_format}) = ?", @year)
-      .group("speakers.id")
+    date_format = "'%Y'"
+    @speakers  = generate_speaker_list_with_counts_for_date(@year,date_format,"event_date")
   end
   
   # list speakers of all messages added on a given yyyy-mm
