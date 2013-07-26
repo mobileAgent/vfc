@@ -89,6 +89,8 @@ development:
   enable_star: 1
   wordforms: db/sphinx/wordforms.txt
   exceptions: db/sphinx/exceptions.txt
+  preopen_indexes: 1
+  seamless_rotate: 1
   <<: *charset
 test:
   bin_path: /usr/local/bin
@@ -99,6 +101,8 @@ test:
   wordforms: db/sphinx/wordforms.txt
   exceptions: db/sphinx/exceptions.txt
   port: 9313
+  preopen_indexes: 1
+  seamless_rotate: 1
   <<: *charset
   
 production:
@@ -108,4 +112,6 @@ production:
   enable_star: 1
   wordforms: db/sphinx/wordforms.txt
   exceptions: db/sphinx/exceptions.txt
+  preopen_indexes: 1
+  seamless_rotate: 1
   <<: *charset
