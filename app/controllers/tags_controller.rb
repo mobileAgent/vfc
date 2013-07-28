@@ -8,7 +8,7 @@ class TagsController < ApplicationController
                 :page => params[:page] || 1,
                 :per_page => AudioMessage.per_page,
                 :order => sort_column,
-                :include => [:language, :speaker, :place])
+                :include => [:language, :speaker, :place, :tags])
     logger.debug "Found #{@items.size} items"
 
     if request.post? && params[:download] && download_zipline(@items,@query_title,params[:page])
