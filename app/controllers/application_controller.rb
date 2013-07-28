@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   before_filter :load_cacheable_data
   before_filter :utf8_work_around
   helper_method :sort_column, :sort_column_ar, :sort_direction
+  before_filter :validate_search_criteria
   
   include ActionController::Streaming
   include ApplicationHelper
@@ -52,6 +53,15 @@ class ApplicationController < ActionController::Base
     I18n.locale = @locale
     @language = Language.locale(@locale).first || Language.default.first
     logger.info "Locale set to #{@locale} language #{@language.name}"
+  end
+
+  def validate_search_criteria
+    if params[:page] && params[:page].match(/^[0-9]{1,6}$/).nil?
+      logger.warn "PROBE: Bad search param page is #{params[:page]}"
+      redirect_to root_url
+      return false
+    end
+    return true
   end
  
   def extract_locale_from_accept_language_header
