@@ -41,7 +41,7 @@
       <% if @require_video_player %>
         <%= render "shared/video_player" %>
       <% else %>
-        <%= render "shared/player" %>
+        <%= render :partial => "shared/player", :locals => { :popup => false } %>
       <% end %>
       
       <div id="content">

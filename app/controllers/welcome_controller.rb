@@ -113,6 +113,10 @@ class WelcomeController < ApplicationController
   def thanks
   end
 
+  def player
+    render :layout => "popout"
+  end
+
   private
 
   def render_search_results(items)

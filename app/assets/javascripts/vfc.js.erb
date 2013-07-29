@@ -1,9 +1,13 @@
-function play(url,title)
+function play(url,title,position)
 {
   $('.bio').hide()
   $('#jp_container_1').css('margin-left','20%').css('float','none')
   $('.jp-title').html(title)
-  $('#jpid').jPlayer('setMedia',{ mp3: url}).jPlayer('play')
+  if (typeof position !== 'undefined') {
+    $('#jpid').jPlayer('setMedia',{ mp3: url}).jPlayer('play', position);
+  } else {
+    $('#jpid').jPlayer('setMedia',{ mp3: url}).jPlayer('play');
+  }
 }
 
 function video_play(url,title)
@@ -59,6 +63,26 @@ function document_setup()
        audio_player_start();
   });
 };
+
+function popout_jplayer()
+{
+   var title =  $('.jp-title').text();
+   var media = $('#jp_audio_0').attr('src');
+   var time_str = $('div.jp-current-time').text();
+   var time_sec = parseInt(time_str.substr(0,time_str.indexOf(':')) * 60) + parseInt(time_str.substr(time_str.indexOf(':')+1));
+   var player_window = window.open('/welcome/player', title + ' Player', 'height=175,width=435,location=no,titlebar=no,status=no,menubar=no');
+   if (player_window.focus) 
+   {
+      player_window.focus();
+      player_window.onload = function() {
+         player_window.document.title = "VFC - " + title;
+         player_window.play(media,title,time_sec)
+     };
+   }
+   $('#jpid').jPlayer("clearMedia");
+   $('#jp_container_1').css('margin-left','-9999px').css('float','left');
+   return false;
+}
 
 $(document).ready(document_setup)
 $(document).on("page:load",document_setup)
