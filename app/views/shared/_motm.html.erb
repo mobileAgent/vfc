@@ -9,7 +9,7 @@
     <%= link_to(
         icon(:arrow_down, :title => t("audio.download")),
         {:controller => :audio_messages, :action => :show, :id => @motm.audio_message, :dl => true}) %>
-    <span class='player' onclick="play('<%= url_for(:controller => :audio_messages, :action => :show, :id => @motm.audio_message)%>','<%=j @motm.audio_message.full_title%>')">
+    <span class='player' onclick="play('<%= url_for(:controller => :audio_messages, :action => :show, :id => @motm.audio_message)%>','<%=j @motm.audio_message.player_title%>')">
        <%= image_tag 'pixel.gif', :title => t("audio.play") %>
     </span>
      
