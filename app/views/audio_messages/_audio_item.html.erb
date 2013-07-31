@@ -3,7 +3,7 @@
     <%= link_to(
         icon(:arrow_down, :title => t("audio.download")),
         {:controller => :audio_messages, :action => :show, :id => item, :dl => true}) %>
-    <span class='player' onclick="play('<%= url_for(:controller => :audio_messages, :action => :show, :id => item)%>','<%=j item.full_title%>')">
+    <span class='player' onclick="play('<%= url_for(:controller => :audio_messages, :action => :show, :id => item)%>','<%=j item.player_title%>')">
        <%= image_tag 'pixel.gif', :title => t("audio.play") %>
     </span>
   </td>

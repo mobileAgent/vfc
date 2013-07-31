@@ -13,6 +13,7 @@ class SpeakerTest  < Test::Unit::TestCase
     s = FactoryGirl.build(:speaker, :last_name => "Jack", :first_name => "Jimmy", :middle_name => nil)
     assert_equal "Jimmy Jack", s.full_name
     assert_equal "Jack, Jimmy", s.catalog_name
+    assert_equal "J Jack", s.abbreviated_name
     assert_equal "J", s.index_letter
   end
 
@@ -20,6 +21,7 @@ class SpeakerTest  < Test::Unit::TestCase
     s = FactoryGirl.build(:speaker, :last_name => "Assorted", :first_name => nil , :middle_name => nil)
     assert_equal "Assorted", s.full_name
     assert_equal "Assorted", s.catalog_name
+    assert_equal "Assorted", s.abbreviated_name
     assert_equal "A", s.index_letter
   end
 

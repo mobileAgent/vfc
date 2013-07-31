@@ -44,6 +44,14 @@ class Speaker < ActiveRecord::Base
     s << " #{suffix}" unless suffix.blank?
     s
   end
+
+  # F Last
+  def abbreviated_name
+    s = ""
+    s << "#{first_name[0]} " if first_name
+    s << last_name
+    s
+  end
   
   # First letter of last name for indexing
   def index_letter

@@ -6,6 +6,12 @@ class AudioMessageTest  < Test::Unit::TestCase
     a = FactoryGirl.build(:audio_message, :title => "Message Title", :subj => "The Subject")
     assert_equal "Message Title ~ The Subject", a.full_title
   end
+
+  def test_player_title_formatting
+    speaker = FactoryGirl.build(:speaker, :last_name => "Jack", :first_name => "Jimmy")
+    a = FactoryGirl.build(:audio_message, :title => "Message Title", :subj => "The Subject", :speaker => speaker)
+    assert_equal "J Jack ~ Message Title ~ The Subject", a.player_title
+  end
   
   def test_title_formatting_with_no_subject
     a = FactoryGirl.build(:audio_message, :title => "Message Title", :subj => nil)

@@ -37,6 +37,10 @@ class AudioMessage < ActiveRecord::Base
     end
   end
 
+  def player_title
+    "#{speaker.abbreviated_name} ~ #{full_title}"
+  end
+
   def autocomplete_title
     full_title.gsub(/[-,:;~!?&()]+/,' ').gsub(/[\"\']+/,'').gsub(/  +/,' ').gsub(/ +$/,'')
   end
