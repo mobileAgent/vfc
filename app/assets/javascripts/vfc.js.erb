@@ -1,5 +1,8 @@
+var vfc_current_media;
+
 function play(url,title,position)
 {
+  vfc_current_media = url;
   $('.bio').hide()
   $('#jp_container_1').css('margin-left','20%').css('float','none')
   $('.jp-title').html(title)
@@ -67,17 +70,23 @@ function document_setup()
 function popout_jplayer()
 {
    var title =  $('.jp-title').text();
-   var media = $('#jp_audio_0').attr('src');
+   var media = vfc_current_media; //$('#jp_audio_0').attr('src');
    var time_str = $('div.jp-current-time').text();
    var time_sec = parseInt(time_str.substr(0,time_str.indexOf(':')) * 60) + parseInt(time_str.substr(time_str.indexOf(':')+1));
-   var player_window = window.open('/welcome/player', title + ' Player', 'height=175,width=435,location=no,titlebar=no,status=no,menubar=no');
-   if (player_window.focus) 
+   var player_window = window.open('/welcome/player', new Date().getTime(), 'height=175,width=435,location=no,titlebar=no,status=no,menubar=no');
+   // TODO: There must be a jQuery way to do this
+   if (player_window) 
    {
       player_window.focus();
-      player_window.onload = function() {
+      var loadfunc = function() {
          player_window.document.title = "VFC - " + title;
-         player_window.play(media,title,time_sec)
-     };
+         player_window.play(media,title,time_sec);
+      };
+      if (player_window.addEventListener) {
+         player_window.addEventListener('load', loadfunc, false);
+      } else if (player_window.attachEvent) {
+        player_window.attachEvent('onload', loadfunc);
+      }
    }
    $('#jpid').jPlayer("clearMedia");
    $('#jp_container_1').css('margin-left','-9999px').css('float','left');
