@@ -1,2 +1,19 @@
 <% title("Audio Player") %>
 <%= render :partial => "shared/player", :locals => { :popup => true } %>
+<div id="inspector"></div>
+<script>
+  $(document).ready(function() {
+    $('#jp_container_1').css('margin-left','20%').css('float','none')
+    $('.jp-title').html('<%= j @player_title %>')
+    audio_player_start({ready: function() {
+      $('#jpid').jPlayer('setMedia',{ mp3: '<%= @media_url %>'})
+      if (<%= @time_offset %> > 30) {
+        $('#jpid').jPlayer('pause',<%= @time_offset %>)
+      }
+      $('#jpid').jPlayer('play')
+    }});
+    <% if Rails.env == 'development' %>
+    $("#inspector").jPlayerInspector({jPlayer:$("#jpid")});
+    <% end %>
+  });
+</script>  

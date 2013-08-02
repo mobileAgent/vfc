@@ -5,6 +5,7 @@
 //= require jquery.transform
 //= require jquery.expander
 //= require jquery.jplayer.min
+//= require jquery.jplayer.inspector
 //= require jquery_ujs
 //= require turbolinks
 //= require jquery.turbolinks

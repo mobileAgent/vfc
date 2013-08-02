@@ -26,6 +26,7 @@ Vfc::Application.routes.draw do
   match '/languages/:id/speakers' => 'languages#speakers'
   match '/speakers/:id/place/:place_id' => 'speakers#place'
   match '/speakers/:id/language/:language_id' => 'speakers#language'
+  match '/player/:id/:time_offset' => 'welcome#player'
 
   # Line up with stuff from the old static site
   match '/VFC-GOLD/:speaker_name/:filename' => 'audio_messages#gold'
