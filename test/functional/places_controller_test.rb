@@ -101,4 +101,9 @@ class PlacesControllerTest < AuthenticatedTest
     assert_nil Place.find(@place.id).picture_file
   end
 
+  test "view speakers for a non-existent place" do
+    get :speakers, :id => 999
+    assert_response :redirect
+  end
+
 end

@@ -9,6 +9,10 @@ class PlacesController < ApplicationController
 
   def speakers
     @place = current_resource
+    if @place.nil?
+      flash[:notice] = t("nsr")
+      redirect_to root_url and return
+    end
     @speakers = generate_place_speaker_list_with_counts(@place)
   end
 
