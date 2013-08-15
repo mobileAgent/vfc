@@ -3,7 +3,7 @@
     <%= link_to(
         icon(:arrow_down, :title => t("audio.download")),
         {:controller => :audio_messages, :action => :show, :id => item, :dl => true}) %>
-    <span class='player' onclick="play('<%= url_for(:controller => :audio_messages, :action => :show, :id => item)%>','<%=j item.player_title%>')">
+    <span class='player' onclick="play('<%= url_for(:controller => :audio_messages, :action => :show, :id => item)%>','<%=j item.player_title.titleize %>')">
        <%= image_tag 'pixel.gif', :title => t("audio.play") %>
     </span>
   </td>
@@ -12,7 +12,7 @@
   </td>
   <td title='<%= t("audio.tooltip", :size => item.human_filesize, :duration => item.human_duration) %>'>
     <% if allow? "audio_messages", "edit" %>
-        <%=  link_to(item.full_title, {:controller => :audio_messages, :action => :edit, :id => item}) %>
+        <%=  link_to(item.full_title.titleize, {:controller => :audio_messages, :action => :edit, :id => item}) %>
      <% else %>
         <%= item.full_title %>
      <% end %>
