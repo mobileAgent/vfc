@@ -83,6 +83,7 @@ charset: &charset
         U+1EF9->y"
         
 development:
+  bin_path: /usr/local/bin
   morphology: stem_en
   max_matches: 2500
   min_prefix_len: 2
