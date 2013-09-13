@@ -88,6 +88,8 @@ group :development, :test do
 end
 
 gem 'factory_girl_rails', :group => :test
-
+gem 'ruby-prof', :group => :test
+gem 'test-unit', :group => :test
+gem 'rack-mini-profiler', :group => :development
 gem 'pry', :group => :development
 gem 'pry-doc', :group => :development

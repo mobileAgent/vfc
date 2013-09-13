@@ -27,7 +27,6 @@ class AudioMessage < ActiveRecord::Base
     has filesize, duration, place_id, language_id, speaker_id
     set_property :delta => true
   end
-  # emacs sync -> "
 
   def full_title
     if subj && subj.length > 0
