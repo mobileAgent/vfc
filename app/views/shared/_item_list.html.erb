@@ -21,5 +21,7 @@
   </tbody>
 </table>
 <%= will_paginate @items, :id => true, :class => 'apple_pagination' %>
-<br />
+<div id="search_trailer">
+  <%= link_to t('menu.advanced_search'), '/welcome/advanced' %>
+</div>
 <% end %>

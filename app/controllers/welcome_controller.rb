@@ -67,24 +67,9 @@ class WelcomeController < ApplicationController
     star_mode = "true" != params[:exact_match]
     sphinx_mode = :boolean
     
-    conditions = {
-      :full_title => params[:title],
-      :speaker_name => params[:speaker],
-      :tags => params[:tags],
-      :event_date => params[:event_date],
-      :place => params[:place],
-      :language => params[:language] 
-    }
-
-    # remove blank items
-    conditions.delete_if { |k,v| v.blank? }
-    
-    @query_title = t "menu.advanced_search"
-    
-    @items = run_sphinx_search('',star_mode,sphinx_mode,conditions,'/welcome/advanced')
-    if @items
-      render_search_results(@items) and return
-    end
+    # Turn those conditions into a google style advanced search string
+    @query = AdvancedSearch.to_query_string(params)
+    redirect_to :action => :search, :q => @query and return
   end
 
   def search
@@ -146,9 +131,9 @@ class WelcomeController < ApplicationController
     end
   end
 
-  def run_sphinx_search(query,star=true,match_mode=:boolean,conditions=nil,redirect_url=root_url)
+  def run_sphinx_search(query,star=true,match_mode=:boolean,redirect_url=root_url)
 
-    items = sphinx_search(query,star,match_mode,conditions)
+    items = sphinx_search(query,star,match_mode)
     msg = query.blank? ? t("menu.advanced_search") : query
     
     # this is weird, the error is on the ThinkingSphinx::Search
@@ -170,12 +155,15 @@ class WelcomeController < ApplicationController
       items = nil
       redirect_to redirect_url, notice: t(:no_match, :query => msg) and return
     end
-
     items
   end
 
-  def sphinx_search(query,star=true,match_mode=:boolean,conditions)
+  def sphinx_search(query,star=true,match_mode=:boolean)
     logger.debug "Sphinx search for '#{params[:q]}' order #{sort_column}"
+    if AdvancedSearch.is_advanced?(query)
+      conditions = AdvancedSearch.to_conditions(query)
+      query=conditions.delete(:query)
+    end
     options = {
       :page => params[:page],
       :per_page => params[:per_page] || AudioMessage.per_page,

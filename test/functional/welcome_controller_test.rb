@@ -91,6 +91,40 @@ class WelcomeControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "next button has query parameter with standard search" do
+    a = []
+    while a.size < 100
+      a << FactoryGirl.create(:audio_message)
+    end
+    AudioMessage.expects(:search).returns(a.paginate)
+    get :search, :q => 'blah'
+    assert_response :success
+    assert_tag :tag => 'a', :content => 'Next &#8594;',
+    :attributes => {
+      # will_paginate over-encodes this, but it works
+      :href => "/welcome/search?page=2&amp;q=blah",
+      :class => 'next_page',
+      :rel => 'next'
+    }
+  end
+
+  test "search with fielded search string runs advanced conditions" do
+    a = []
+    while a.size < 10
+      a << FactoryGirl.create(:audio_message)
+    end
+    AudioMessage.expects(:search).with(nil,has_key(:conditions)).returns(a.paginate)
+    get :search, :q => 'speaker:david'
+    assert_response :success
+  end
+  
+  
+  test "advance search redirects to stringified fielded query" do
+    post :advanced_search, :title => 'john',:speaker => "david"
+    assert_response :redirect
+    assert_redirected_to "http://test.host/welcome/search?q=#{CGI::escape('speaker:david title:john')}"
+  end
+
   test "favicon shortcut action" do
     get :favicon
     assert_response :redirect
@@ -101,11 +135,18 @@ class WelcomeControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "perform advanced search" do
+  test "request popout player for valid message" do
     a = FactoryGirl.create(:audio_message)
-    AudioMessage.expects(:search).returns([a].paginate)
-    post :advanced_search, :title => '"John 14"',:speaker_name => "Jimmy Jack"
+    get :player, :id => a.id
     assert_response :success
-  end    
+    assert_select 'title',/Audio Player/
+    assert assigns(:media_url)
+    assert assigns(:player_title)
+  end
+
+  test "sending bad page parameters triggers probe redirect" do
+    get :index, :page => "../../peterpan"
+    assert_redirected_to root_url
+  end
 
 end

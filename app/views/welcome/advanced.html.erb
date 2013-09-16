@@ -9,32 +9,39 @@
     
      <p>
        <label for="title" class="col1"><%=t ".title_field"%>:</label>
-       <%= text_field_tag :title, params[:title], :size => 50 %>
+       <%= text_field_tag :title, params[:title], :size => 50,
+                :value => params[:title]  %>
      </p>
      <p>
        <label for="speaker" class="col1"><%=t ".speaker_field"%>:</label>
-       <%= text_field_tag :speaker, params[:speaker], :size => 50 %>
+       <%= text_field_tag :speaker, params[:speaker], :size => 50,
+                :value => params[:speaker] %>
      </p>
      <p>
        <label for="place" class="col1"><%=t ".place_field"%>:</label>
-       <%= text_field_tag :place, params[:place], :size => 50 %>
+       <%= text_field_tag :place, params[:place], :size => 50,
+                 :value => params[:place] %>
      </p>
      <p>
        <label for="tags" class="col1"><%=t ".tags_field"%>:</label>
-       <%= text_field_tag :tags, params[:tags], :size => 50 %>
+       <%= text_field_tag :tags, params[:tags], :size => 50,
+             :value => params[:tags] %>
      </p>
      <p>
        <label for="event_date" class="col1"><%=t ".event_date_field"%>:</label>
-       <%= text_field_tag :event_date, params[:event_date], :size => 50 %>
+       <%= text_field_tag :event_date, params[:event_date], :size => 50, 
+            :value => params[:event_date] %>
      </p>
      <p>
        <label for="language" class="col1"><%=t ".language_field"%>:</label>
-       <%= text_field_tag :language, params[:language], :size => 50 %>
+       <%= text_field_tag :language, params[:language], :size => 50,
+           :value => params[:language] %>
      </p>
 
      <p>
        <label for="exact_match" class="col1"><%=t ".match_mode"%>:</label>
-       <%= check_box :exact_match, 'true', :checked => true%>
+       <%= check_box :exact_match, 'true',
+           :checked => (params[:exact_match].nil? ||  params[:exact_match][:true] == "1") %>
      </p>       
      
      <p>
