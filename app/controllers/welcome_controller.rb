@@ -62,16 +62,14 @@ class WelcomeController < ApplicationController
   def advanced
   end
 
-  # Run the advanced search
+  # Turn those conditions into a google style advanced search string
+  # and redirect to the normal search so users can learn how
   def advanced_search
-    star_mode = "true" != params[:exact_match]
-    sphinx_mode = :boolean
-    
-    # Turn those conditions into a google style advanced search string
     @query = AdvancedSearch.to_query_string(params)
     redirect_to :action => :search, :q => @query and return
   end
 
+  # Run a search!
   def search
     if request.xhr?
       autocomplete
@@ -83,7 +81,6 @@ class WelcomeController < ApplicationController
     end
     
     @query_title = params[:q]
-    
     @items = run_sphinx_search(params[:q])
     
     if @items

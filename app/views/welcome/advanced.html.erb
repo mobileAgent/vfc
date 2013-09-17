@@ -39,12 +39,6 @@
      </p>
 
      <p>
-       <label for="exact_match" class="col1"><%=t ".match_mode"%>:</label>
-       <%= check_box :exact_match, 'true',
-           :checked => (params[:exact_match].nil? ||  params[:exact_match][:true] == "1") %>
-     </p>       
-     
-     <p>
        <%= submit_tag t(".submit"), :class => "Submit" %>
      </p>
   <% end %>
