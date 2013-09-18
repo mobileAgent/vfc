@@ -82,9 +82,9 @@ group :development, :test do
   gem "mocha", :require => false
   gem "capybara"
   gem "poltergeist"
-  # gem 'guard'
-  # gem 'rb-fsevent', '~> 0.9.1'
-  # gem 'guard-test'
+  gem 'guard'
+   gem 'rb-fsevent', '~> 0.9.1'
+   gem 'guard-test'
 end
 
 gem 'factory_girl_rails', :group => :test

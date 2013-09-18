@@ -6,7 +6,7 @@ class VfcConverterTest < Test::Unit::TestCase
 
   def test_place_locator
     name = "Neverland"
-    p = FactoryGirl.create(:place, :name => name)
+    p = Place.find_by_name(name) || FactoryGirl.create(:place, :name => name)
     assert_equal p.id,place_locator(p.name).id,"Place must be found by locator using name"
     assert_equal p.id,place_locator(p.name[0..4]).id,"Place must be found by locator using partial name"
   end
@@ -21,14 +21,15 @@ class VfcConverterTest < Test::Unit::TestCase
   end
 
   # Some type of transactional issue perhaps? 
-  # def test_language_converter
-  #   l = FactoryGirl.create(:language, :name => "NorthUmbrian")
-  #   found = converted_language("NorthUmbrian")
-  #   assert_equal l.id,found.id,"Language must be found by name when it exists, not #{found.inspect}"
-  # end
+  #def test_language_converter
+  #  name = "NorthUmbrian"
+  #  l = Language.find_by_name(name) || FactoryGirl.create(:language, :name => name)
+  #  found = converted_language(name)
+  #  assert_equal l.id,found.id,"Language must be found by name when it exists, not #{found.inspect}"
+  #end
 
   def test_language_cannot_be_created_through_conversion
-    assert_equal "English",converted_language("Chunky Bacon").name,"New languages are not created by convertion, must return English"
+    assert_equal "English",converted_language("Chunky Bacon").name,"New languages are not created by conversion, must return English"
   end
 
   def test_language_converter_with_french
@@ -54,8 +55,6 @@ class VfcConverterTest < Test::Unit::TestCase
   def test_language_converter_with_default
     assert_equal converted_language.name,"English","English is the default converted language"
   end
-
-  
 
   def test_event_date_conversion_with_year_only
     assert_equal "2001-01-01",converted_event_date("2001").strftime("%Y-%m-%d"),"Event date must be converted from year"
