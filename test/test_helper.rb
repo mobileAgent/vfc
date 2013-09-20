@@ -1,14 +1,15 @@
 ENV["RAILS_ENV"] = "test"
 
 require 'simplecov'
+SimpleCov.merge_timeout 3600
 SimpleCov.start 'rails'
 
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 
-require 'capybara/rails'
-require 'capybara/poltergeist'
-Capybara.javascript_driver = :poltergeist
+#require 'capybara/rails'
+#require 'capybara/poltergeist'
+#Capybara.javascript_driver = :poltergeist
 
 class ActiveSupport::TestCase
   # Add more helper methods to be used by all tests here...

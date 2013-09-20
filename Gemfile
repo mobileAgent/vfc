@@ -77,19 +77,26 @@ gem 'exception_notification', :require => 'exception_notifier'
 group :development, :test do
   gem 'thin'
   gem 'webrat'
-  gem 'autotest'
   gem 'simplecov', :require => false
   gem "mocha", :require => false
-  gem "capybara"
-  gem "poltergeist"
+
+  # acceptance test framework
+  #  gem "capybara"
+  #  gem "poltergeist"
+  
+  # js testing framework
+  #  gem "teaspoon"
+  
   gem 'guard'
-   gem 'rb-fsevent', '~> 0.9.1'
-   gem 'guard-test'
+  gem 'rb-fsevent', '~> 0.9.1'
+  gem 'guard-test'
 end
 
 gem 'factory_girl_rails', :group => :test
 gem 'ruby-prof', :group => :test
 gem 'test-unit', :group => :test
 gem 'rack-mini-profiler', :group => :development
+
+# Better irb - bundle exec pry -r ./config/environment
 gem 'pry', :group => :development
 gem 'pry-doc', :group => :development
