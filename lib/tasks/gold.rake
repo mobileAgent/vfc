@@ -12,10 +12,10 @@ namespace :gold do
       records = AudioMessage.active
     end
 
-    missing = 0
-    unreadable = 0
-    zerosize = 0
-    wrongsize = 0
+    missing = []
+    unreadable = []
+    zerosize = []
+    wrongsize = []
     perfect = 0
     checked = 0
 
@@ -28,27 +28,32 @@ namespace :gold do
           if size == r.filesize
             perfect += 1
           elsif size == 0
-            zerosize += 1
+            zerosize << r.filename
           else
-            wrongsize += 1
+            wrongsize << r.filename
           end
         else
-          unreadable += 1
+          unreadable << r.filename
         end
       else
-        missing += 1
+        missing << r.filename
       end
     end
 
     puts "Checked #{checked} audio records"
     puts "  - #{perfect} records were ok" if perfect > 0
-    puts "  - #{wrongsize} records were ok but had the wrong size" if wrongsize > 0
-    puts "  - #{zerosize} records had files of zero size" if zerosize > 0
-    puts "  - #{unreadable} records had unreadable files" if unreadable > 0
-    puts "  - #{missing} files were missing" if missing > 0
-    
-  end
+    puts "  - #{wrongsize.size} records were ok but had the wrong size" if wrongsize.size  > 0
+    puts "  - #{zerosize.size} records had files of zero size" if zerosize.size > 0
+    puts "  - #{unreadable.size} records had unreadable files" if unreadable.size > 0
+    puts "  - #{missing.size} files were missing" if missing.size > 0
 
+    if 'true' == ENV['verbose']
+      puts "\n\nMissing Files:\n   " + missing.join("\n   ") if missing.size > 0
+      puts "\n\nUnreadable Files:\n   " + unreadable.join("\n   ") if unreadable.size > 0
+      puts "\n\nZerosize Files:\n   " + zerosize.join("\n   ") if zerosize.size > 0
+      puts "\n\nWrong size:\n   " + wrongsize.join("\n   ") if wrongsize.size > 0
+    end
+  end
   
   desc "rename the files so that they match the expected download name"
   task :rename_as_download => :environment do
