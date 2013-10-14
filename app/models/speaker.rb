@@ -45,6 +45,14 @@ class Speaker < ActiveRecord::Base
     s
   end
 
+  def audio_directory_name
+    s = last_name
+    s << "_#{first_name}" unless first_name.blank?
+    s << "_#{middle_name}" unless middle_name.blank?
+    s << "_#{suffix}" unless suffix.blank?
+    s
+  end
+
   # F Last
   def abbreviated_name
     s = ""
