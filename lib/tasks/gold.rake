@@ -51,7 +51,7 @@ namespace :gold do
       puts "\n\nMissing Files:\n   " + missing.join("\n   ") if missing.size > 0
       puts "\n\nUnreadable Files:\n   " + unreadable.join("\n   ") if unreadable.size > 0
       puts "\n\nZerosize Files:\n   " + zerosize.join("\n   ") if zerosize.size > 0
-      puts "\n\nWrong size:\n   " + wrongsize.join("\n   ") if wrongsize.size > 0
+      # puts "\n\nWrong size:\n   " + wrongsize.join("\n   ") if wrongsize.size > 0
     end
   end
   
@@ -76,7 +76,7 @@ namespace :gold do
         if File.exist?(expected)
           fcounter = 1
           while File.exist?(expected) do
-            expected = AUDIO_PATH + sdir + "/" + fpart + "-" + fcounter + ".mp3"
+            expected = AUDIO_PATH + sdir + "/" + fpart + "-" + fcounter.to_s + ".mp3"
             fcounter += 1
           end
         end
