@@ -8,7 +8,8 @@
      
     <%= link_to(
         icon(:arrow_down, :title => t("audio.download")),
-        {:controller => :audio_messages, :action => :show, :id => @motm.audio_message, :dl => true}) %>
+        {:controller => :audio_messages, :action => :show, :id => @motm.audio_message, :dl => true},
+        :onclick => 'return dl(this)') %>
     <span class='player' onclick="play('<%= url_for(:controller => :audio_messages, :action => :show, :id => @motm.audio_message)%>','<%=j @motm.audio_message.player_title%>')">
        <%= image_tag 'pixel.gif', :title => t("audio.play") %>
     </span>
