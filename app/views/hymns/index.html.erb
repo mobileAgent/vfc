@@ -20,7 +20,8 @@
             <li>
                <%= link_to(
                       icon(:arrow_down, :title => 'Download MP3'),
-                          {:controller => :hymns, :action => :show, :id => h.id}) %>
+                      {:controller => :hymns, :action => :show, :id => h.id},        
+                      :onclick => 'return dl(this)') %>
                <span class='player' onclick="play('<%= url_for(:controller => :hymns, :action => :show, :id => h.id)%>','<%=j h.title%>')">
                   <%= image_tag 'pixel.gif', :title => 'Play' %>
                 </span>
