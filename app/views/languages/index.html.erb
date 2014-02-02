@@ -3,14 +3,14 @@
 <%- @languages.each do |lang| %>
   <li>
     <%= safe_t(".#{lang.name.downcase}",lang.name) %> <%= flags_for_lang lang.name,{:class => 'flag'} %>
-       <%= link_to pluralize(@language_counts[lang.id],'message'),
+       <%= link_to pluralize(@language_counts[lang.id],t(:message)),
              "/languages/show/#{lang.id}" %>,
-       <%= link_to pluralize(lang.speakers.count,'speaker'),
+       <%= link_to pluralize(lang.speakers.count,t(:speaker)),
              "/languages/#{lang.id}/speakers" %>
     <ul>
       <%- bslice = rand([lang.speakers.count-@limit,0].max) -%>
       <%- lang.speakers[bslice..(bslice+@limit)].each do |speaker| -%>
-        <li><%= speaker.catalog_name %> <%= link_to pluralize(@speakers_counts[lang.id][speaker.id],'message'), "/speakers/#{speaker.id}/language/#{lang.id}" %></li>
+        <li><%= speaker.catalog_name %> <%= link_to pluralize(@speakers_counts[lang.id][speaker.id],t(:message)), "/speakers/#{speaker.id}/language/#{lang.id}" %></li>
       <%- end -%>
       <%- if @speakers_counts[lang.id].size > @limit -%>
         <li><%= link_to t('.more_html'),"/languages/#{lang.id}/speakers"%></li>

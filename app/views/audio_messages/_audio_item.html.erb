@@ -22,7 +22,8 @@
          {:controller => :audio_messages, :action => :delete, :id => item} %>
      <% end %>
      <% if item.note_id? %>
-       <%= link_to icon(:attach, :title => t("audio.notes_available")),
+       <%= link_to icon(:attach, :title =>
+        "#{t('audio.notes_available')} - (#{item.note.filetype}) - #{item.note.title}"),
            {:controller => :notes, :action => :show, :id => item.note_id}, :target => "_blank" %>
      <% end %>
      <% if item.created_at > (DateTime.now - 30)%>

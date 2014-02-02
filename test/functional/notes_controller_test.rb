@@ -2,6 +2,14 @@ require 'test_helper'
 
 class NotesControllerTest < ActionController::TestCase
 
+  test "show all notes" do
+    n = FactoryGirl.create(:note)
+    get :index
+    assert_response :success, "Show all notes"
+    assert_not_nil assigns(@notes), "Notes should be set for listing"
+  end
+
+
   test "request for non-existent note item redirects" do
     get :show, :id => 1111
     assert_response :redirect, "Redirect away from non-existent note"
@@ -11,7 +19,25 @@ class NotesControllerTest < ActionController::TestCase
     n = FactoryGirl.create(:note)
     get :show, :id => n.id
     assert_response :redirect, "Redirect away from note with mising file"
-    assert_not_nil assigns(@speaker), "Set speaker for note listing"
+    assert_not_nil assigns(:speaker), "Set speaker for note listing"
+  end
+
+  test "request for notes list by speaker" do
+    s = FactoryGirl.create(:speaker)
+    n = FactoryGirl.create(:note, :speaker_id => s.id)
+    get :speaker, :id => s.id
+    assert_response :success, "Show notes list for speaker"
+    assert_not_nil assigns(:notes), "Notes should be set for listing"
+  end
+
+  test "request for audio messages with notes by speaker" do
+    s = FactoryGirl.create(:speaker)
+    n = FactoryGirl.create(:note, :speaker_id => s.id)
+    a = FactoryGirl.create(:audio_message, :speaker_id => s.id, :note_id => n.id)
+    get :audio, :id => s.id
+    assert_response :success, "Shows audio listing with notes"
+    assert_not_nil assigns(:items), "Items should be assigned for audio listing"
+    assert assigns(:items).size > 0,"Assigned items array must be size > 0"
   end
 
   test "request for note file renders bytes" do
@@ -40,7 +66,7 @@ class NotesControllerTest < ActionController::TestCase
     n = FactoryGirl.create(:note)
     get :speaker, :id => n.speaker.id
     assert_response :success
-    assert_not_nil assigns(@speaker), "Set speaker for note listing"
+    assert_not_nil assigns(:speaker), "Set speaker for note listing"
   end
 
 end

@@ -1,4 +1,4 @@
-<% if @speaker && (!@speaker.bio.blank? || @speaker.videos.count > 0 || @speaker.writings.count > 0) -%>
+<% if @speaker && (!@speaker.bio.blank? || @speaker.videos.count > 0 || @speaker.writings.count > 0 || @speaker.notes.count > 0) -%>
    <div id='speaker-bio-<%=@speaker.id%>' class='bio'>
       <% unless @speaker.picture_file.blank? %>
         <%= image_tag "#{PHOTOS_URL}/#{@speaker.picture_file}" %>
@@ -9,10 +9,14 @@
          <h3><%= @speaker.full_name %></h3>
       <% end %>
       <% if @speaker.videos.count > 0 %>
-         <p><%= link_to "There are #{@speaker.videos.count} videos available", "/videos/speaker/#{@speaker.id}" %></p>
+         <p>There are <%= link_to "#{@speaker.videos.count} videos available", "/videos/speaker/#{@speaker.id}" %></p>
       <% end %>
       <% if @speaker.writings.count > 0 %>
-         <p><%= link_to "There are #{@speaker.writings.count} articles available", "/writings/speaker/#{@speaker.id}"%></p>
+         <p>There are <%= link_to "#{@speaker.writings.count} articles available", "/writings/speaker/#{@speaker.id}"%></p>
+      <% end %>
+      <% if @speaker.notes.count > 0 %>
+         <p>There <%= @speaker.notes.count > 1 ? 'are' : 'is'%>
+              <%= link_to "#{pluralize(@speaker.notes.count,t(:message))} with notes attached, ", "/notes/audio/#{@speaker.id}"%> List of <%= link_to "notes","/notes/speaker/#{@speaker.id}" %></p>
       <% end %>
    </div>
 <% end -%>

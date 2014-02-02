@@ -9,7 +9,7 @@ class Permission
     allow :languages, [:index, :speakers, :show]
     allow :login, [:index, :login, :logout, :forgotten_password, :reset_password]
     allow :motms, [:index]
-    allow :notes, [:index, :speaker, :show]
+    allow :notes, [:index, :speaker, :show, :audio]
     allow :places, [:index, :speakers, :show]
     allow :speakers, [:index, :place, :language, :show]
     allow :tags, [:show]

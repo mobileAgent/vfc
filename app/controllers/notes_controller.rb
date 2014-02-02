@@ -7,9 +7,32 @@ class NotesController < ApplicationController
   def speaker
     @speaker = Speaker.find(params[:id])
     @notes = @speaker.notes
+    @notes.sort! { |a,b| a.title <=> b.title }
     render :index
   end
 
+  def audio
+    @speaker = Speaker.find(params[:id])
+    @current_resource = @speaker
+    @query_title = "Messages with Notes by #{@speaker.full_name}"
+    @items = AudioMessage.find(:all, :conditions => ['speaker_id = ? and note_id is not null and publish = ?',@speaker.id,true],
+                               :order => [:title,:subj], :include => [:speaker, :place, :tags, :note])
+
+    meta = class << @items; self; end
+    meta.send(:define_method, :total_pages) do
+      1
+    end
+    meta.send(:define_method, :total_entries) do
+      size
+    end
+
+    if request.post? && params[:download] && download_zipline(@items,@query_title,params[:page])
+      return
+    else
+      render :template => 'welcome/index'
+    end
+  end
+  
   def show
     begin
       @note = Note.find(params[:id])

@@ -21,10 +21,11 @@ class AudioMessage < ActiveRecord::Base
     indexes [speaker.last_name, speaker.first_name, speaker.middle_name, speaker.suffix],
        :as => :speaker_name, :sortable => true
     indexes place.name, :as => :place, :sortable => true
+    indexes note.title, :as => :note, :sortable => true
     indexes language.name, :as => :language, :sortable => true
     indexes event_date, :sortable => true
     indexes taggings.tag.name, :as => :tags, :sortable => true
-    has filesize, duration, place_id, language_id, speaker_id
+    has :filesize, :duration, :place_id, :language_id, :speaker_id
     set_property :delta => true
   end
 
