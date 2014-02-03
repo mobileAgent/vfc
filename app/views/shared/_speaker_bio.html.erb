@@ -16,7 +16,7 @@
       <% end %>
       <% if @speaker.notes.count > 0 %>
          <p>There <%= @speaker.notes.count > 1 ? 'are' : 'is'%>
-              <%= link_to "#{pluralize(@speaker.notes.count,t(:message))} with notes attached, ", "/notes/audio/#{@speaker.id}"%> List of <%= link_to "notes","/notes/speaker/#{@speaker.id}" %></p>
+              <%= link_to "#{pluralize(@speaker.notes.count,t(:message))} or series with notes attached", "/notes/audio/#{@speaker.id}"%>, List of <%= link_to "notes","/notes/speaker/#{@speaker.id}" %></p>
       <% end %>
    </div>
 <% end -%>

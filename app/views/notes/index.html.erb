@@ -13,7 +13,8 @@
 <ul class="notes-list">
   <% @notes.each do |n| %>
     <li>
-      <%= n.speaker.full_name %> - <%= link_to n.title, "/notes/#{n.id}", :target => "_blank" %>
+      <%= "#{n.speaker.full_name} - " unless @speaker %><%= link_to n.title, "/notes/#{n.id}", :target => "_blank" %>,
+        <%= link_to pluralize(n.audio_messages.size,t(:message)), "/notes/audio/#{n.speaker_id}/note/#{n.id}" %>
     </li>
   <% end %>
 </ul>  

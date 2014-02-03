@@ -34,11 +34,25 @@ class NotesControllerTest < ActionController::TestCase
     s = FactoryGirl.create(:speaker)
     n = FactoryGirl.create(:note, :speaker_id => s.id)
     a = FactoryGirl.create(:audio_message, :speaker_id => s.id, :note_id => n.id)
+    AudioMessage.expects(:search).returns([a].paginate)
     get :audio, :id => s.id
     assert_response :success, "Shows audio listing with notes"
     assert_not_nil assigns(:items), "Items should be assigned for audio listing"
     assert assigns(:items).size > 0,"Assigned items array must be size > 0"
   end
+
+  test "request for audio messages with specified note by speaker" do
+    s = FactoryGirl.create(:speaker)
+    n = FactoryGirl.create(:note, :speaker_id => s.id)
+    n2 = FactoryGirl.create(:note, :speaker_id => s.id)
+    a = []
+    [1..3].each { |x| a << FactoryGirl.create(:audio_message, :speaker_id => s.id, :note_id => n.id) }
+    AudioMessage.expects(:search).returns(a.paginate)
+    get :audio, :id => s.id, :note_id => n.id
+    assert_response :success, "Shows audio listing with specified notes"
+    assert_not_nil assigns(:items), "Items should be assigned for audio listing"
+  end
+  
 
   test "request for note file renders bytes" do
     n = FactoryGirl.create(:note, :filename => "NOTE_SPEAKER/foo.pptx")

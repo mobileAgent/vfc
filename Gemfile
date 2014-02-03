@@ -42,7 +42,7 @@ gem 'jquery-turbolinks'
 gem 'will_paginate',
   :git => 'git://github.com/mislav/will_paginate.git'
 
-gem 'thinking-sphinx'
+gem 'thinking-sphinx', '~> 2.1'
   
 #gem 'acts_as_taggable_on_steroids'
 gem 'acts_as_taggable_on_steroids',

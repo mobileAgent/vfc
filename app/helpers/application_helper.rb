@@ -54,14 +54,14 @@ module ApplicationHelper
   # Used for ar finders
   def sort_column_ar
     f = {
-      "full_title" => "title",
+      "full_title" => "audio_messages.title",
       "filesize" => "filesize",
       "speaker_name" => "speakers.last_name",
       "duration" => "duration",
       "event_date" => "event_date",
       "place" => "places.name",
       "language" => "languages.name" }
-    f.keys.include?(params[:sort]) ? f[params[:sort]] : "speakers.last_name asc, speakers.first_name asc, title asc, subj"
+    f.keys.include?(params[:sort]) ? f[params[:sort]] : "speakers.last_name asc, speakers.first_name asc, audio_messages.title asc, subj"
   end
 
   def sort_direction

@@ -6,25 +6,28 @@ class NotesController < ApplicationController
 
   def speaker
     @speaker = Speaker.find(params[:id])
-    @notes = @speaker.notes
-    @notes.sort! { |a,b| a.title <=> b.title }
+    @notes = Note.find(:all, :conditions => ['speaker_id = ?',@speaker.id], :include => [:audio_messages], :order => :title)
     render :index
   end
 
   def audio
     @speaker = Speaker.find(params[:id])
     @current_resource = @speaker
-    @query_title = "Messages with Notes by #{@speaker.full_name}"
-    @items = AudioMessage.find(:all, :conditions => ['speaker_id = ? and note_id is not null and publish = ?',@speaker.id,true],
-                               :order => [:title,:subj], :include => [:speaker, :place, :tags, :note])
-
-    meta = class << @items; self; end
-    meta.send(:define_method, :total_pages) do
-      1
+    if params[:note_id]
+      range = params[:note_id].to_i
+      @note = Note.find(params[:note_id].to_i)
+      @query_title = "Message for Note - #{@note.title}"
+    else
+      range = 1..2**32-1 # sphinx doesn't do "greather than" on attributes
+      @query_title = "Messages with Notes by #{@speaker.full_name}"
     end
-    meta.send(:define_method, :total_entries) do
-      size
-    end
+    @items = AudioMessage.search('',
+                                 :with => {:speaker_id => @speaker.id, :note_id => range },
+                                 :order => sort_column,
+                                 :match_mode => :boolean,
+                                 :page => params[:page],
+                                 :max_matches => 2500,
+                                 :include => [:language, :speaker, :place, :tags, :notes])
 
     if request.post? && params[:download] && download_zipline(@items,@query_title,params[:page])
       return

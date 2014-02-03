@@ -80,7 +80,7 @@ class DatesController < ApplicationController
     @query_title = t(:query_by_speaker_and_year, :date => @date, :speaker => @speaker.full_name)
     @items = AudioMessage.active
       .where("date_format(audio_messages.event_date,#{@date_format}) = ?",@date)
-      .where("speaker_id = ?",@speaker.id)
+      .where("audio_messages.speaker_id = ?",@speaker.id)
       .order(sort_column_ar + " " + sort_direction)
       .paginate(:page => params[:page], :per_page => AudioMessage.per_page)
       .includes(:language, :speaker, :place, :tags)

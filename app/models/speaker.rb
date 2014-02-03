@@ -5,7 +5,7 @@ class Speaker < ActiveRecord::Base
   has_many :audio_messages
   has_many :videos
   has_many :writings
-  has_many :notes, :through => :audio_messages, :uniq => true
+  has_many :notes
   
   has_many :places, :through => :audio_messages, :uniq => true,
            :conditions => {"audio_messages.publish" => true},

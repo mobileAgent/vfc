@@ -2,7 +2,6 @@ class AudioMessage < ActiveRecord::Base
 
   nilify_blanks
   
-  has_one :motm
   belongs_to :speaker
   belongs_to :language
   belongs_to :place
@@ -11,7 +10,7 @@ class AudioMessage < ActiveRecord::Base
   acts_as_taggable
   self.per_page = 50
   
-  scope :active, where("publish = ?",true).includes(:speaker,:language,:place)
+  scope :active, where("publish = ?",true).includes(:speaker,:language,:place,:note)
   scope :year, lambda { |yr| where("date_format(event_date,'%Y') = ?",yr) }
   
 
@@ -21,11 +20,11 @@ class AudioMessage < ActiveRecord::Base
     indexes [speaker.last_name, speaker.first_name, speaker.middle_name, speaker.suffix],
        :as => :speaker_name, :sortable => true
     indexes place.name, :as => :place, :sortable => true
-    indexes note.title, :as => :note, :sortable => true
+    indexes note.title, :as => :note_title, :sortable => true
     indexes language.name, :as => :language, :sortable => true
     indexes event_date, :sortable => true
     indexes taggings.tag.name, :as => :tags, :sortable => true
-    has :filesize, :duration, :place_id, :language_id, :speaker_id
+    has :filesize, :duration, :place_id, :language_id, :speaker_id, :note_id
     set_property :delta => true
   end
 
