@@ -85,7 +85,7 @@ charset: &charset
 development:
   bin_path: /usr/local/bin
   morphology: stem_en
-  max_matches: 2500
+  max_matches: 10000
   min_prefix_len: 2
   enable_star: 1
   wordforms: db/sphinx/wordforms.txt
@@ -96,7 +96,7 @@ development:
 test:
   bin_path: /usr/local/bin
   morphology: stem_en
-  max_matches: 2500
+  max_matches: 10000
   min_prefix_len: 2
   enable_star: 1
   wordforms: db/sphinx/wordforms.txt
@@ -108,7 +108,7 @@ test:
   
 production:
   morphology: stem_en
-  max_matches: 2500
+  max_matches: 10000
   min_prefix_len: 2
   enable_star: 1
   wordforms: db/sphinx/wordforms.txt

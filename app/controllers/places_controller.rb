@@ -28,7 +28,7 @@ class PlacesController < ApplicationController
                                  :order => sort_column,
                                  :match_mode => :boolean,
                                  :page => params[:page],
-                                 :max_matches => 2500,
+                                 :max_matches => 5000,
                                  :include => [:language, :speaker, :place, :tags])
     
     if request.post? && params[:download] && download_zipline(@items,@query_title,params[:page])

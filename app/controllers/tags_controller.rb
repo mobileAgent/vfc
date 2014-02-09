@@ -9,6 +9,7 @@ class TagsController < ApplicationController
                                    :page => params[:page] || 1,
                                    :per_page => AudioMessage.per_page,
                                    :order => sort_column,
+                                   :max_matches => 5000,
                                    :include => [:language, :speaker, :place, :tags])
       logger.debug "Found #{@items.size} items"
       

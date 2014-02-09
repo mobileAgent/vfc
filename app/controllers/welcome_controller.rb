@@ -167,7 +167,7 @@ class WelcomeController < ApplicationController
       :order => sort_column,
       :match_mode => match_mode,
       :star => star,
-      :max_matches => 2500,
+      :max_matches => 5000,
       :include => [:language, :speaker, :place, :tags ]
     }
     options[:conditions] = conditions if conditions
