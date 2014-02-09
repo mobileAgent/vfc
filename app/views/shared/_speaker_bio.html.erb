@@ -1,30 +1,30 @@
 <% if @speaker && (!@speaker.bio.blank? || @speaker.videos.count > 0 || @speaker.writings.count > 0 || @speaker.notes.count > 0) -%>
    <div id='speaker-bio-<%=@speaker.id%>' class='bio'>
      <div class='bio-text'>
-      <% unless @speaker.picture_file.blank? %>
-        <%= image_tag "#{PHOTOS_URL}/#{@speaker.picture_file}" %>
-      <% end %>
-      <% if @speaker.bio %>
-         <%= @speaker.bio_html.html_safe %>
-      <% else %>
-         <h3><%= @speaker.full_name %></h3>
-      <% end %>
-      </div>
-      <div id='other-speaker-stuff'>
-      <% if @speaker.videos.count > 0 %>
+        <% unless @speaker.picture_file.blank? %>
+          <%= image_tag "#{PHOTOS_URL}/#{@speaker.picture_file}" %>
+        <% end %>
+        <% if @speaker.bio %>
+          <%= @speaker.bio_html.html_safe %>
+        <% else %>
+          <h3><%= @speaker.full_name %></h3>
+        <% end %>
+     </div>
+     <div id='other-speaker-stuff'>
+       <% if @speaker.videos.count > 0 %>
          <p>There are <%= link_to "#{@speaker.videos.count} videos available", "/videos/speaker/#{@speaker.id}" %></p>
-      <% end %>
-      <% if @speaker.writings.count > 0 %>
+       <% end %>
+       <% if @speaker.writings.count > 0 %>
          <p>There are <%= link_to "#{@speaker.writings.count} articles available", "/writings/speaker/#{@speaker.id}"%></p>
-      <% end %>
-      <% if @speaker.notes.count > 0 %>
+       <% end %>
+       <% if @speaker.notes.count > 0 %>
          <p>There <%= @speaker.notes.count > 1 ? 'are' : 'is'%>
               <%= link_to "#{pluralize(@speaker.notes.count,t(:message))} or series with notes attached", "/notes/audio/#{@speaker.id}"%>, List of <%= link_to "notes","/notes/speaker/#{@speaker.id}" %></p>
-      <% end %>
-     <div class="fb-like" data-href="<%= request.protocol +
-          request.host_with_port %>/speakers/<%=@speaker.id%>"
-          data-layout="button_count" data-action="like" data-show-faces="false"
-          data-share="false"></div>
+       <% end %>
+       <div class="fb-like" data-layout="button_count"
+           data-action="like" data-show-faces="false"
+           data-share="true">
+       </div>
      </div>
    </div>
 <% end -%>
