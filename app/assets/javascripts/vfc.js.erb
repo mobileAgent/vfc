@@ -98,4 +98,14 @@ if (document.location.href.indexOf("/player/") == -1)
   $(document).on('page:restore', function() {
     $('#content').fadeIn('slow');
   });
+
+  $.ajaxSetup({ cache: true });
+  $.getScript('//connect.facebook.net/en_UK/all.js', function(){
+    FB.init({
+      appId: '254616541365833',
+      status: true, cookie: true,
+      xfbml: true});
+    $('#loginbutton,#feedbutton').removeAttr('disabled');
+    //FB.getLoginStatus(updateStatusCallback);
+  });
 }

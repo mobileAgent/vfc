@@ -1,11 +1,17 @@
 <!DOCTYPE html>  
-<html>
+<html xmlns:og="http://opengraphprotocol.org/schema/"
+      xmlns:fb="http://www.facebook.com/2008/fbml">
   <head>
     <title><%= content_for?(:title) ? t("title.prefix") + yield(:title) : t("title.vfc")  %></title>
     <meta charset="utf-8"/>
     <link rel="shortcut icon" href="<%= asset_path 'vfc.ico'%>" type="image/x-icon" />
     <%= stylesheet_link_tag "application", :media => 'all' %>
-    <%= javascript_include_tag "application" %>  
+    <%= javascript_include_tag "application" %>
+    <meta property="fb:app_id" content="254616541365833" />
+    <meta property="og:title" content='<%= content_for?(:title) ? t("title.prefix") + yield(:title) : t("title.vfc")  %>' />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="http://vfc.io/" />
+    <meta property="og:site_name" content='<%=t("title.vfc")%>' />
     <%= csrf_meta_tag %>
     <%= yield(:head) %>
     <%= render "shared/analytics" %>
