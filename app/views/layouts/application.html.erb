@@ -10,7 +10,6 @@
     <meta property="fb:app_id" content="254616541365833" />
     <meta property="og:title" content='<%= content_for?(:title) ? t("title.prefix") + yield(:title) : t("title.vfc")  %>' />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="http://vfc.io/" />
     <meta property="og:site_name" content='<%=t("title.vfc")%>' />
     <%= csrf_meta_tag %>
     <%= yield(:head) %>
