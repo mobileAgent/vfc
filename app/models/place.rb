@@ -15,7 +15,7 @@ class Place < ActiveRecord::Base
   end
 
   def bio_snippet(length=80)
-    bio ? "#{bio[0..length]}&hellip;".html_safe : ""
+    bio ? "#{bio.gsub(/\*/,'')[0..length]}&hellip;".html_safe : ""
   end
   
 end

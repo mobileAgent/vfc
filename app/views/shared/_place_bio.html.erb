@@ -14,7 +14,8 @@
        </div>
        <% content_for :head do %>
          <meta property='og:image' content='<%= "#{request.protocol}#{request.host_with_port}#{PHOTOS_URL}/#{@place.picture_file}" %>' />
-         <meta property='og:description' content='<%= @place.bio_snippet(240) %>' />
+         <meta property='og:description' content='<%= @place.bio_snippet(240)%>... <%= @place.audio_messages.size %> audio messages available in mp3 format.' />
+         <meta property='og:url' content='<%= "#{request.protocol}#{request.host_with_port}/places/#{@place.id}"%>'/>
        <% end %>
        </div>
        <% end %>
