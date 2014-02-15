@@ -29,7 +29,7 @@
        <% content_for :head do %>
          <meta property='og:image' content='<%= "#{request.protocol}#{request.host_with_port}#{PHOTOS_URL}/#{@speaker.picture_file}" %>' />
          <meta property='og:description' content='<%= @speaker.bio_snippet(240) %>... <%= @speaker.audio_messages.size %> audio messages available in mp3 format' />
-         <meta property='og:url' content='<%= "#{request.protocol}#{request.host_with_port}/speakers/#{@speaker.id}"%>'
+         <meta property='og:url' content='<%= "#{request.protocol}#{request.host_with_port}/speakers/#{@speaker.id}"%>' />
        <% end %>
        <% end %>
      </div>
