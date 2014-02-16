@@ -39,7 +39,7 @@
   </td>
   <%= optional_cell(item.human_date) %>
   <% if item.place %>
-    <td><%= link_to(item.place.name, place_path(item.place))%></td>
+    <td><%= link_to(item.place.table_name, place_path(item.place))%></td>
   <% else %>
     <%= unavailable_cell %>
   <% end %>

@@ -17,5 +17,13 @@ class Place < ActiveRecord::Base
   def bio_snippet(length=80)
     bio ? "#{bio.gsub(/\*/,'')[0..length]}&hellip;".html_safe : ""
   end
+
+  def table_name
+    if name.length > 10 && name.index(/,/)
+      name.gsub(/,.*/,'')
+    else
+      name
+    end
+  end
   
 end

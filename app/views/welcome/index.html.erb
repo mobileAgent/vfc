@@ -1,9 +1,11 @@
-<% title(@page_title || t(:messages)) %>
 <% if @speaker && @place.nil? %>
+  <% title(@page_title || @speaker.full_name) %>
   <%= render "shared/speaker_bio" %>
 <% elsif @speaker.nil? && @place %>
+  <% title(@page_title || @place.name) %>
   <%= render "shared/place_bio" %>
 <% else %>  
+  <% title(@page_title || t(:messages)) %>
   <%= render "shared/motm" %>
   <%= render "shared/tag_cloud" %>
 <% end %>

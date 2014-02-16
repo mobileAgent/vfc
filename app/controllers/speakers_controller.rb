@@ -15,7 +15,7 @@ class SpeakersController < ApplicationController
 
   def place
     @place = params[:place_id] ? Place.find(params[:place_id]) : nil
-    @query_title = "Messages given in #{@place.name}"
+    @query_title = "Messages given at #{@place.name}"
     @conditions = {:place_id => @place.id}
     show
   end
