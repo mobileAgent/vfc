@@ -1,6 +1,7 @@
 <!DOCTYPE html>  
 <html xmlns:og="http://opengraphprotocol.org/schema/"
-      xmlns:fb="http://www.facebook.com/2008/fbml">
+      xmlns:fb="http://www.facebook.com/2008/fbml"
+      lang="<%= @locale %>">
   <head>
     <title><%= content_for?(:title) ? t("title.prefix") + yield(:title) : t("title.vfc")  %></title>
     <meta charset="utf-8"/>
@@ -11,6 +12,7 @@
     <meta property="og:title" content='<%= content_for?(:title) ? t("title.prefix") + yield(:title) : t("title.vfc")  %>' />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content='<%=t("title.vfc")%>' />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <%= csrf_meta_tag %>
     <%= yield(:head) %>
     <%= render "shared/analytics" %>
@@ -19,7 +21,8 @@
     <%= render "shared/facebook_sdk" %>
     <div id="wrap">
       <div id="header">
-        <ul id="sidenav">
+        <a href="#" id="nav-status">Menu Manu</a>
+        <ul id="sidenav" class="nav-collapse">
           <li><%= link_to t("menu.home"), root_path %></li>
           <li><%= link_to t("menu.featured"), '/featured' %></li>
           <li><%= link_to t("menu.speakers"), '/speakers' %></li>
@@ -35,7 +38,9 @@
           <h1 class="content"><%= yield(:title) %></h1>
           <h2 class="content"><%= yield(:subtitle) %></h2>
         <%- end -%>
-        <p id="tagline"><%= @tagline %><br />&nbsp;&nbsp;<%= @tagline2 %></p>
+        <%- unless @mobile_device -%>
+           <p id="tagline"><%= @tagline %><br />&nbsp;&nbsp;<%= @tagline2 %></p>
+        <%- end -%>
       </div>
 
       <%= render "shared/search_form" %>

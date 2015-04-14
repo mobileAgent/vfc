@@ -14,7 +14,7 @@ gem 'zipline', :git => 'git://github.com/fringd/zipline.git'
 # gem 'unicorn'
 
 # Deploy with Capistrano
-gem 'capistrano'
+gem 'capistrano', '2.15.5', require: false, group: :development
 
 # To use debugger
 # gem 'ruby-debug'
@@ -90,6 +90,7 @@ group :development, :test do
   gem 'guard'
   gem 'rb-fsevent', '~> 0.9.1'
   gem 'guard-test'
+
 end
 
 gem 'factory_girl_rails', :group => :test

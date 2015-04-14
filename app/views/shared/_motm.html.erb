@@ -1,4 +1,4 @@
-<% if @motm %>
+<% if @motm && @motm.audio_message && @motm.audio_message.speaker %>
   <div id="motm">
      <span class="title"><%= t(".title")%></span>
      <br />

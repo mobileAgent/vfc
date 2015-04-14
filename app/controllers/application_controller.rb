@@ -25,20 +25,30 @@ class ApplicationController < ActionController::Base
     AudioMessage
     User
     
-    @tagline = 
+    @tagline =
       Rails.cache.fetch("tagline-#{@locale}",:expires_in => 30.minutes) {
-        t(:tagline_html,
-            :messages => AudioMessage.active.count,
-            :speakers => Speaker.active.count,
-            :languages => Language.count).html_safe
+      t(:tagline_html,
+        :messages => AudioMessage.active.count,
+        :speakers => Speaker.active.count,
+        :languages => Language.count).html_safe
     }
     @tagline2 = t(:tagline2_html).html_safe
 
     @motm = Rails.cache.fetch("motm-#{@locale}",:expires_in => 30.minutes) {
       Motm.language(@language).active.first
     }
+
+    @mobile_device = mobile_device?
     
   end
+
+  def mobile_device?
+    if session[:mobile_param]
+      session[:mobile_param] == "1"
+    else
+      request.user_agent =~ /Mobile|webOS|Mini|Mobi|Android|iPhone/
+    end
+  end  
 
   def utf8_work_around
     @utf8_enforcer_tag_enabled = browser.ie?

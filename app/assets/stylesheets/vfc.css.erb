@@ -36,45 +36,140 @@ body {
    white-space:nowrap;
 }
 
-ul#sidenav {
-   margin: 0 auto 0 12px;
-   height: 36px;
-   list-style: none;
-   position: relative;
-   top: 0;
-   overflow: hidden;
+@media screen and (min-width: 960px) {
+
+  ul#sidenav {
+     margin: 0 auto 0 12px;
+     height: 36px;
+     list-style: none;
+     position: relative;
+     top: 0;
+     overflow: hidden;
+  }
+
+  ul#sidenav li {
+     float: left;
+     margin-right: -1px;
+  }
+
+  ul#sidenav li a {
+     font-size: 0.8em;
+     font-weight: bold;
+     padding:4px 11px 0;
+     text-decoration: none;
+     display: block;
+     border-top: 1px solid #002D47;
+     height: 22px;
+  }
+
+  ul#sidenav li a:link,
+  ul#sidenav li a:visited {
+     color: #FFF;
+     text-decoration: none;
+  }
+
+  ul#sidenav li a:hover,
+  ul#sidenav li a:active {
+     color: red;
+     background: #002D47;
+     text-decoration: underline;
+  }
+
+  ul#sidenav li a:focus { }
+  #nav-status { display: none; }
+
+  #searchbox {
+    float:right;
+    margin: -24px 38px 3px auto;
+  }
+
+  input#ssu {
+     background-image: url(<%= asset_path 'icons/search.gif'%>);
+     margin: -23px 15px 3px auto;
+     height: 19px;
+     width: 19px;
+     border: 0;
+  }
 }
 
-ul#sidenav li {
-   float: left;
-   margin-right: -1px;
+@media (max-width: 960px) {
+
+    #nav-status {
+        display: block;
+        width: 100%;
+        height: 21px;
+        padding: 2px;
+        color: white;
+        text-decoration: none;
+    }
+
+    #nav-status:visited {
+       color: white;
+    }
+    
+    #nav-status:hover {
+       cursor: pointer;
+    }
+
+    ul#sidenav{
+        display: none;
+        width: 100%;       
+        overflow: visible;
+        color: #002D47;
+        background: #ccc;
+        position: absolute;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    ul#sidenav li {
+        color:#000;
+        border-bottom: 1px solid #002D47;
+        width: 100%;
+        min-height: 21px;
+        padding:2px;
+        display: block;        
+        position: relative;
+    }
+
+    ul#sidenav li a {
+       color:#002D47;
+       text-decoration: none;
+    }
+
+    ul#sidenav li a:visited {
+       color:#002D47;
+    }
+
+    ul#sidenav li a:hover {
+       cursor: pointer;
+    }
+
+    ul#sidenav li:last-child {
+        border-bottom: none;
+    }
+
+    #searchbox {
+      margin-top: 10px;
+      margin-left: 10px;
+      margin-bottom: 10px;
+      width: 90%;
+    }
+
+    
+   input#ssu {
+     background-image: url(<%= asset_path 'icons/search.gif'%>);
+     height: 19px;
+     width: 19px;
+     border: 0;
+  }
+
+  #header h1 {
+           font: normal 1.5em Tahoma, Geneva, sans-serif;
+  }
 }
-
-ul#sidenav li a {
-   font-size: 0.8em;
-   font-weight: bold;
-   padding:4px 11px 0;
-   text-decoration: none;
-   display: block;
-   border-top: 1px solid #002D47;
-   height: 22px;
-}
-
-ul#sidenav li a:link,
-ul#sidenav li a:visited {
-   color: #FFF;
-   text-decoration: none;
-}
-
-ul#sidenav li a:hover,
-ul#sidenav li a:active {
-   color: red;
-   background: #002D47;
-   text-decoration: underline;
-}
-
-ul#sidenav li a:focus { }
-
+​
 p#tagline {
    color: #A6B6BF;
    font: italic 18px Georgia, "Times New Roman", Times, serif;
@@ -87,19 +182,6 @@ p#tagline {
 
 .clearboth {
   clear: both;
-}
-
-#searchbox {
-  float:right;
-   margin: -24px 38px 3px auto;
-}
-
-input#ssu {
-   background-image: url(<%= asset_path 'icons/search.gif'%>);
-   margin: -23px 15px 3px auto;
-   height: 19px;
-   width: 19px;
-   border: 0;
 }
 
 tr>th#play_col {
@@ -154,13 +236,14 @@ li { }
 #footer {
    background: #002D47;
    height: 36px;
-        margin-top: -36px;
-        bottom: 0;
+   margin-top: -36px;
+   bottom: 0;
    width: 100%;
    color: #FFF;
-        position: relative;
-        clear: both;
+   position: relative;
+   clear: both;
 }
+
 
 ul#botnav {
    margin: 0 auto 0 2em;
@@ -168,6 +251,7 @@ ul#botnav {
    list-style: none;
    position: relative;
    top: 0px;
+   overflow: hidden;
 }
 
 ul#botnav li {

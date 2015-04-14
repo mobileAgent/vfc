@@ -1,6 +1,6 @@
 <div id="searchbox">
 <%= form_tag('/welcome/search', {:method => :get, :id => 'sform'}) do |f| %>
-  <input type='text' name='q' id='q' size='80' autocomplete='off' autofocus='autofocus' placeholder='<%=t(".submit")%>' value='<%=params[:q]%>'/>
+  <input type='text' name='q' id='q' autocomplete='off' autofocus='autofocus' placeholder='<%=t(".submit")%>' value='<%=params[:q]%>'/>
   <input type="submit" id="ssu" value="" />
 <% end %>
 </div>

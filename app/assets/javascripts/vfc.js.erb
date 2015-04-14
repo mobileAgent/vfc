@@ -66,8 +66,11 @@ function document_setup()
        video_player_start();
      else
        audio_player_start();
-  });
-};
+     $('#nav-status').click(function(e) {
+        e.preventDefault();
+        $('#sidenav').toggle();
+      });
+});};
 
 function popout_jplayer()
 {
