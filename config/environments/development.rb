@@ -27,6 +27,13 @@ Vfc::Application.configure do
   
   # Expands the lines which load the assets
   config.assets.debug = true
+
+  config.middleware.use ExceptionNotification::Rack,
+  :email => {
+    :email_prefix => "[VFC] ",
+    :sender_address => %{"Exception Notifier" <webmaster@voicesforchrist.org>},
+    :exception_recipients => %w{flester@gmail.com}
+  }
   
 end
 

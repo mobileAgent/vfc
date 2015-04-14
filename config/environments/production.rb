@@ -67,8 +67,10 @@ Vfc::Application.configure do
   # config.assets.precompile += %w( search.js )
 
   config.middleware.use ExceptionNotification::Rack,
-    :email_prefix => "[VFC] ",
-    :sender_address => %{"Exception Notifier" <webmaster@voicesforchrist.org>},
-    :exception_recipients => %w{flester@gmail.com}  
+    :email => {
+      :email_prefix => "[VFC] ",
+      :sender_address => %{"Exception Notifier" <webmaster@voicesforchrist.org>},
+      :exception_recipients => %w{flester@gmail.com}
+    }
 
 end
