@@ -38,9 +38,6 @@
           <h1 class="content"><%= yield(:title) %></h1>
           <h2 class="content"><%= yield(:subtitle) %></h2>
         <%- end -%>
-        <%- unless @mobile_device -%>
-           <p id="tagline"><%= @tagline %><br />&nbsp;&nbsp;<%= @tagline2 %></p>
-        <%- end -%>
       </div>
 
       <%= render "shared/search_form" %>
