@@ -10,7 +10,7 @@ set :group, 'vfcnet'
 set :deploy_to, "/var/apps/#{application}"
 set :use_sudo, false
 
-set :server_name, "voicesforchrist.net"
+set :server_name, "voicesforchrist.org"
 role :web, "#{server_name}"
 role :app, "#{server_name}"
 role :db,  "#{server_name}", :primary => true

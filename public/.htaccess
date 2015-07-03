@@ -1,5 +1,12 @@
 Order Allow,Deny
 
+# looking for fckeditor
+Deny from 209.190.18.226
+Deny from 59.58.157.41
+
+# Tinfoil security
+Deny from 54.243.185.88
+
 # komp3.net
 Deny from 175.33.51.72
 # beemp3.com, mp3realm.com, mp3realm.org
