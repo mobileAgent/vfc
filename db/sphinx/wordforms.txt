@@ -13,3 +13,6 @@ david > dave
 dave > david
 
 sampson > samson
+
+psalm > psalms
+psalms > psalm
