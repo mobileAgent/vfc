@@ -6,7 +6,7 @@ module VfcConverter
     end
     p = Place.find_by_name(name)
     if p.nil?
-      p = Place.find(:first, :conditions => ['name like ?',"#{name}%"])
+      p = Place.find(:first, :conditions => ['name like ?',"#{name}%"], :order => "id")
     end
     if p.nil?
       p = Place.create(:name => name)
