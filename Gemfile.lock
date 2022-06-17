@@ -75,6 +75,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.9.1)
+    concurrent-ruby (1.1.10)
     curb (0.8.8)
     daemons (1.2.2)
     docile (1.1.5)
@@ -106,7 +107,8 @@ GEM
     highline (1.6.21)
     hike (1.2.3)
     hitimes (1.2.2)
-    i18n (0.7.0)
+    i18n (0.9.5)
+      concurrent-ruby (~> 1.0)
     innertube (1.0.2)
     journey (1.0.4)
     jquery-rails (3.1.2)
