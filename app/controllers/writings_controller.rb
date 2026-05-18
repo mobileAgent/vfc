@@ -1,12 +1,12 @@
 class WritingsController < ApplicationController
 
   def index
-    @writings = Writing.all
+    @writings = Writing.all(:include => :speaker).sort { |a,b| a.speaker.catalog_name+a.title <=> b.speaker.catalog_name+b.title }
   end
-
+  
   def speaker
     @speaker = Speaker.find(params[:id])
-    @writings = @speaker.writings
+    @writings = @speaker.writings.sort { |a, b| a.title <=> b.title }
     render :index
   end
 
