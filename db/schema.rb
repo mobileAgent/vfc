@@ -9,116 +9,130 @@
 # from scratch. The latter is a flawed and unsustainable approach (the more migrations
 # you'll amass, the slower it'll run and the greater likelihood for issues).
 #
-# It's strongly recommended to check this file into your version control system.
+# It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121112023300) do
+ActiveRecord::Schema.define(version: 20260520200306) do
 
-  create_table "audio_messages", :force => true do |t|
-    t.string   "title"
-    t.string   "subj"
-    t.string   "groupmsg"
+  create_table "audio_messages", force: :cascade do |t|
+    t.string   "title",       limit: 255
+    t.string   "subj",        limit: 255
+    t.string   "groupmsg",    limit: 255
     t.boolean  "publish"
-    t.integer  "note_id"
-    t.integer  "language_id"
-    t.integer  "speaker_id"
-    t.integer  "place_id"
-    t.string   "filename"
-    t.integer  "duration"
-    t.integer  "filesize"
+    t.integer  "note_id",     limit: 4
+    t.integer  "language_id", limit: 4
+    t.integer  "speaker_id",  limit: 4
+    t.integer  "place_id",    limit: 4
+    t.string   "filename",    limit: 255
+    t.integer  "duration",    limit: 4
+    t.integer  "filesize",    limit: 4
     t.datetime "event_date"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "delta",       :default => false
+    t.boolean  "delta",                   default: false
   end
 
-  create_table "blocked_hosts", :force => true do |t|
-    t.string   "ip_address"
+  create_table "blocked_hosts", force: :cascade do |t|
+    t.string   "ip_address", limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "hymns", :force => true do |t|
-    t.string   "title",      :limit => 128, :null => false
-    t.string   "filename",   :limit => 256, :null => false
-    t.datetime "created_at",                :null => false
-    t.datetime "updated_at",                :null => false
+  create_table "hymns", force: :cascade do |t|
+    t.string   "title",      limit: 128, null: false
+    t.string   "filename",   limit: 256, null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
-  create_table "languages", :force => true do |t|
-    t.string   "name"
-    t.string   "cc"
+  create_table "languages", force: :cascade do |t|
+    t.string   "name",       limit: 255
+    t.string   "cc",         limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "motms", :force => true do |t|
-    t.integer  "audio_message_id"
+  create_table "motms", force: :cascade do |t|
+    t.integer  "audio_message_id", limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "notes", :force => true do |t|
-    t.string   "title",      :limit => 128,                    :null => false
-    t.string   "filename",   :limit => 256,                    :null => false
-    t.integer  "speaker_id"
-    t.integer  "filesize"
-    t.boolean  "delta",                     :default => false
-    t.datetime "created_at",                                   :null => false
-    t.datetime "updated_at",                                   :null => false
+  create_table "notes", force: :cascade do |t|
+    t.string   "title",      limit: 128,                 null: false
+    t.string   "filename",   limit: 256,                 null: false
+    t.integer  "speaker_id", limit: 4
+    t.integer  "filesize",   limit: 4
+    t.boolean  "delta",                  default: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
   end
 
-  create_table "places", :force => true do |t|
-    t.string   "name"
-    t.string   "cc"
+  create_table "places", force: :cascade do |t|
+    t.string   "name",         limit: 255
+    t.string   "cc",           limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.text     "bio"
-    t.string   "picture_file", :limit => 512
-    t.boolean  "delta",                       :default => false
+    t.text     "bio",          limit: 65535
+    t.string   "picture_file", limit: 512
+    t.boolean  "delta",                      default: false
   end
 
-  add_index "places", ["name"], :name => "index_places_on_name"
+  add_index "places", ["name"], name: "index_places_on_name", using: :btree
 
-  create_table "speakers", :force => true do |t|
-    t.string   "last_name"
-    t.string   "first_name"
-    t.string   "middle_name"
-    t.string   "suffix"
-    t.text     "bio"
-    t.string   "picture_file"
+  create_table "speakers", force: :cascade do |t|
+    t.string   "last_name",    limit: 255
+    t.string   "first_name",   limit: 255
+    t.string   "middle_name",  limit: 255
+    t.string   "suffix",       limit: 255
+    t.text     "bio",          limit: 65535
+    t.string   "picture_file", limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "hidden",       :default => false
-    t.boolean  "delta",        :default => false
+    t.boolean  "hidden",                     default: false
+    t.boolean  "delta",                      default: false
   end
 
-  add_index "speakers", ["last_name", "middle_name", "first_name"], :name => "index_speakers_on_last_name_and_middle_name_and_first_name"
+  add_index "speakers", ["last_name", "middle_name", "first_name"], name: "index_speakers_on_last_name_and_middle_name_and_first_name", using: :btree
 
-  create_table "taggings", :force => true do |t|
-    t.integer  "tag_id"
-    t.integer  "taggable_id"
-    t.string   "taggable_type"
+  create_table "taggings", force: :cascade do |t|
+    t.integer  "tag_id",        limit: 4
+    t.integer  "taggable_id",   limit: 4
+    t.string   "taggable_type", limit: 255
     t.datetime "created_at"
+    t.integer  "tagger_id",     limit: 4
+    t.string   "tagger_type",   limit: 255
+    t.string   "context",       limit: 128
   end
 
-  add_index "taggings", ["tag_id"], :name => "index_taggings_on_tag_id"
-  add_index "taggings", ["taggable_id", "taggable_type"], :name => "index_taggings_on_taggable_id_and_taggable_type"
+  add_index "taggings", ["context"], name: "index_taggings_on_context", using: :btree
+  add_index "taggings", ["tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type"], name: "taggings_idx", unique: true, using: :btree
+  add_index "taggings", ["tag_id"], name: "index_taggings_on_tag_id", using: :btree
+  add_index "taggings", ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context", using: :btree
+  add_index "taggings", ["taggable_id", "taggable_type", "tagger_id", "context"], name: "taggings_idy", using: :btree
+  add_index "taggings", ["taggable_id", "taggable_type"], name: "index_taggings_on_taggable_id_and_taggable_type", using: :btree
+  add_index "taggings", ["taggable_id"], name: "index_taggings_on_taggable_id", using: :btree
+  add_index "taggings", ["taggable_type"], name: "index_taggings_on_taggable_type", using: :btree
+  add_index "taggings", ["tagger_id", "tagger_type"], name: "index_taggings_on_tagger_id_and_tagger_type", using: :btree
+  add_index "taggings", ["tagger_id"], name: "index_taggings_on_tagger_id", using: :btree
 
-  create_table "tags", :force => true do |t|
-    t.string "name"
+  create_table "tags", force: :cascade do |t|
+    t.string  "name",           limit: 255
+    t.integer "taggings_count", limit: 4,   default: 0
   end
 
-  create_table "users", :force => true do |t|
-    t.string   "email",                :limit => 128, :default => "",    :null => false
-    t.string   "hashed_password",                     :default => "",    :null => false
-    t.string   "salt",                                                   :null => false
-    t.boolean  "admin",                               :default => false, :null => false
-    t.boolean  "activated",                           :default => false, :null => false
-    t.integer  "lock_version",                        :default => 0,     :null => false
-    t.datetime "last_visit",                                             :null => false
-    t.datetime "created_at",                                             :null => false
-    t.datetime "updated_at",                                             :null => false
-    t.string   "name",                 :limit => 128
+  add_index "tags", ["name"], name: "index_tags_on_name", unique: true, using: :btree
+
+  create_table "users", force: :cascade do |t|
+    t.string   "email",                limit: 128, default: "",    null: false
+    t.string   "hashed_password",      limit: 255, default: "",    null: false
+    t.string   "salt",                 limit: 255,                 null: false
+    t.boolean  "admin",                            default: false, null: false
+    t.boolean  "activated",                        default: false, null: false
+    t.integer  "lock_version",         limit: 4,   default: 0,     null: false
+    t.datetime "last_visit",                                       null: false
+    t.datetime "created_at",                                       null: false
+    t.datetime "updated_at",                                       null: false
+    t.string   "name",                 limit: 128
     t.boolean  "place_editor"
     t.boolean  "speaker_editor"
     t.boolean  "audio_message_editor"
@@ -126,26 +140,50 @@ ActiveRecord::Schema.define(:version => 20121112023300) do
     t.boolean  "tags_editor"
   end
 
-  create_table "videos", :force => true do |t|
-    t.string   "title",      :limit => 128,                    :null => false
-    t.string   "filename",   :limit => 256,                    :null => false
-    t.integer  "speaker_id"
-    t.integer  "duration"
-    t.boolean  "delta",                     :default => false
-    t.datetime "event_date"
-    t.datetime "created_at",                                   :null => false
-    t.datetime "updated_at",                                   :null => false
+  create_table "vfc", force: :cascade do |t|
+    t.string   "msg",          limit: 128
+    t.boolean  "changed"
+    t.string   "speaker",      limit: 128
+    t.string   "subj",         limit: 128
+    t.string   "groupmsg",     limit: 16
+    t.string   "date",         limit: 16
+    t.string   "obs_call",     limit: 16
+    t.string   "obs_grouping", limit: 16
+    t.datetime "add_date",                 null: false
+    t.boolean  "download"
+    t.boolean  "publish"
+    t.string   "filename",     limit: 512
+    t.integer  "notes_id",     limit: 4
+    t.string   "language",     limit: 16
+    t.integer  "speaker_id",   limit: 4
+    t.datetime "change_date",              null: false
+    t.string   "duration",     limit: 16
+    t.integer  "filesize",     limit: 4
+    t.string   "place",        limit: 16
   end
 
-  create_table "writings", :force => true do |t|
-    t.string   "title",      :limit => 128,                    :null => false
-    t.string   "filename",   :limit => 256,                    :null => false
-    t.integer  "speaker_id"
-    t.integer  "filesize"
-    t.boolean  "delta",                     :default => false
+  add_index "vfc", ["groupmsg"], name: "groupmsg_index", using: :btree
+
+  create_table "videos", force: :cascade do |t|
+    t.string   "title",      limit: 128,                 null: false
+    t.string   "filename",   limit: 256,                 null: false
+    t.integer  "speaker_id", limit: 4
+    t.integer  "duration",   limit: 4
+    t.boolean  "delta",                  default: false
     t.datetime "event_date"
-    t.datetime "created_at",                                   :null => false
-    t.datetime "updated_at",                                   :null => false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+  end
+
+  create_table "writings", force: :cascade do |t|
+    t.string   "title",      limit: 128,                 null: false
+    t.string   "filename",   limit: 256,                 null: false
+    t.integer  "speaker_id", limit: 4
+    t.integer  "filesize",   limit: 4
+    t.boolean  "delta",                  default: false
+    t.datetime "event_date"
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
   end
 
 end

@@ -1,6 +1,6 @@
 class AudioMessagesController < ApplicationController
 
-  before_filter :check_blocked_hosts
+  before_action :check_blocked_hosts
 
   def show
     unless current_resource
@@ -73,9 +73,7 @@ class AudioMessagesController < ApplicationController
     begin
       if params[:action] == "gold"
         path = params[:speaker_name] + "/" + params[:filename] + ".mp3"
-        @current_resource = AudioMessage.find(:first,
-                                              :conditions => ['publish = ? and filename = ?',
-                                                              true,path])
+        @current_resource = AudioMessage.where('publish = ? and filename = ?', true, path)
       elsif params[:id]
         @current_resource ||= AudioMessage.find(params[:id],:conditions => ['publish = ?',true])
       end

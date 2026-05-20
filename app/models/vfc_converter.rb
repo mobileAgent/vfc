@@ -6,7 +6,7 @@ module VfcConverter
     end
     p = Place.find_by_name(name)
     if p.nil?
-      p = Place.find(:first, :conditions => ['name like ?',"#{name}%"], :order => "id")
+      p = Place.where('name like ?',"#{name}%").order("id").first
     end
     if p.nil?
       p = Place.create(:name => name)
@@ -18,7 +18,7 @@ module VfcConverter
   def converted_speaker(full_name = speaker)
     ln,fn,mn = convert_speaker_name(full_name.strip)
     conditions = {:last_name => ln,:first_name => fn,:middle_name => mn }
-    Speaker.find(:first, :conditions => conditions) || Speaker.create(conditions)
+    Speaker.where(conditions).first || Speaker.create(conditions)
   end
 
   def convert_speaker_name(old_name)

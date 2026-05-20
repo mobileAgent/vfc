@@ -6,7 +6,7 @@ class NotesController < ApplicationController
 
   def speaker
     @speaker = Speaker.find(params[:id])
-    @notes = Note.find(:all, :conditions => ['speaker_id = ?',@speaker.id], :include => [:audio_messages], :order => :title)
+    @notes = Note.where('speaker_id = ?',@speaker.id).include(:audio_messages).order(:title).all
     render :index
   end
 

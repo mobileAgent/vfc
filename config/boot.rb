@@ -11,3 +11,12 @@ rescue Bundler::GemNotFound => e
   STDERR.puts "Try running `bundle install`."
   exit!
 end if File.exist?(gemfile)
+
+require 'bigdecimal'
+unless BigDecimal.respond_to?(:new)
+  class BigDecimal
+    def self.new(*args, &block)
+      BigDecimal(*args, &block)
+    end
+  end
+end

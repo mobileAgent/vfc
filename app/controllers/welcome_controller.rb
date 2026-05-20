@@ -4,7 +4,9 @@ class WelcomeController < ApplicationController
 
   def index
     @tag_cloud = Rails.cache.fetch('tag_cloud', :expires_in => 10.minutes) {
-      AudioMessage.tag_counts(:conditions => {:publish => true}, :order => :name)
+      # acts-as-taggable-on: tag_counts_on(:tags) returns Tag records with a
+      # .count (usage). Scope to published messages, order by tag name.
+      AudioMessage.where(publish: true).tag_counts_on(:tags).order('tags.name')
     }
   end
 

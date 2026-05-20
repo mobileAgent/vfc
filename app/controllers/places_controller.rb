@@ -67,7 +67,7 @@ class PlacesController < ApplicationController
     if params[:id]
       begin
         if params[:id].match(/([A-Z][A-Za-z]+)/)
-          @current_resource ||= Place.find(:first, :conditions => ["name like ?","#{params[:id]}%"])
+          @current_resource ||= Place.where("name like ?","#{params[:id]}%").first
         else
           @current_resource ||= Place.find(params[:id])
         end

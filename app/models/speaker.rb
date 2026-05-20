@@ -7,13 +7,9 @@ class Speaker < ActiveRecord::Base
   has_many :writings
   has_many :notes
   
-  has_many :places, :through => :audio_messages, :uniq => true,
-           :conditions => {"audio_messages.publish" => true},
-           :order => :name
+  has_many :places, -> { where("audio_messages.publish = true").order(:name).distinct }, :through => :audio_messages
 
-  has_many :languages, :through => :audio_messages, :uniq => true,
-           :conditions => {"audio_messages.publish" => true},
-           :order => :name
+  has_many :languages, -> { where("audio_messages.publish = true").order(:name).distinct }, :through => :audio_messages
   
   scope :active, lambda { where("hidden = ?", false) }
 
