@@ -6,6 +6,7 @@ SimpleCov.start 'rails'
 
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
+require 'mocha/setup'       # enables `expects`, `stubs`, etc.; `setup` path is more reliable with Rails 3.2's ActionController::TestCase than `test_unit`
 
 #require 'capybara/rails'
 #require 'capybara/poltergeist'

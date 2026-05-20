@@ -54,11 +54,11 @@ module VfcConverter
   def converted_language(language_name="English")
     lang = nil
     if language_name
-      if language_name.index /^Fre/
+      if language_name.index(/^Fre/)
         lang = Language.find_or_create_by_name('French')
-      elsif language_name.index /^Por/
+      elsif language_name.index(/^Por/)
         lang = Language.find_or_create_by_name('Portuguese')
-      elsif language_name.index /^(Esp|Spa)/
+      elsif language_name.index(/^(Esp|Spa)/)
         lang = Language.find_or_create_by_name('Spanish')
       else
         lang = Language.find_by_name(lang)
@@ -70,7 +70,7 @@ module VfcConverter
   def converted_duration(duration_string)
     seconds = 0
     if duration_string
-      parts = duration_string.split /:/
+      parts = duration_string.split(/:/)
       if parts.length == 3
         seconds += parts[2].to_i
         seconds += (parts[1].to_i * 60)
@@ -87,11 +87,11 @@ module VfcConverter
     converted = nil
     if date_string.present?
       begin
-        if date_string.index /--([0-9]{4})--/
+        if date_string.index(/--([0-9]{4})--/)
           converted = DateTime.strptime(date_string,"--%Y--")
         elsif date_string =~ /^[0-9]{4}$/
           converted = DateTime.strptime(date_string,"%Y")
-        elsif date_string.index /^[0-9]{2}\/[0-9]{2}\/([0-9]{2})$/
+        elsif date_string.index(/^[0-9]{2}\/[0-9]{2}\/([0-9]{2})$/)
           converted = DateTime.strptime(date_string,"%m/%d/%y")
           converted = converted.years_ago(100) if converted.year > DateTime.now.year
         else

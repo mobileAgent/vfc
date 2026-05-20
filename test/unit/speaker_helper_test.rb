@@ -11,8 +11,8 @@ class SpeakerHelperTest < Test::Unit::TestCase
     s1 = FactoryGirl.create(:speaker, :last_name => "Ttt", :first_name => "Sssss")
     s2 = FactoryGirl.create(:speaker, :last_name => "Zzz", :first_name => "Aaaaa")
 
-    a1 = 10.times.inject([]) { |a,x| a <<  FactoryGirl.create(:audio_message, :title => "Message Title #{x}", :subj => "The Subject #{x}", :speaker => s1) }
-    a2 = 5.times.inject([]) { |a,x| a <<  FactoryGirl.create(:audio_message, :title => "Message Title #{x}", :subj => "The Subject #{x}", :speaker => s2) }
+    10.times.inject([]) { |a,x| a <<  FactoryGirl.create(:audio_message, :title => "Message Title #{x}", :subj => "The Subject #{x}", :speaker => s1) }
+    5.times.inject([]) { |a,x| a <<  FactoryGirl.create(:audio_message, :title => "Message Title #{x}", :subj => "The Subject #{x}", :speaker => s2) }
 
     speaker_list = generate_speaker_list_with_counts
     assert  speaker_list.size >= 2,"Speaker list should have at least two items"

@@ -15,7 +15,7 @@ class Speaker < ActiveRecord::Base
            :conditions => {"audio_messages.publish" => true},
            :order => :name
   
-  scope :active, where("hidden = ?",false)
+  scope :active, lambda { where("hidden = ?", false) }
 
   attr_accessor :active_message_count, :active_speaker_count
 

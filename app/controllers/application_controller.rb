@@ -4,7 +4,6 @@ class ApplicationController < ActionController::Base
   before_filter :set_locale
   before_filter :authorize
   before_filter :load_cacheable_data
-  before_filter :utf8_work_around
   helper_method :sort_column, :sort_column_ar, :sort_direction
   before_filter :validate_search_criteria
   
@@ -21,9 +20,9 @@ class ApplicationController < ActionController::Base
 
   def load_cacheable_data
     # Cache class warmup
-    Motm
-    AudioMessage
-    User
+    # Motm
+    # AudioMessage
+    # User
     
     @tagline =
       Rails.cache.fetch("tagline-#{@locale}",:expires_in => 30.minutes) {
@@ -50,10 +49,6 @@ class ApplicationController < ActionController::Base
     end
   end  
 
-  def utf8_work_around
-    @utf8_enforcer_tag_enabled = browser.ie?
-  end
- 
   def set_locale
     @locale = 
       params[:locale] ||

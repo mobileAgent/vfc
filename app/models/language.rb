@@ -5,6 +5,6 @@ class Language < ActiveRecord::Base
            :conditions => {"audio_messages.publish" => true},
            :order => "last_name,first_name"
   
-  scope :locale, lambda {|loc| where("cc = ?",loc).limit(1)}
-  scope :default, where("cc = ?","en").limit(1)
+  scope :locale,  lambda {|loc| where("cc = ?", loc).limit(1) }
+  scope :default, lambda { where("cc = ?", "en").limit(1) }
 end

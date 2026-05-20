@@ -82,7 +82,7 @@ class AdvancedSearch
   # that we need to care about
   def self.is_advanced?(query)
     ADVANCED_LABELS_TO_CONDITIONS.each do |key|
-      return true if query.index /#{key}:/
+      return true if query.index(/#{key}:/)
     end
     return false
   end

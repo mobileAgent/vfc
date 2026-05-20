@@ -1,0 +1,35 @@
+# Dockerfile.dev
+FROM ruby:2.6.10-bullseye
+# FROM ruby:2.7.8-bullseye
+
+RUN apt-get update && apt-get install -y \
+    build-essential default-libmysqlclient-dev libsqlite3-dev \
+    libxml2-dev libxslt1-dev nodejs git && \
+    rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# Copy Gemfile first to get layer caching on `bundle install`.
+RUN gem install bundler -v 1.17.3
+COPY Gemfile Gemfile.lock* /app/
+RUN bundle _1.17.3_ install
+
+# Patch Rails 3.2's mysql2 adapter to accept the 0.5.x line. The adapter
+# hardcodes `gem 'mysql2', '~> 0.3.10'` which rejects newer mysql2; the
+# API surface mysql2 0.5 exposes is fully compatible with what the Rails
+# 3.2 adapter actually uses. This patch becomes unnecessary at Rails 4.2+.
+RUN sed -i "s|gem 'mysql2', '~> 0.3.10'|gem 'mysql2', '~> 0.5'|" \
+    /usr/local/bundle/gems/activerecord-3.2.22.5/lib/active_record/connection_adapters/mysql2_adapter.rb
+
+# Copy the rest of the app.
+COPY . /app
+
+# Install the entrypoint that auto-runs `bundle install` on container
+# start when the lockfile has changed since the image was built.
+COPY bin/docker-entrypoint /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint
+
+EXPOSE 3000
+ENTRYPOINT ["docker-entrypoint"]
+CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
+
