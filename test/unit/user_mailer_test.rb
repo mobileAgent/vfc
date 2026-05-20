@@ -9,7 +9,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert_equal [user.email],email.to
     assert_equal ['webmaster@voicesforchrist.org'],email.from
     assert_equal "Your VFC password has been reset",email.subject
-    assert_match /foodebar/,email.body.to_s
+    assert_match /foodebar/ , email.body.to_s
   end
   
 end

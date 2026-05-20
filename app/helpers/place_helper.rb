@@ -5,7 +5,6 @@ module PlaceHelper
     message_counts = AudioMessage.active.group(:place_id).count
     speaker_counts = AudioMessage.active.group(:place_id,:speaker_id).count
     place_map = {}
-    list = []
     places.each do |p|
       if message_counts[p.id]
         p.active_message_count = message_counts[p.id]

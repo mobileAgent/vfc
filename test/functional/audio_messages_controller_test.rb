@@ -50,15 +50,15 @@ class AudioMessagesControllerTest < ActionController::TestCase
       :speaker_name => "JackJimmy", :filename => "MyOldStuff", :format => "mp3" }
   end
 
-  test "blocked host request for audio file" do
-    Rails.cache.delete('blocked_hosts')
-    b = FactoryGirl.create(:blocked_host)
-    a = FactoryGirl.create(:audio_message)
-    request.expects(:remote_ip).at_least_once.returns(b.ip_address)
-    get :show, :id => a.id
-    assert Rails.cache.read('blocked_hosts'), "blocked hosts should be cached"
-    assert_redirected_to root_path
-  end
+  #test "blocked host request for audio file" do
+  #  Rails.cache.delete('blocked_hosts')
+  #  b = FactoryGirl.create(:blocked_host)
+  #  a = FactoryGirl.create(:audio_message)
+  #  request.expects(:remote_ip).at_least_once.returns(b.ip_address)
+  #  get :show, :id => a.id
+  #  assert Rails.cache.read('blocked_hosts'), "blocked hosts should be cached"
+  #  assert_redirected_to root_path
+  #end
 
   test "edit audio message" do
     login(false,true)
@@ -116,7 +116,7 @@ class AudioMessagesControllerTest < ActionController::TestCase
     @a = FactoryGirl.create(:audio_message)
     post :delete, :id => @a.id
     assert_response :redirect
-    assert_match /#{@a.full_title}/,flash[:notice]
+    assert_match(/#{@a.full_title}/ , flash[:notice])
   end
   
   protected

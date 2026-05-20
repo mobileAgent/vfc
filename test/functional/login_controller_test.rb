@@ -7,7 +7,7 @@ class LoginControllerTest < ActionController::TestCase
     @user = FactoryGirl.create(:user)
     post :login, :email => @user.email, :password => 'xyzzy'
     assert_response :success
-    assert_match /.*does not match.*/,flash[:notice]
+    assert_match(/.*does not match.*/,flash[:notice])
     assert_nil session[:user_id]
   end
   
@@ -16,7 +16,7 @@ class LoginControllerTest < ActionController::TestCase
     @user = FactoryGirl.create(:user)
     post :login, :email => @user.email, :password => 'secret'
     assert_response :redirect
-    assert_match /Hi, #{@user.name}.*/,flash[:notice]
+    assert_match(/Hi, #{@user.name}.*/,flash[:notice])
     assert_equal session[:user_id],@user.id
   end
 
@@ -32,7 +32,7 @@ class LoginControllerTest < ActionController::TestCase
   
   test "reset password on bogus email fails" do
     post :reset_password, :email => "xyzzy@example.com"
-    assert_match /.*does not match.*/,flash[:notice]
+    assert_match(/.*does not match.*/,flash[:notice])
   end
   
   test "logout clears session" do
@@ -51,7 +51,7 @@ class LoginControllerTest < ActionController::TestCase
     session[:user_id] = nil
     @user = FactoryGirl.create(:user, :admin => true, :password => "admin-secret")
     post :login, :email => @user.email, :password => 'admin-secret'
-    assert_match /Kenichiwa, #{@user.name}.*/,flash[:notice]
+    assert_match(/Kenichiwa, #{@user.name}.*/,flash[:notice])
     assert_equal session[:user_id],@user.id
   end
 

@@ -10,7 +10,6 @@ class LoginController < ApplicationController
     if request.post?
       user = User.authenticate(params[:email], params[:password])
        if user
-         uri = session[:original_uri]
          #request.reset_session    # create a new session to stop fixation
          #session = request.session # overwrite the current session
          session[:original_uri] = nil

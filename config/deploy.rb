@@ -1,101 +1,58 @@
-require 'yaml'
-require 'bundler/capistrano'
+# config valid for current version and patch releases of Capistrano
+lock "~> 3.17"
 
 set :application, "vfc"
-set :repository,  "git@github.com:mobileAgent/vfc.git"
-set :scm, :git
-set :branch, "master"
-set :user, 'vfcnet'
-set :group, 'vfcnet'
-set :deploy_to, "/var/apps/#{application}"
-set :use_sudo, false
+set :repo_url,    "git@github.com:mobileAgent/vfc.git"
 
-set :server_name, "voicesforchrist.org"
-role :web, "#{server_name}"
-role :app, "#{server_name}"
-role :db,  "#{server_name}", :primary => true
+# Default branch; override with `BRANCH=foo cap production deploy` if needed
+set :branch, ENV.fetch("BRANCH", "master")
 
+# Deploy target on the server
+set :deploy_to, "/var/apps/#{fetch(:application)}"
 
-set :db_username, "vfcowner"
-
-# How much to keep on a cleanup task
+# How many old releases to retain in /var/apps/vfc/releases/
 set :keep_releases, 3
 
+# rbenv configuration — matches the server-side install at /opt/rbenv
+# with Ruby 2.7.8. Bump when you bump the app's Ruby version.
+set :rbenv_type,     :system
+set :rbenv_path,     "/opt/rbenv"
+set :rbenv_ruby,     "2.7.8"
+set :rbenv_map_bins, %w{rake gem bundle ruby rails}
 
-# If you are using Passenger mod_rails uncomment this:
-# if you're still using the script/reapear helper you will need
-# these http://github.com/rails/irs_process_scripts
+# Bundler parallelism
+set :bundle_jobs, 4
+
+# Directories symlinked from /var/apps/vfc/shared/ into each release.
+# Anything that should persist across deploys (logs, uploads, pid files,
+# the audio archive) goes here.
+append :linked_dirs,
+  "log",
+  "tmp/pids",
+  "tmp/cache",
+  "tmp/sockets",
+  "public/audio"
+
+# Files symlinked from shared/ into each release. Production
+# credentials live in /var/apps/vfc/shared/config/database.yml
+# on the server and are never committed to the repo.
+append :linked_files, "config/database.yml", "config/master.key", "config/credentials.yml.enc"
+
+# Default value for keeping the SSH connection open during long tasks
+set :ssh_options, {
+  forward_agent: true,
+  keepalive: true,
+  keepalive_interval: 30
+}
+
 namespace :deploy do
-  task :start do ; end
-  task :stop do ; end
-  task :restart, :roles => :app, :except => { :no_release => true } do
-    run "touch #{File.join(current_path,'tmp','restart.txt')}"
-  end
-end
-
-desc "Backup the remote production database"
-task :backup, :roles => :db, :only => { :primary => true } do
-  filename = "#{application}.dump.#{Time.now.strftime("%Y%m%d-%H%M")}.sql.bz2"
-  file = "/tmp/#{filename}"
-  on_rollback { run "rm /tmp/#{filename}" }
-  set :database_password do
-    Capistrano::CLI.password_prompt "Production Database Password: "
-  end
-  db = YAML::load_file("config/database.yml")
-  run "mysqldump -u #{db['production']['username']} --password=#{database_password} #{db['production']['database']} | bzip2 -c > #{file}"  do |ch, stream, data|
-    puts data
-  end
-  `mkdir -p #{File.dirname(__FILE__)}/../backups/`
-  get file, "backups/#{filename}"
-  #delete file
-  run "rm /tmp/#{filename}"
-end
-
-desc "After updating the code handle db yml and sphinx"
-after 'deploy:update_code', :config_setup
-task :config_setup, :roles => :app do
-  buffer = YAML::load_file('config/database.yml');
-  # purge unneeded configurations
-  buffer.delete('test');
-  buffer.delete('development');
-
-  set :database_password do
-    Capistrano::CLI.password_prompt "Database Password: "
-  end
-  buffer['production']['password'] = database_password
-  put YAML::dump(buffer),"#{release_path}/config/database.yml",:mode=>0644
-
-  # Clean up tmp and relink to shared for session and cache data
-  run "rm -rf #{release_path}/tmp" # because it should not be in svn
-  run "ln -nfs #{deploy_to}/shared/photos #{current_release}/public/photos"
-  run "ln -nfs #{deploy_to}/shared/tmp #{release_path}/tmp"
-  run "ln -nfs #{deploy_to}/shared/audio #{current_release}/public/audio"
-  run "ln -nfs #{deploy_to}/shared/writings #{current_release}/public/writings"
-  run "ln -nfs #{deploy_to}/shared/notes #{current_release}/public/notes"
-  
-  # create_symlinks
-  # memcached.clear
-  # update_configuration
-  sphinx.rebuild
-  precompile_assets
-end
-
-desc "precompile the assets"
-task :precompile_assets, :roles => :web, :except => { :no_release => true } do
-  run "cd #{current_release}; rm -rf public/assets/*"
-  run "cd #{current_release}; RAILS_ENV=production bundle exec rake assets:precompile"
-end
-
-namespace :sphinx do
-  desc "Restart sphinx"
-  task :rebuild do
-    rake = fetch(:rake, "rake")
-    rails_env = fetch(:environment, "production")
-    begin
-      run "cd #{current_release}; RAILS_ENV=#{rails_env} #{rake} ts:conf"
-      run "cd #{current_release}; RAILS_ENV=#{rails_env} #{rake} ts:rebuild"
-    rescue
-      puts "sphinx rebuild failed - #{$!}"
+  desc "Restart Passenger by touching tmp/restart.txt"
+  task :restart do
+    on roles(:app) do
+      execute "touch #{release_path}/tmp/restart.txt"
     end
   end
+
+  # Restart Passenger after every successful publish
+  after :publishing, :restart
 end

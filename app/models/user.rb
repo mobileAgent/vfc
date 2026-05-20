@@ -28,9 +28,9 @@ class User < ActiveRecord::Base
       if user.hashed_password != expected_password
          user = nil
       end
-   end
-   user
- end
+    end
+    user
+  end
 
   # Virtual attribute
   def password

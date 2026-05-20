@@ -34,15 +34,15 @@ FactoryGirl.define do
     duration "12345"
     filesize "54321"
     publish true
-    language FactoryGirl.create(:language)
-    place FactoryGirl.create(:place)
-    speaker FactoryGirl.create(:speaker)
+    association :language
+    association :place
+    association :speaker
     event_date Date.parse("1986-09-06")
     note nil
   end
 
-  factory :motm do 
-    audio_message FactoryGirl.create(:audio_message)
+  factory :motm do
+    association :audio_message
   end
 
   factory :blocked_host do
@@ -79,15 +79,15 @@ FactoryGirl.define do
       "Video Title #{n}"
     end
     filename "VIDEO/video.mp4"
-    speaker FactoryGirl.create(:speaker)
+    association :speaker
   end
-    
- factory :writing do
+
+  factory :writing do
     sequence :title do |n|
       "Article Title #{n}"
     end
     filename "WRITING/writing.pdf"
-    speaker FactoryGirl.create(:speaker)
+    association :speaker
   end
 
   factory :note do
@@ -95,7 +95,7 @@ FactoryGirl.define do
       "Note Title #{n}"
     end
     filename "NOTE/note.pdf"
-    speaker FactoryGirl.create(:speaker)
+    association :speaker
   end
    
 end

@@ -10,8 +10,8 @@ class AudioMessage < ActiveRecord::Base
   acts_as_taggable
   self.per_page = 50
   
-  scope :active, where("publish = ?",true).includes(:speaker,:language,:place,:note)
-  scope :year, lambda { |yr| where("date_format(event_date,'%Y') = ?",yr) }
+  scope :active, lambda { where("publish = ?", true).includes(:speaker, :language, :place, :note) }
+  scope :year,   lambda { |yr| where("date_format(event_date,'%Y') = ?", yr) }
   
 
   define_index do

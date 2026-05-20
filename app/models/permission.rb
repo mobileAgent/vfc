@@ -2,6 +2,7 @@ class Permission
 
   def initialize(user)
     
+    @allow_all = false
     allow :audio_messages, [:show, :gold]
     allow :dates, [:index, :years, :year, :speaker, :show, :delivered]
     allow :errors, [:not_found, :error]
