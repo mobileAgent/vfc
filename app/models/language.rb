@@ -1,4 +1,4 @@
-class Language < ActiveRecord::Base
+class Language < ApplicationRecord
   has_many :audio_messages
   has_many :places, -> { distinct }, :through => :audio_messages
   has_many :speakers, -> { where("audio_messages.publish = true").order(:last_name, :first_name).distinct }, :through => :audio_messages

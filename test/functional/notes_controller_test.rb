@@ -10,20 +10,20 @@ class NotesControllerTest < ActionController::TestCase
 
 
   test "request for non-existent note item redirects" do
-    get :show, :id => 1111
+    get :show, params: { :id => 1111 }
     assert_response :redirect, "Redirect away from non-existent note"
   end
 
   test "request for note with missing file redirects" do
     n = FactoryGirl.create(:note)
-    get :show, :id => n.id
+    get :show, params: { :id => n.id }
     assert_response :redirect, "Redirect away from note with mising file"
     assert_not_nil assigns(:speaker), "Set speaker for note listing"
   end
 
   test "request for notes list by speaker" do
     s = FactoryGirl.create(:speaker)
-    get :speaker, :id => s.id
+    get :speaker, params: { :id => s.id }
     assert_response :success, "Show notes list for speaker"
     assert_not_nil assigns(:notes), "Notes should be set for listing"
   end
@@ -33,7 +33,7 @@ class NotesControllerTest < ActionController::TestCase
     n = FactoryGirl.create(:note, :speaker_id => s.id)
     a = FactoryGirl.create(:audio_message, :speaker_id => s.id, :note_id => n.id)
     AudioMessage.expects(:search).returns([a].paginate)
-    get :audio, :id => s.id
+    get :audio, params: { :id => s.id }
     assert_response :success, "Shows audio listing with notes"
     assert_not_nil assigns(:items), "Items should be assigned for audio listing"
     assert assigns(:items).size > 0,"Assigned items array must be size > 0"
@@ -45,7 +45,7 @@ class NotesControllerTest < ActionController::TestCase
     a = []
     [1..3].each { |x| a << FactoryGirl.create(:audio_message, :speaker_id => s.id, :note_id => n.id) }
     AudioMessage.expects(:search).returns(a.paginate)
-    get :audio, :id => s.id, :note_id => n.id
+    get :audio, params: { :id => s.id, :note_id => n.id }
     assert_response :success, "Shows audio listing with specified notes"
     assert_not_nil assigns(:items), "Items should be assigned for audio listing"
   end
@@ -57,9 +57,9 @@ class NotesControllerTest < ActionController::TestCase
     f = File.open("#{NOTES_PATH}/#{n.filename}","w")
     f.puts "test data"
     f.close
-    get :show, :id => n.id
-    File.delete("#{NOTES_PATH}/#{n.filename}")
+    get :show, params: { :id => n.id }
     assert_response :success
+    File.delete("#{NOTES_PATH}/#{n.filename}")
   end
   
   test "request for note pdf file renders bytes" do
@@ -68,14 +68,14 @@ class NotesControllerTest < ActionController::TestCase
     f = File.open("#{NOTES_PATH}/#{n.filename}","w")
     f.puts "test data"
     f.close
-    get :show, :id => n.id
-    File.delete("#{NOTES_PATH}/#{n.filename}")
+    get :show, params: { :id => n.id }
     assert_response :success
+    File.delete("#{NOTES_PATH}/#{n.filename}")
   end
 
   test "request for notes by speaker shows list" do
     n = FactoryGirl.create(:note)
-    get :speaker, :id => n.speaker.id
+    get :speaker, params: { :id => n.speaker.id }
     assert_response :success
     assert_not_nil assigns(:speaker), "Set speaker for note listing"
   end

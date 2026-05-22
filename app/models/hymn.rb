@@ -1,2 +1,2 @@
-class Hymn < ActiveRecord::Base
+class Hymn < ApplicationRecord
 end

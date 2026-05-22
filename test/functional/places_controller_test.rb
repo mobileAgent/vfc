@@ -17,26 +17,26 @@ class PlacesControllerTest < AuthenticatedTest
 
   test "should get speaker list for place" do
     @a = FactoryGirl.create(:audio_message)
-    get :speakers, :id => @a.place_id
+    get :speakers, params: { :id => @a.place_id }
     assert_response :success
   end
 
   test "show place messages by id" do
     @a = FactoryGirl.create(:audio_message)
     AudioMessage.expects(:search).returns(@paginated_collection)
-    get :show, :id => @a.place_id, :sort => "event_date"
+    get :show, params: { :id => @a.place_id, :sort => "event_date" }
     assert_response :success
   end
   
   test "show place messages by name" do
     @a = FactoryGirl.create(:audio_message)
     AudioMessage.expects(:search).returns(@paginated_collection)
-    get :show, :id => @a.place.name, :sort => "speaker_name"
+    get :show, params: { :id => @a.place.name, :sort => "speaker_name" }
     assert_response :success
   end
   
   test "attempt to view unknown place by name" do
-    get :show, :id => 'Xyzzy'
+    get :show, params: { :id => 'Xyzzy' }
     assert_response :redirect
   end
   
@@ -56,14 +56,14 @@ class PlacesControllerTest < AuthenticatedTest
   test "create new place post" do
     login(true)
     assert_difference('Place.count') do
-      post :create, :place => FactoryGirl.attributes_for(:place)
+      post :create, params: { :place => FactoryGirl.attributes_for(:place) }
     end
   end
 
   test "edit place" do
     login(true)
     @place = FactoryGirl.create(:place)
-    get :edit, :id => @place.id
+    get :edit, params: { :id => @place.id }
     assert_response :success
     assert_not_nil assigns(:place)
   end
@@ -72,7 +72,7 @@ class PlacesControllerTest < AuthenticatedTest
     login(true)
     @place = FactoryGirl.create(:place)
     @place.name = "AnotherPlace"
-    post :update, :id => @place.id, :place => @place.attributes
+    post :update, params: { :id => @place.id, :place => @place.attributes }
     assert_response :redirect
     assert_not_nil assigns(:place)
     assert_equal "AnotherPlace",Place.find(@place.id).name
@@ -83,7 +83,7 @@ class PlacesControllerTest < AuthenticatedTest
     @place = FactoryGirl.create(:place)
     @place.name = "AnotherPlace"
     @place.picture_file = ""
-    post :update, :id => @place.id, :place => @place.attributes
+    post :update, params: { :id => @place.id, :place => @place.attributes }
     assert_response :redirect
     assert_not_nil assigns(:place)
     assert_equal "AnotherPlace",Place.find(@place.id).name
@@ -95,7 +95,7 @@ class PlacesControllerTest < AuthenticatedTest
     @place = FactoryGirl.create(:place, :picture_file => "foo.jpg")
     @place.name = "AnotherPlace"
     @place.picture_file = ""
-    post :update, :id => @place.id, :place => @place.attributes
+    post :update, params: { :id => @place.id, :place => @place.attributes }
     assert_response :redirect
     assert_not_nil assigns(:place)
     assert_equal "AnotherPlace",Place.find(@place.id).name
@@ -103,7 +103,7 @@ class PlacesControllerTest < AuthenticatedTest
   end
 
   test "view speakers for a non-existent place" do
-    get :speakers, :id => 999
+    get :speakers, params: { :id => 999 }
     assert_response :redirect
   end
 

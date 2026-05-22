@@ -29,7 +29,10 @@ module ApplicationHelper
     end
     tip = column == params[:sort] ? I18n.t("audio.table.reverse_sort") : I18n.t("audio.table.sort")
     direction = column == params[:sort] && sort_direction == "asc" ? "desc" : "asc"
-    url = url_for(params.merge({:sort => column, :direction => direction}))
+    # Rails 5: params is ActionController::Parameters, not a Hash. Convert to
+    # a plain hash for URL generation (this just preserves the current
+    # navigation params — sort/page/id/etc. — it's not mass-assignment).
+    url = url_for(params.to_unsafe_h.merge({:sort => column, :direction => direction}))
     link_to title, url,
           {:class => css_class, :title => tip}
   end

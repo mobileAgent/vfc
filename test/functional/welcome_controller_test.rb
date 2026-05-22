@@ -29,22 +29,25 @@ class WelcomeControllerTest < ActionController::TestCase
   test "autocomplete speaker name" do
     a = FactoryGirl.create(:audio_message)
     AudioMessage.expects(:search).returns([a].paginate)
-    get :autocomplete, :term => a.speaker.last_name
+    get :autocomplete, params: { :term => a.speaker.last_name }
     assert_response :success
   end
 
   test "search by last name" do
     a = FactoryGirl.create(:audio_message)
     AudioMessage.expects(:search).returns([a].paginate)
-    get :search, :q => a.speaker.last_name
+    get :search, params: { :q => a.speaker.last_name }
     assert_response :success
   end
   
   test "download responds with zip file" do
     a = FactoryGirl.create(:audio_message)
     AudioMessage.expects(:search).returns([a].paginate)
-    FileFile.expects(:new).at_least_once.returns(nil)
-    post :search, :q => a.speaker.last_name, :download => true
+    # Rails 5 streams the zip lazily (read during response evaluation), so
+    # the mocked file must be a real readable stream, not nil — otherwise
+    # zipline raises "Bad File/Stream" outside download_zipline's rescue.
+    FileFile.expects(:new).at_least_once.returns(StringIO.new("dummy audio data"))
+    post :search, params: { :q => a.speaker.last_name, :download => true }
     assert_response :success
     assert_equal 'application/zip',response.header['Content-Type']
   end
@@ -52,7 +55,7 @@ class WelcomeControllerTest < ActionController::TestCase
   test "search by full name assigns bio" do
     a = FactoryGirl.create(:audio_message)
     AudioMessage.expects(:search).returns([a].paginate)
-    get :search, :q => a.speaker.full_name
+    get :search, params: { :q => a.speaker.full_name }
     assert_response :success
     assert assigns(:speaker), "No speaker was assigned"
   end
@@ -61,7 +64,7 @@ class WelcomeControllerTest < ActionController::TestCase
     p = FactoryGirl.create(:place, :bio => "The place is amazing")
     a = FactoryGirl.create(:audio_message, :place_id => p.id)
     AudioMessage.expects(:search).returns([a].paginate)
-    get :search, :q => a.place.name
+    get :search, params: { :q => a.place.name }
     assert_response :success
     assert assigns(:place), "No place was assigned"
   end
@@ -73,21 +76,21 @@ class WelcomeControllerTest < ActionController::TestCase
 
   test "search that returns nothing redirects to home page" do
     AudioMessage.expects(:search).returns([].paginate)
-    get :search, :q => 'xyzzy'
+    get :search, params: { :q => 'xyzzy' }
     assert_response :redirect 
   end
 
   test "show a message without optional fields" do
     a = FactoryGirl.create(:audio_message, :event_date => nil, :place => nil)
     AudioMessage.expects(:search).returns([a].paginate)
-    get :search, :q => 'blah'
+    get :search, params: { :q => 'blah' }
     assert_response :success
   end
   
   test "show a message with optional fields" do
     a = FactoryGirl.create(:audio_message)
     AudioMessage.expects(:search).returns([a].paginate)
-    get :search, :q => 'blah'
+    get :search, params: { :q => 'blah' }
     assert_response :success
   end
 
@@ -97,15 +100,15 @@ class WelcomeControllerTest < ActionController::TestCase
       a << FactoryGirl.create(:audio_message)
     end
     AudioMessage.expects(:search).returns(a.paginate)
-    get :search, :q => 'blah'
+    get :search, params: { :q => 'blah' }
     assert_response :success
-    assert_tag :tag => 'a', :content => 'Next &#8594;',
-    :attributes => {
-      # will_paginate over-encodes this, but it works
-      :href => "/welcome/search?page=2&amp;q=blah",
-      :class => 'next_page',
-      :rel => 'next'
-    }
+    # assert_tag was removed from Rails; assert_select replaces it. The point
+    # of this test is that the Next link carries the query param (q=blah)
+    # along with the page, so pagination preserves the search.
+    assert_select "a.next_page[rel=?]", "next" do |links|
+      assert links.any? { |l| l["href"].include?("page=2") && l["href"].include?("q=blah") },
+        "Next button should link to page 2 and preserve q=blah"
+    end
   end
 
   test "search with fielded search string runs advanced conditions" do
@@ -114,13 +117,13 @@ class WelcomeControllerTest < ActionController::TestCase
       a << FactoryGirl.create(:audio_message)
     end
     AudioMessage.expects(:search).with(nil,has_key(:conditions)).returns(a.paginate)
-    get :search, :q => 'speaker:david'
+    get :search, params: { :q => 'speaker:david' }
     assert_response :success
   end
   
   
   test "advance search redirects to stringified fielded query" do
-    post :advanced_search, :title => 'john',:speaker => "david"
+    post :advanced_search, params: { :title => 'john',:speaker => "david" }
     assert_response :redirect
     assert_redirected_to "http://test.host/welcome/search?q=#{CGI::escape('speaker:david title:john')}"
   end
@@ -137,7 +140,7 @@ class WelcomeControllerTest < ActionController::TestCase
 
   test "request popout player for valid message" do
     a = FactoryGirl.create(:audio_message)
-    get :player, :id => a.id
+    get :player, params: { :id => a.id }
     assert_response :success
     assert_select 'title',/Audio Player/
     assert assigns(:media_url)
@@ -145,7 +148,7 @@ class WelcomeControllerTest < ActionController::TestCase
   end
 
   test "sending bad page parameters triggers probe redirect" do
-    get :index, :page => "../../peterpan"
+    get :index, params: { :page => "../../peterpan" }
     assert_redirected_to root_url
   end
 

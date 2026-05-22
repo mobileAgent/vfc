@@ -7,7 +7,7 @@
 # a connection error, so search-dependent pages render while developing.
 #
 # Remove (or it simply won't apply) in production, where real Sphinx answers.
-if Rails.env.development?
+if Rails.env.development? || Rails.env.test?
   module SphinxDevStub
     def search(*args)
       opts     = args.last.is_a?(Hash) ? args.last : {}

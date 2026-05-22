@@ -20,13 +20,13 @@ class UsersControllerTest < AuthenticatedTest
   end
 
   test "change of password saved through" do
-    post :update_password, :user => {:password => "newpass", :password_confirmation => "newpass" }
+    post :update_password, params: { :user => {:password => "newpass", :password_confirmation => "newpass" } }
     assert_redirected_to root_url,"Should be redirected to root url on save"
     assert User.authenticate(@user.email,"newpass"),"User password should have been saved"
   end
 
   test "change of password not saved with bad confirmation" do
-    post :update_password, :user => {:password => "newpass", :password_confirmation => "badpass" }
+    post :update_password, params: { :user => {:password => "newpass", :password_confirmation => "badpass" } }
     assert_response :redirect
     assert User.authenticate @user.email, "secret"
   end
@@ -39,7 +39,7 @@ class UsersControllerTest < AuthenticatedTest
 
   test "user account created on page post" do
     assert_difference('User.count') do
-      post :register, :user => FactoryGirl.attributes_for(:user)
+      post :register, params: { :user => FactoryGirl.attributes_for(:user) }
     end
   end
 
@@ -52,10 +52,10 @@ class UsersControllerTest < AuthenticatedTest
   test "edit and update user" do
     login(true)
     u = FactoryGirl.create(:user, :video_editor => false)
-    get :edit, :id => u.id
+    get :edit, params: { :id => u.id }
     assert_response :success
     u.video_editor = true
-    post :update, :id => u.id, :user => u.attributes
+    post :update, params: { :id => u.id, :user => u.attributes }
     v = User.find(u.id)
     assert v.video_editor,"Video editor should be set to true after update"
   end
@@ -64,7 +64,7 @@ class UsersControllerTest < AuthenticatedTest
     login(true)
     u = FactoryGirl.create(:user)
     assert_difference('User.count',-1) do
-      post :delete, :id => u.id
+      post :delete, params: { :id => u.id }
     end
   end
   

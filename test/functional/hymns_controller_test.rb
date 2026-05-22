@@ -9,7 +9,7 @@ class HymnsControllerTest < ActionController::TestCase
 
   test "try for missing hymn" do
     h = FactoryGirl.create(:hymn)
-    get :show, :id => h.id
+    get :show, params: { :id => h.id }
     assert_redirected_to '/hymns'
   end
 

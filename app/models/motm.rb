@@ -1,4 +1,4 @@
-class Motm < ActiveRecord::Base
+class Motm < ApplicationRecord
   belongs_to :audio_message
   scope :active, lambda {
     where("motms.updated_at >= ?", DateTime.now - 30)

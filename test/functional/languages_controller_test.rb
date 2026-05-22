@@ -20,20 +20,20 @@ class LanguagesControllerTest < ActionController::TestCase
   test "should get list of messages by language" do
     @a = FactoryGirl.create(:audio_message)
     AudioMessage.expects(:search).returns(@paginated_collection)
-    get :show, :id => @a.language_id
+    get :show, params: { :id => @a.language_id }
     assert_response :success
   end
 
   test "should get list of speakers for a language" do
     @a = FactoryGirl.create(:audio_message)
-    get :speakers, :id => @a.language_id
+    get :speakers, params: { :id => @a.language_id }
     assert_response :success
   end
 
   test "should get locale language first" do
     @fr = FactoryGirl.create(:language, :name => "French", :cc => "fr")
     @a = FactoryGirl.create(:audio_message, :language => @fr)
-    get :index, :locale => :fr
+    get :index, params: { :locale => :fr }
     assert_response :success
     assert_not_nil assigns(:languages)
     assert assigns(:languages).first.cc == @fr.cc

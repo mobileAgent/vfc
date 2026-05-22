@@ -1,4 +1,4 @@
-class Speaker < ActiveRecord::Base
+class Speaker < ApplicationRecord
 
   nilify_blanks  
   

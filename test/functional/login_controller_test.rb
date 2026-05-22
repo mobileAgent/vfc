@@ -5,7 +5,7 @@ class LoginControllerTest < ActionController::TestCase
   test "login with wrong password must fail" do
     session[:user_id] = nil
     @user = FactoryGirl.create(:user)
-    post :login, :email => @user.email, :password => 'xyzzy'
+    post :login, params: { :email => @user.email, :password => 'xyzzy' }
     assert_response :success
     assert_match(/.*does not match.*/,flash[:notice])
     assert_nil session[:user_id]
@@ -14,7 +14,7 @@ class LoginControllerTest < ActionController::TestCase
   test "login with correct password" do
     session[:user_id] = nil
     @user = FactoryGirl.create(:user)
-    post :login, :email => @user.email, :password => 'secret'
+    post :login, params: { :email => @user.email, :password => 'secret' }
     assert_response :redirect
     assert_match(/Hi, #{@user.name}.*/,flash[:notice])
     assert_equal session[:user_id],@user.id
@@ -24,14 +24,14 @@ class LoginControllerTest < ActionController::TestCase
     session[:user_id] = nil
     @user = FactoryGirl.create(:user)
     @old_password = @user.password
-    post :reset_password, :email => @user.email
+    post :reset_password, params: { :email => @user.email }
     assert !ActionMailer::Base.deliveries.empty?
     @user = User.find(@user.id)
     assert @old_password != @user.password
   end
   
   test "reset password on bogus email fails" do
-    post :reset_password, :email => "xyzzy@example.com"
+    post :reset_password, params: { :email => "xyzzy@example.com" }
     assert_match(/.*does not match.*/,flash[:notice])
   end
   
@@ -50,7 +50,7 @@ class LoginControllerTest < ActionController::TestCase
   test "login as admin user" do
     session[:user_id] = nil
     @user = FactoryGirl.create(:user, :admin => true, :password => "admin-secret")
-    post :login, :email => @user.email, :password => 'admin-secret'
+    post :login, params: { :email => @user.email, :password => 'admin-secret' }
     assert_match(/Kenichiwa, #{@user.name}.*/,flash[:notice])
     assert_equal session[:user_id],@user.id
   end
