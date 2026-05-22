@@ -1,4 +1,4 @@
-class AudioMessage < ActiveRecord::Base
+class AudioMessage < ApplicationRecord
 
   nilify_blanks
   

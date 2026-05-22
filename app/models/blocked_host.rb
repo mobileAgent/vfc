@@ -1,3 +1,3 @@
-class BlockedHost < ActiveRecord::Base
+class BlockedHost < ApplicationRecord
   
 end

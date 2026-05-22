@@ -1,4 +1,4 @@
-class Note < ActiveRecord::Base
+class Note < ApplicationRecord
 
   belongs_to :speaker
   has_many :audio_messages

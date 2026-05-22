@@ -8,13 +8,13 @@ class VideosControllerTest < ActionController::TestCase
   end
 
   test "request for non-existent video redirects" do
-    get :show, :id => 1111
+    get :show, params: { :id => 1111 }
     assert_response :redirect, "Redirect away from non-existent video"
   end
 
   test "request for video with missing file redirects" do
     v = FactoryGirl.create(:video)
-    get :show, :id => v.id
+    get :show, params: { :id => v.id }
     assert_response :redirect, "Redirect away from video with mising file"
     assert_not_nil assigns(@speaker), "Set speaker for video listing"
   end
@@ -25,14 +25,14 @@ class VideosControllerTest < ActionController::TestCase
     f = File.open("#{VIDEO_PATH}/#{v.filename}","w")
     f.puts "test data"
     f.close
-    get :show, :id => v.id
-    File.delete("#{VIDEO_PATH}/#{v.filename}")
+    get :show, params: { :id => v.id }
     assert_response :success
+    File.delete("#{VIDEO_PATH}/#{v.filename}")
   end
 
   test "request for video by speaker shows list" do
     v = FactoryGirl.create(:video)
-    get :speaker, :id => v.speaker.id
+    get :speaker, params: { :id => v.speaker.id }
     assert_response :success
     assert_not_nil assigns(@speaker), "Set speaker for video listing"
   end

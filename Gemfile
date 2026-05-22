@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.11.3'
+gem 'rails', '5.2.8.1'
 
 # Strong parameters is now the default, but Rails 4 ships the
 # protected_attributes gem as a back-compat layer so your existing
@@ -10,7 +10,7 @@ gem 'rails', '4.2.11.3'
 
 # Asset pipeline gems bump in lockstep with Rails 4.2
 gem 'sass-rails',   '~> 5.0'
-gem 'coffee-rails', '~> 4.1.0'
+gem 'coffee-rails', '~> 4.2'
 gem 'jquery-rails'  # 4.x line works with Rails 4.2
 
 # mysql2 — Rails 4.2's adapter accepts ~> 0.3.13 OR 0.4.x.
@@ -32,13 +32,7 @@ gem 'capistrano', '2.15.5', require: false, group: :development
 # To use debugger
 # gem 'ruby-debug'
 
-# Bundle the extra gems:
-# gem 'bj'
-gem 'nokogiri', '~> 1.13.10'  # last line supporting Ruby 2.6
-# gem 'sqlite3-ruby', :require => 'sqlite3'
-# gem 'aws-s3', :require => 'aws/s3'
-
-gem 'jquery-ui-rails' # , '~> 4.2'  # 5.x+ requires Rails 4+
+gem 'jquery-ui-rails'
 
 # Strong parameters is the default in rails4
 # gem 'strong_parameters'
@@ -57,16 +51,9 @@ gem 'will_paginate',
   :git => 'https://github.com/mislav/will_paginate.git'
 gem 'ffi', '~> 1.15.5'
 
-# Extracted from core by Rails 4.2
 gem 'actionpack-page_caching'
-
-# bigdecimal pin no longer needed in 4.2 — ActiveSupport handles it
-# (you can remove the gem 'bigdecimal' line). Keep ffi pin though.
-# gem 'bigdecimal', '~> 1.4.4'gem 'bigdecimal', '~> 1.4.4'
-
-gem 'thinking-sphinx', '~> 3.1'
-  
-gem 'acts-as-taggable-on', '~> 4.0' # Version for Rails 4.2 compatibility
+gem 'thinking-sphinx', '~> 4.4.1'
+gem 'acts-as-taggable-on', '~> 5.0'
 
 gem 'rdiscount'  
 gem 'ruby-mp3info',
@@ -83,7 +70,7 @@ group :assets do
 end
 
 # To use ActiveModel has_secure_password
-gem 'bcrypt-ruby', '~> 3.1.5', require: 'bcrypt'
+gem 'bcrypt', '~> 3.1.7'   # was bcrypt-ruby
 
 # To use Jbuilder templates for JSON
 # gem 'jbuilder'
@@ -96,32 +83,24 @@ gem 'exception_notification', '~> 4.0.0'
 # and rake tasks are available in development mode:
 group :development, :test do
   gem 'simplecov', :require => false
-  gem "mocha", '~> 2.1', :require => false  # 2.x uses the modern Minitest constant; works with Rails 4.2+ minitest
-
-  # acceptance test framework
-  #  gem "capybara"
-  #  gem "poltergeist"
-  
-  # js testing framework
-  #  gem "teaspoon"
-  
+  gem "mocha", '~> 2.1', :require => false
   gem 'guard'
   gem 'rb-fsevent', '~> 0.9.1'
   gem 'guard-test'
-
 end
 
 group :test do
-  gem 'rspec-rails',       '~> 3.9.0'
-  gem 'capybara',          '~> 2.18.0'
-  gem 'database_cleaner',  '~> 1.8.5'
-  gem 'factory_girl_rails'
+
+  gem 'rspec-rails',      '~> 4.1.0'   # 4.x supports Rails 5+
+  gem 'capybara',         '~> 3.36.0'  # rack 2.x constraint now satisfied
+  gem 'nokogiri', '~> 1.13.10'  # last line supporting Ruby 2.6
+  gem 'database_cleaner', '~> 1.8.5'   # 1.x still fine; 2.x split is optional
+  gem 'factory_girl_rails'             # still works; rename later
   gem 'launchy'
-  # gem 'test-unit',         '~> 2.5'  # mocha 1.x doesn't integrate with test-unit 3.x hooks; vfc's legacy suite uses this combo
+
+  # NEW: Rails 5 moved render/assigns/assert_template out of core for
+  # controller specs. If you don't have controller specs yet you can skip,
+  # but include it now for when you do.
+  gem 'rails-controller-testing'
+  
 end
-
-# gem 'rack-mini-profiler', :group => :development
-
-# Better irb - bundle exec pry -r ./config/environment
-# gem 'pry', :group => :development
-# gem 'pry-doc', :group => :development

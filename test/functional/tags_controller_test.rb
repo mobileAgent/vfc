@@ -8,7 +8,7 @@ class TagsControllerTest < ActionController::TestCase
     a.tag_list << 'Bible'
     a.save!
     AudioMessage.expects(:search).returns([a].paginate)
-    get :show, :id => 'Bible'
+    get :show, params: { :id => 'Bible' }
     assert_response :success
     assert assigns :items
   end

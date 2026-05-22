@@ -56,7 +56,7 @@ class WelcomeController < ApplicationController
       rescue ThinkingSphinx::SphinxError
       end
     end
-    render :text => @hits.to_json and return
+    render :plain => @hits.to_json and return
   end
 
   # Deliver the advanced search page

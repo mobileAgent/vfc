@@ -1,4 +1,4 @@
-class Writing < ActiveRecord::Base
+class Writing < ApplicationRecord
 
   belongs_to :speaker
   
