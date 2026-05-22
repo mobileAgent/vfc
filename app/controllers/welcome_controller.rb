@@ -4,7 +4,9 @@ class WelcomeController < ApplicationController
 
   def index
     @tag_cloud = Rails.cache.fetch('tag_cloud', :expires_in => 10.minutes) {
-      AudioMessage.tag_counts(:conditions => {:publish => true}, :order => :name)
+      # acts-as-taggable-on: tag_counts_on(:tags) returns Tag records with a
+      # .count (usage). Scope to published messages, order by tag name.
+      AudioMessage.where(publish: true).tag_counts_on(:tags).order('tags.name')
     }
   end
 
@@ -22,7 +24,7 @@ class WelcomeController < ApplicationController
     tt = "%#{term}%"
     # Get some tags
     if @hits.size < @size_limit
-      @tags = Tag.where('name like ?',t)
+      @tags = ActsAsTaggableOn::Tag.where('name like ?',t)
         .limit(@size_limit - @hits.size)
         .order(:name)
       @hits += @tags.map { |t| t.name }
@@ -47,9 +49,8 @@ class WelcomeController < ApplicationController
     # Finally, get some audio messages
     if @hits.size < @size_limit
       begin
-        @msgs = AudioMessage.search('',
+        @msgs = AudioMessage.search("#{term}*",
                                     :conditions => {:full_title => term},
-                                    :star => true,
                                     :max_matches => @size_limit-@hits.size)
         @hits += @msgs.map { |n| "#{n.autocomplete_title}, #{n.speaker.full_name}" }
       rescue ThinkingSphinx::SphinxError
@@ -165,13 +166,15 @@ class WelcomeController < ApplicationController
       :page => params[:page],
       :per_page => params[:per_page] || AudioMessage.per_page,
       :order => sort_column,
-      :match_mode => match_mode,
-      :star => star,
       :max_matches => 5000,
-      :include => [:language, :speaker, :place, :tags ]
+      :sql => { :include => [:language, :speaker, :place, :tags] }
     }
     options[:conditions] = conditions if conditions
-    AudioMessage.search(query,options)
+    # TS 3.x removed :star. To preserve "wildcard each term" behavior the old
+    # :star => true option gave, append * to a non-blank query. Requires
+    # min_infix_len in the index (see app/indices/audio_message_index.rb).
+    query = query.split.map { |w| "#{w}*" }.join(' ') if star && !query.blank?
+    AudioMessage.search(query, options)
   end
 
 end

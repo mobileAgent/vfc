@@ -4,6 +4,7 @@ require 'will_paginate/array'
 class LanguagesControllerTest < ActionController::TestCase
 
   def setup
+    super
     @speaker = FactoryGirl.create(:speaker, :last_name => "Jack", :first_name => "Jimmy", :middle_name => nil);
     @collection = []
     10.times { |i| @collection << FactoryGirl.create(:audio_message, :speaker => @speaker) }

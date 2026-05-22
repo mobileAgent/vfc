@@ -35,5 +35,7 @@ Vfc::Application.configure do
     :exception_recipients => %w{flester@gmail.com}
   }
   
+  config.eager_load = false
+
 end
 

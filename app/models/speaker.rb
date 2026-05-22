@@ -7,20 +7,22 @@ class Speaker < ActiveRecord::Base
   has_many :writings
   has_many :notes
   
-  has_many :places, :through => :audio_messages, :uniq => true,
-           :conditions => {"audio_messages.publish" => true},
-           :order => :name
+  has_many :places, -> { where("audio_messages.publish = true").order(:name).distinct }, :through => :audio_messages
 
-  has_many :languages, :through => :audio_messages, :uniq => true,
-           :conditions => {"audio_messages.publish" => true},
-           :order => :name
+  has_many :languages, -> { where("audio_messages.publish = true").order(:name).distinct }, :through => :audio_messages
   
   scope :active, lambda { where("hidden = ?", false) }
 
   attr_accessor :active_message_count, :active_speaker_count
 
-  # this alias is for acts_as_taggable
+  # these aliases let the tag-cloud helper treat a Speaker like a tag.
+  # `count` was for acts_as_taggable_on_steroids; `taggings_count` is what
+  # acts-as-taggable-on's tag_cloud helper calls.
   def count
+    active_message_count || 0
+  end
+
+  def taggings_count
     active_message_count || 0
   end
   

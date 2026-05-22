@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class VfcConverterTest < Test::Unit::TestCase
+class VfcConverterTest < ActiveSupport::TestCase
 
   include VfcConverter # the module under test
 

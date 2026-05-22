@@ -1,6 +1,6 @@
 module ApplicationHelper
 
-  include TagsHelper
+  # include TagsHelper
   include Zipline
   
   def icon(s, options = {})

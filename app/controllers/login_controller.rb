@@ -45,7 +45,7 @@ class LoginController < ApplicationController
            new_password = User.generate_password
            user.password = new_password
            user.save
-           UserMailer.password(user, new_password).deliver
+           UserMailer.password(user, new_password).deliver_now
            flash[:notice] = t("login.reset", :email => params[:email])
         else
            flash[:notice] = t("login.fail")

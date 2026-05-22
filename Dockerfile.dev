@@ -18,8 +18,8 @@ RUN bundle _1.17.3_ install
 # hardcodes `gem 'mysql2', '~> 0.3.10'` which rejects newer mysql2; the
 # API surface mysql2 0.5 exposes is fully compatible with what the Rails
 # 3.2 adapter actually uses. This patch becomes unnecessary at Rails 4.2+.
-RUN sed -i "s|gem 'mysql2', '~> 0.3.10'|gem 'mysql2', '~> 0.5'|" \
-    /usr/local/bundle/gems/activerecord-3.2.22.5/lib/active_record/connection_adapters/mysql2_adapter.rb
+# RUN sed -i "s|gem 'mysql2', '~> 0.3.10'|gem 'mysql2', '~> 0.5'|" \
+#     /usr/local/bundle/gems/activerecord-3.2.22.5/lib/active_record/connection_adapters/mysql2_adapter.rb
 
 # Copy the rest of the app.
 COPY . /app

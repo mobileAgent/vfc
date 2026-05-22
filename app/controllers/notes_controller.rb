@@ -6,7 +6,7 @@ class NotesController < ApplicationController
 
   def speaker
     @speaker = Speaker.find(params[:id])
-    @notes = Note.find(:all, :conditions => ['speaker_id = ?',@speaker.id], :include => [:audio_messages], :order => :title)
+    @notes = Note.where('speaker_id = ?',@speaker.id).includes(:audio_messages).order(:title).all
     render :index
   end
 
@@ -24,10 +24,9 @@ class NotesController < ApplicationController
     @items = AudioMessage.search('',
                                  :with => {:speaker_id => @speaker.id, :note_id => range },
                                  :order => sort_column,
-                                 :match_mode => :boolean,
                                  :page => params[:page],
                                  :max_matches => 5000,
-                                 :include => [:language, :speaker, :place, :tags, :notes])
+                                 :sql => { :include => [:language, :speaker, :place, :tags, :note] })
 
     if request.post? && params[:download] && download_zipline(@items,@query_title,params[:page])
       return

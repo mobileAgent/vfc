@@ -1,5 +1,5 @@
 //= require jquery
-//= require jquery.ui.all
+//= require jquery-ui
 //= require jquery-corner
 //= require jquery.grab
 //= require jquery.transform

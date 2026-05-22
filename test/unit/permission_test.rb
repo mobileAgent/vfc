@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class PermissionTest < Test::Unit::TestCase
+class PermissionTest < ActiveSupport::TestCase
 
   def test_admin_allowed_all_resources
     u = FactoryGirl.build(:user, :admin => true)

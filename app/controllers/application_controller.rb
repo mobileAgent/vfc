@@ -1,11 +1,11 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   helper :all # include all helpers, all the time
-  before_filter :set_locale
-  before_filter :authorize
-  before_filter :load_cacheable_data
+  before_action :set_locale
+  before_action :authorize
+  before_action :load_cacheable_data
   helper_method :sort_column, :sort_column_ar, :sort_direction
-  before_filter :validate_search_criteria
+  before_action :validate_search_criteria
   
   include ActionController::Streaming
   include ApplicationHelper
@@ -34,7 +34,7 @@ class ApplicationController < ActionController::Base
     @tagline2 = t(:tagline2_html).html_safe
 
     @motm = Rails.cache.fetch("motm-#{@locale}",:expires_in => 30.minutes) {
-      Motm.language(@language).active.first
+       @motm =  Motm.language(@language).active.first
     }
 
     @mobile_device = mobile_device?
@@ -57,7 +57,6 @@ class ApplicationController < ActionController::Base
       I18n.default_locale
     I18n.locale = @locale
     @language = Language.locale(@locale).first || Language.default.first
-    logger.info "Locale set to #{@locale} language #{@language.name}"
   end
 
   def validate_search_criteria

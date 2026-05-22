@@ -6,7 +6,7 @@ module VfcConverter
     end
     p = Place.find_by_name(name)
     if p.nil?
-      p = Place.find(:first, :conditions => ['name like ?',"#{name}%"], :order => "id")
+      p = Place.where('name like ?',"#{name}%").order("id").first
     end
     if p.nil?
       p = Place.create(:name => name)
@@ -18,7 +18,7 @@ module VfcConverter
   def converted_speaker(full_name = speaker)
     ln,fn,mn = convert_speaker_name(full_name.strip)
     conditions = {:last_name => ln,:first_name => fn,:middle_name => mn }
-    Speaker.find(:first, :conditions => conditions) || Speaker.create(conditions)
+    Speaker.where(conditions).first || Speaker.create(conditions)
   end
 
   def convert_speaker_name(old_name)
@@ -55,16 +55,16 @@ module VfcConverter
     lang = nil
     if language_name
       if language_name.index(/^Fre/)
-        lang = Language.find_or_create_by_name('French')
+        lang = Language.find_or_create_by(name: 'French')
       elsif language_name.index(/^Por/)
-        lang = Language.find_or_create_by_name('Portuguese')
+        lang = Language.find_or_create_by(name: 'Portuguese')
       elsif language_name.index(/^(Esp|Spa)/)
-        lang = Language.find_or_create_by_name('Spanish')
+        lang = Language.find_or_create_by(name: 'Spanish')
       else
         lang = Language.find_by_name(lang)
       end
     end
-    lang || Language.find_or_create_by_name('English')
+    lang || Language.find_or_create_by(name: 'English')
   end
 
   def converted_duration(duration_string)

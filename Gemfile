@@ -1,8 +1,21 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.22.5'
+gem 'rails', '4.2.11.3'
 
-gem 'mysql2', '= 0.5.5'
+# Strong parameters is now the default, but Rails 4 ships the
+# protected_attributes gem as a back-compat layer so your existing
+# attr_accessible code keeps working. Keep this for now; remove during
+# the 5.x leg when you actually convert controllers to strong params.
+# gem 'protected_attributes'
+
+# Asset pipeline gems bump in lockstep with Rails 4.2
+gem 'sass-rails',   '~> 5.0'
+gem 'coffee-rails', '~> 4.1.0'
+gem 'jquery-rails'  # 4.x line works with Rails 4.2
+
+# mysql2 — Rails 4.2's adapter accepts ~> 0.3.13 OR 0.4.x.
+# Drop the version pin entirely and let bundler pick.
+gem 'mysql2'
 
 # Streaming zip file output. Pinned to 1.x — 2.x requires Rails 6+.
 # Use the released gem rather than the git ref to avoid pulling latest
@@ -25,11 +38,10 @@ gem 'nokogiri', '~> 1.13.10'  # last line supporting Ruby 2.6
 # gem 'sqlite3-ruby', :require => 'sqlite3'
 # gem 'aws-s3', :require => 'aws/s3'
 
-gem 'jquery-rails'
-gem 'jquery-ui-rails', '~> 4.2'  # 5.x+ requires Rails 4+
+gem 'jquery-ui-rails' # , '~> 4.2'  # 5.x+ requires Rails 4+
 
 # Strong parameters is the default in rails4
-gem 'strong_parameters'
+# gem 'strong_parameters'
 gem "nilify_blanks"
 
 # Only use the snowman stuff on broken browsers
@@ -44,13 +56,17 @@ gem 'jquery-turbolinks', '~> 2.1'
 gem 'will_paginate',
   :git => 'https://github.com/mislav/will_paginate.git'
 gem 'ffi', '~> 1.15.5'
-gem 'bigdecimal', '~> 1.4.4'
 
-gem 'thinking-sphinx', '~> 2.1'
+# Extracted from core by Rails 4.2
+gem 'actionpack-page_caching'
+
+# bigdecimal pin no longer needed in 4.2 — ActiveSupport handles it
+# (you can remove the gem 'bigdecimal' line). Keep ffi pin though.
+# gem 'bigdecimal', '~> 1.4.4'gem 'bigdecimal', '~> 1.4.4'
+
+gem 'thinking-sphinx', '~> 3.1'
   
-#gem 'acts_as_taggable_on_steroids'
-gem 'acts_as_taggable_on_steroids',
-  :git     => 'https://github.com/mobileAgent/acts_as_taggable_on_steroids.git'
+gem 'acts-as-taggable-on', '~> 4.0' # Version for Rails 4.2 compatibility
 
 gem 'rdiscount'  
 gem 'ruby-mp3info',
@@ -61,8 +77,8 @@ gem 'execjs'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'sass-rails',   "~> 3.2.3"
-  gem 'coffee-rails', "~> 3.2.1"
+  # gem 'sass-rails',   "~> 3.2.3"
+  # gem 'coffee-rails', "~> 3.2.1"
   gem 'uglifier', ">= 1.0.3"
 end
 
@@ -80,7 +96,7 @@ gem 'exception_notification', '~> 4.0.0'
 # and rake tasks are available in development mode:
 group :development, :test do
   gem 'simplecov', :require => false
-  gem "mocha", '~> 1.16', :require => false  # 2.x+ requires Minitest; 3.x conflicts with Rails 3.2's test-unit
+  gem "mocha", '~> 2.1', :require => false  # 2.x uses the modern Minitest constant; works with Rails 4.2+ minitest
 
   # acceptance test framework
   #  gem "capybara"
@@ -101,7 +117,7 @@ group :test do
   gem 'database_cleaner',  '~> 1.8.5'
   gem 'factory_girl_rails'
   gem 'launchy'
-  gem 'test-unit',         '~> 2.5'  # mocha 1.x doesn't integrate with test-unit 3.x hooks; vfc's legacy suite uses this combo
+  # gem 'test-unit',         '~> 2.5'  # mocha 1.x doesn't integrate with test-unit 3.x hooks; vfc's legacy suite uses this combo
 end
 
 # gem 'rack-mini-profiler', :group => :development

@@ -26,10 +26,9 @@ class PlacesController < ApplicationController
     @items = AudioMessage.search('',
                                  :with =>  { :place_id => @place.id },
                                  :order => sort_column,
-                                 :match_mode => :boolean,
                                  :page => params[:page],
                                  :max_matches => 5000,
-                                 :include => [:language, :speaker, :place, :tags])
+                                 :sql => { :include => [:language, :speaker, :place, :tags] })
     
     if request.post? && params[:download] && download_zipline(@items,@query_title,params[:page])
       return
@@ -67,7 +66,7 @@ class PlacesController < ApplicationController
     if params[:id]
       begin
         if params[:id].match(/([A-Z][A-Za-z]+)/)
-          @current_resource ||= Place.find(:first, :conditions => ["name like ?","#{params[:id]}%"])
+          @current_resource ||= Place.where("name like ?","#{params[:id]}%").first
         else
           @current_resource ||= Place.find(params[:id])
         end

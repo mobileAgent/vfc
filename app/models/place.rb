@@ -3,10 +3,8 @@ class Place < ActiveRecord::Base
   nilify_blanks  
   
   has_many :audio_messages
-  has_many :languages, :through => :audio_messages, :uniq => true
-  has_many :speakers, :through => :audio_messages, :uniq => true,
-           :conditions => {"audio_messages.publish" => true},
-           :order => "last_name,first_name"
+  has_many :languages, -> { distinct }, :through => :audio_messages
+  has_many :speakers, -> { where("audio_messages.publish = true").order(:last_name, :first_name).distinct }, :through => :audio_messages
 
   attr_accessor :active_message_count, :active_speaker_count
   

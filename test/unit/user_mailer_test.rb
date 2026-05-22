@@ -4,7 +4,7 @@ class UserMailerTest < ActionMailer::TestCase
 
   def test_password_email
     user = FactoryGirl.build(:user)
-    email = UserMailer.password(user,'foodebar').deliver
+    email = UserMailer.password(user,'foodebar').deliver_now
     assert !ActionMailer::Base.deliveries.empty?
     assert_equal [user.email],email.to
     assert_equal ['webmaster@voicesforchrist.org'],email.from

@@ -4,6 +4,7 @@ require 'will_paginate/array'
 class PlacesControllerTest < AuthenticatedTest
 
   def setup
+    super
     @collection = []
     10.times { |i| @collection << FactoryGirl.create(:audio_message) }
     @paginated_collection = @collection.paginate

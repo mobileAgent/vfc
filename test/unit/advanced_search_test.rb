@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class AdvancedSearchTest < Test::Unit::TestCase
+class AdvancedSearchTest < ActiveSupport::TestCase
 
   def test_fielded_term_extraction
     c = AdvancedSearch.to_conditions("speaker:jones")

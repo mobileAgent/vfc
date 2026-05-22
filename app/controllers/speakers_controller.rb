@@ -69,10 +69,9 @@ class SpeakersController < ApplicationController
     @items = AudioMessage.search('',
                                  :with => @conditions,
                                  :order => sort_column,
-                                 :match_mode => :boolean,
                                  :page => params[:page],
                                  :max_matches => 5000,
-                                 :include => [:language, :speaker, :place, :tags])
+                                 :sql => { :include => [:language, :speaker, :place, :tags] })
     if request.post? && params[:download] && download_zipline(@items,@query_title,params[:page])
       return
     else

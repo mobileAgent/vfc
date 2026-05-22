@@ -8,7 +8,9 @@ class UsersController < ApplicationController
   end
     
   def register
-    @user = User.new(params[:user])
+    # GET renders a blank form (no :user param yet); only require/permit
+    # params on the POST submit.
+    @user = request.post? ? User.new(user_params) : User.new
     @user.last_visit = Time.now
     if request.post? and @user.save
       session[:user_id] = @user.id
@@ -23,7 +25,7 @@ class UsersController < ApplicationController
   
   def update_password
     user = User.find_by_id(session[:user_id])
-    if user && user.update_attributes(params[:user])
+    if user && user.update(user_params)
       redirect_to root_url, notice: t("login.password_updated")
     else
       flash[:notice] = t(:update_failed)      
@@ -32,7 +34,7 @@ class UsersController < ApplicationController
   end
   
   def list
-    @users = User.all(:order => "last_visit desc")
+    @users = User.all.order("last_visit desc")
   end
   
   def edit
@@ -72,5 +74,17 @@ class UsersController < ApplicationController
       @current_resource ||= User.find(params[:id])
     end
   end
+
+  private
+
+  def user_params
+    params.require(:user).permit(
+      :password,
+      :password_confirmation,
+      :name,
+      :email
+    )
+  end
+      
   
 end

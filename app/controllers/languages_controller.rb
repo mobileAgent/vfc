@@ -1,7 +1,10 @@
 class LanguagesController < ApplicationController
 
   def index
-    @languages = Language.all(:order => :name)
+    # .to_a materializes the relation so the Array operations below
+    # (delete, prepend, reject!) work. On a relation, .delete would
+    # hit the database and .prepend doesn't exist.
+    @languages = Language.order(:name).to_a
     @languages.each do |lang|
       if lang.cc == @locale
         # move it to the top of the list
@@ -42,10 +45,9 @@ class LanguagesController < ApplicationController
     @items = AudioMessage.search('',
                                  :with => { :language_id => @language.id},
                                  :order => sort_column,
-                                 :match_mode => :boolean,
                                  :page => params[:page],
                                  :max_matches => 5000,
-                                 :include => [:language, :speaker, :place, :tags ])
+                                 :sql => { :include => [:language, :speaker, :place, :tags] })
     
     if request.post? && params[:download] && download_zipline(@items,@query_title,params[:page])
       return
