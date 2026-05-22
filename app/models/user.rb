@@ -4,22 +4,31 @@ class User < ActiveRecord::Base
 
   has_many :registrations
 
+  # NOTE: :message is wrapped in a proc so the I18n lookup happens at
+  # validation time, not at class-load time. Calling I18n.t directly here
+  # runs during eager-load (before locale files are loaded in the test env),
+  # which — combined with test_helper's raise-on-missing handler — aborts
+  # the class definition. The :with option was a no-op on presence
+  # validation (it never validated format) and has been removed.
   validates_presence_of   :email,
-                          :with => /\A[-A-Za-z0-9_\.]+@[-A-Za-z_0-9\.]+\.[A-Za-z]{2,6}\Z/,
-                          :message => I18n.t("activerecord.errors.models.user.email_validation")
+                          :message => proc { I18n.t("activerecord.errors.models.user.email_validation") }
                     
 
   attr_accessor :password_confirmation
 
-  attr_protected :admin
+  # attr_protected :admin
 
   validates_confirmation_of :password
 
-#  validate :password_check
+  # Only require a password when creating a user. Updates that don't touch
+  # the password (e.g. an admin toggling editor flags) must not be blocked
+  # by this. Password changes go through update_password, where
+  # validates_confirmation_of guards the new value.
+  validate :password_check, :on => :create
 
-#  def password_check
-#    errors[:base] << I18n.t("activerecord.errors.models.user.password_validation") if password.blank?
-#  end
+  def password_check
+    errors[:base] << I18n.t("activerecord.errors.models.user.password_validation") if password.blank?
+  end
 
   def self.authenticate(email,password)
     user = self.find_by_email(email)

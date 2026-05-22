@@ -6,7 +6,24 @@ SimpleCov.start 'rails'
 
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
-require 'mocha/setup'       # enables `expects`, `stubs`, etc.; `setup` path is more reliable with Rails 3.2's ActionController::TestCase than `test_unit`
+require 'mocha/minitest'    # Rails 4.2+ uses Minitest as the test framework
+
+# Fix "ThreadError: already initialized" in controller tests on Ruby 2.6+
+# with Rails 4.2. ActionController::TestCase recycles the response object
+# between requests by calling initialize again; Rails 4.2's response uses
+# MonitorMixin, and Ruby 2.6+ raises if the monitor is re-initialized.
+# Reset the monitor ivars before re-initializing.
+if RUBY_VERSION >= "2.6.0" && Rails::VERSION::MAJOR < 5
+  module ActionController
+    class TestResponse < ActionDispatch::TestResponse
+      def recycle!
+        @mon_mutex_owner_object_id = nil
+        @mon_mutex = nil
+        initialize
+      end
+    end
+  end
+end
 
 #require 'capybara/rails'
 #require 'capybara/poltergeist'

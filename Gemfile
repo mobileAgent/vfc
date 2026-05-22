@@ -66,9 +66,6 @@ gem 'actionpack-page_caching'
 
 gem 'thinking-sphinx', '~> 3.1'
   
-# gem 'acts_as_taggable_on_steroids'
-# gem 'acts_as_taggable_on_steroids',
-#   :git     => 'https://github.com/mobileAgent/acts_as_taggable_on_steroids.git'
 gem 'acts-as-taggable-on', '~> 4.0' # Version for Rails 4.2 compatibility
 
 gem 'rdiscount'  
@@ -99,7 +96,7 @@ gem 'exception_notification', '~> 4.0.0'
 # and rake tasks are available in development mode:
 group :development, :test do
   gem 'simplecov', :require => false
-  gem "mocha", '~> 1.16', :require => false  # 2.x+ requires Minitest; 3.x conflicts with Rails 3.2's test-unit
+  gem "mocha", '~> 2.1', :require => false  # 2.x uses the modern Minitest constant; works with Rails 4.2+ minitest
 
   # acceptance test framework
   #  gem "capybara"
@@ -120,7 +117,7 @@ group :test do
   gem 'database_cleaner',  '~> 1.8.5'
   gem 'factory_girl_rails'
   gem 'launchy'
-  gem 'test-unit',         '~> 2.5'  # mocha 1.x doesn't integrate with test-unit 3.x hooks; vfc's legacy suite uses this combo
+  # gem 'test-unit',         '~> 2.5'  # mocha 1.x doesn't integrate with test-unit 3.x hooks; vfc's legacy suite uses this combo
 end
 
 # gem 'rack-mini-profiler', :group => :development

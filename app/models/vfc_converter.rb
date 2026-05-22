@@ -55,16 +55,16 @@ module VfcConverter
     lang = nil
     if language_name
       if language_name.index(/^Fre/)
-        lang = Language.find_or_create_by_name('French')
+        lang = Language.find_or_create_by(name: 'French')
       elsif language_name.index(/^Por/)
-        lang = Language.find_or_create_by_name('Portuguese')
+        lang = Language.find_or_create_by(name: 'Portuguese')
       elsif language_name.index(/^(Esp|Spa)/)
-        lang = Language.find_or_create_by_name('Spanish')
+        lang = Language.find_or_create_by(name: 'Spanish')
       else
         lang = Language.find_by_name(lang)
       end
     end
-    lang || Language.find_or_create_by_name('English')
+    lang || Language.find_or_create_by(name: 'English')
   end
 
   def converted_duration(duration_string)

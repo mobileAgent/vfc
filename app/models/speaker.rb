@@ -15,8 +15,14 @@ class Speaker < ActiveRecord::Base
 
   attr_accessor :active_message_count, :active_speaker_count
 
-  # this alias is for acts_as_taggable
+  # these aliases let the tag-cloud helper treat a Speaker like a tag.
+  # `count` was for acts_as_taggable_on_steroids; `taggings_count` is what
+  # acts-as-taggable-on's tag_cloud helper calls.
   def count
+    active_message_count || 0
+  end
+
+  def taggings_count
     active_message_count || 0
   end
   

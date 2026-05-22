@@ -13,21 +13,9 @@ class AudioMessage < ActiveRecord::Base
   
   scope :active, lambda { where("publish = ?", true).includes(:speaker, :language, :place, :note) }
   scope :year,   lambda { |yr| where("date_format(event_date,'%Y') = ?", yr) }
-  
 
-  # define_index do
-  #   where "publish = 1"
-  #   indexes [title, subj],  :as => :full_title, :sortable => true
-  #   indexes [speaker.last_name, speaker.first_name, speaker.middle_name, speaker.suffix],
-  #      :as => :speaker_name, :sortable => true
-  #   indexes place.name, :as => :place, :sortable => true
-  #   indexes note.title, :as => :note_title, :sortable => true
-  #   indexes language.name, :as => :language, :sortable => true
-  #   indexes event_date, :sortable => true
-  #   indexes taggings.tag.name, :as => :tags, :sortable => true
-  #   has :filesize, :duration, :place_id, :language_id, :speaker_id, :note_id
-  #   set_property :delta => true
-  # end
+  # Sphinx index definition lives in app/indices/audio_message_index.rb
+  # (thinking-sphinx 3.x moved index definitions out of the model).
 
   def full_title
     if subj && subj.length > 0

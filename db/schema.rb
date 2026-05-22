@@ -140,30 +140,6 @@ ActiveRecord::Schema.define(version: 20260520200306) do
     t.boolean  "tags_editor"
   end
 
-  create_table "vfc", force: :cascade do |t|
-    t.string   "msg",          limit: 128
-    t.boolean  "changed"
-    t.string   "speaker",      limit: 128
-    t.string   "subj",         limit: 128
-    t.string   "groupmsg",     limit: 16
-    t.string   "date",         limit: 16
-    t.string   "obs_call",     limit: 16
-    t.string   "obs_grouping", limit: 16
-    t.datetime "add_date",                 null: false
-    t.boolean  "download"
-    t.boolean  "publish"
-    t.string   "filename",     limit: 512
-    t.integer  "notes_id",     limit: 4
-    t.string   "language",     limit: 16
-    t.integer  "speaker_id",   limit: 4
-    t.datetime "change_date",              null: false
-    t.string   "duration",     limit: 16
-    t.integer  "filesize",     limit: 4
-    t.string   "place",        limit: 16
-  end
-
-  add_index "vfc", ["groupmsg"], name: "groupmsg_index", using: :btree
-
   create_table "videos", force: :cascade do |t|
     t.string   "title",      limit: 128,                 null: false
     t.string   "filename",   limit: 256,                 null: false

@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class AudioMessageTest  < Test::Unit::TestCase
+class AudioMessageTest  < ActiveSupport::TestCase
 
   def test_title_formatting
     a = FactoryGirl.build(:audio_message, :title => "Message Title", :subj => "The Subject")

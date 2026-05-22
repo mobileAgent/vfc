@@ -3,6 +3,7 @@ require 'test_helper'
 class UsersControllerTest < AuthenticatedTest
   
   def setup
+    super
     @user = FactoryGirl.create(:user)
     session[:user_id] = @user.id
   end

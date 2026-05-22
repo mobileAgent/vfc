@@ -7,10 +7,12 @@ class Motm < ActiveRecord::Base
   }
 
   scope :language, lambda { |l| includes(:audio_message => [:speaker, :place, :language, :tags])
+                               .references(:audio_message)
                                .where("audio_messages.language_id = ? and audio_messages.publish = ?",l.id,true)
                                .order("motms.created_at desc")}
 
   scope :not_language, lambda { |l| includes(:audio_message => [:speaker, :place, :language, :tags])
+                               .references(:audio_message)
                                .where("audio_messages.language_id <> ? and audio_messages.publish = ?",l.id,true)
                                .order("motms.created_at desc")}
 end

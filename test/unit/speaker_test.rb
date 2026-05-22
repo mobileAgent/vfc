@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class SpeakerTest  < Test::Unit::TestCase
+class SpeakerTest  < ActiveSupport::TestCase
   
   def test_with_middle_name
     s = FactoryGirl.build(:speaker, :last_name => "Jack", :first_name => "Jimmy", :middle_name => "J")

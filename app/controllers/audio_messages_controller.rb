@@ -21,7 +21,7 @@ class AudioMessagesController < ApplicationController
 
   def delete
     @am = current_resource
-    @am.update_attributes(:publish => false)
+    @am.update(:publish => false)
     redirect_to (request.env["HTTP_X_XHR_REFERER"] || request.env["HTTP_REFERER"] || root_url),
           notice: "Deleted #{@am.speaker.catalog_name} #{@am.full_title} (#{@am.id})"
   end
@@ -45,7 +45,7 @@ class AudioMessagesController < ApplicationController
   def update
     @audio_message = current_resource
     referer = params[:referer][:url] if (params[:referer] && params[:referer][:url])
-    if @audio_message.update_attributes(params[:audio_message])
+    if @audio_message.update(audio_message_params)
       flash[:notice] = t(:updated)
     end
     if referer
@@ -73,12 +73,24 @@ class AudioMessagesController < ApplicationController
     begin
       if params[:action] == "gold"
         path = params[:speaker_name] + "/" + params[:filename] + ".mp3"
-        @current_resource = AudioMessage.where('publish = ? and filename = ?', true, path)
+        @current_resource = AudioMessage.where('publish = ? and filename = ?', true, path).first
       elsif params[:id]
-        @current_resource ||= AudioMessage.find(params[:id],:conditions => ['publish = ?',true])
+        @current_resource ||= AudioMessage.where('publish = ?', true).find(params[:id])
       end
     rescue
     end
+  end
+
+  private
+
+  def audio_message_params
+    # Content fields any audio_message_editor may change.
+    permitted = [:title, :subj, :groupmsg, :publish,
+                 :language_id, :place_id, :speaker_id, :note_id, :event_date]
+    # Protected file-metadata fields only admins may change. This replaces
+    # the Rails 3.2 `attr_accessible ..., :as => :admin` role mechanism.
+    permitted += [:filesize, :duration, :filename] if current_user && current_user.admin?
+    params.require(:audio_message).permit(*permitted)
   end
 
 end

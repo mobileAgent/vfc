@@ -34,7 +34,7 @@ class ApplicationController < ActionController::Base
     @tagline2 = t(:tagline2_html).html_safe
 
     @motm = Rails.cache.fetch("motm-#{@locale}",:expires_in => 30.minutes) {
-      Motm.language(@language).active.first
+       @motm =  Motm.language(@language).active.first
     }
 
     @mobile_device = mobile_device?
@@ -57,7 +57,6 @@ class ApplicationController < ActionController::Base
       I18n.default_locale
     I18n.locale = @locale
     @language = Language.locale(@locale).first || Language.default.first
-    logger.info "Locale set to #{@locale} language #{@language.name}"
   end
 
   def validate_search_criteria

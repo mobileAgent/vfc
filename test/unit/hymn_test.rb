@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class HymnTest < Test::Unit::TestCase
+class HymnTest < ActiveSupport::TestCase
 
   def test_hymn
     h = FactoryGirl.create(:hymn)

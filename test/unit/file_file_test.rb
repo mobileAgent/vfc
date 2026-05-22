@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class FileFileTest < Test::Unit::TestCase
+class FileFileTest < ActiveSupport::TestCase
   
   def test_file_file_opener
     f = FileFile.new("#{Rails.root}/config/environment.rb")

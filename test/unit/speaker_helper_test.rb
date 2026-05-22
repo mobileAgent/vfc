@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class SpeakerHelperTest < Test::Unit::TestCase
+class SpeakerHelperTest < ActiveSupport::TestCase
 
   include SpeakerHelper
   

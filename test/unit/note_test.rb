@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class NoteTest < Test::Unit::TestCase
+class NoteTest < ActiveSupport::TestCase
 
   def test_file_extension
     n = FactoryGirl.build(:note)
