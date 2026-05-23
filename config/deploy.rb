@@ -2,7 +2,7 @@
 lock "~> 3.17"
 
 set :application, "vfc"
-set :repo_url,    "git@github.com:mobileAgent/vfc.git"
+set :repo_url,    "https://github.com/mobileAgent/vfc.git"
 
 # Default branch; override with `BRANCH=foo cap production deploy` if needed
 set :branch, ENV.fetch("BRANCH", "master")
