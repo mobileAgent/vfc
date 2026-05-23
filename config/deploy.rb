@@ -31,10 +31,7 @@ append :linked_dirs,
   "tmp/pids",
   "tmp/cache",
   "tmp/sockets",
-  "public/audio",
-  "notes",
-  "photos",
-  "writings"
+  "public/photos"
 
 # Files symlinked from shared/ into each release. These are the only
 # real secrets and they are NEVER committed to the repo:
