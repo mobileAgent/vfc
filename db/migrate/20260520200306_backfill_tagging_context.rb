@@ -12,7 +12,7 @@
 # `rake acts_as_taggable_on_engine:install:migrations` and it produces
 # migrations with a timestamp later than this file's, rename this file to
 # a later timestamp so it sorts last.
-class BackfillTaggingContext < ActiveRecord::Migration
+class BackfillTaggingContext < ActiveRecord::Migration[4.2]
   def up
     # Assign the default context to all pre-existing taggings.
     execute "UPDATE taggings SET context = 'tags' WHERE context IS NULL"
