@@ -25,7 +25,13 @@ Rails.application.configure do
   config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
 
   # Compress JavaScripts and CSS.
-  config.assets.js_compressor = :uglifier
+  # NOTE: js_compressor is intentionally left unset. :uglifier requires a
+  # JavaScript runtime (ExecJS -> node/V8) on the server at precompile time,
+  # which the Trixie box does not have. With no compressor, Sprockets just
+  # concatenates the JS (unminified) and no JS runtime is needed. This
+  # matches buckitweek's working production config. To re-enable minification,
+  # install Node.js on the server and uncomment the line below.
+  # config.assets.js_compressor = :uglifier
   # config.assets.css_compressor = :sass
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.
