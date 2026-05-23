@@ -16,7 +16,6 @@ services:
       - "bundle:/usr/local/bundle"
       - /run/host-services/ssh-auth.sock:/run/host-services/ssh-auth.sock
     environment:
-      # RUBYOPT "-W:no-deprecated" only works on Ruby 2.7+. Enable when you
-      # bump the Dockerfile to ruby:2.7.8-bullseye.
+      RUBYOPT: "-W:no-deprecated"
       SSH_AUTH_SOCK: /run/host-services/ssh-auth.sock
 volumes: { bundle: {} }
