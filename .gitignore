@@ -22,3 +22,5 @@ public/photos
 public/writings
 public/notes
 coverage
+
+/config/master.key
