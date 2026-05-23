@@ -33,10 +33,16 @@ append :linked_dirs,
   "tmp/sockets",
   "public/audio"
 
-# Files symlinked from shared/ into each release. Production
-# credentials live in /var/apps/vfc/shared/config/database.yml
-# on the server and are never committed to the repo.
-append :linked_files, "config/database.yml", "config/master.key", "config/credentials.yml.enc"
+# Files symlinked from shared/ into each release. These are the only
+# real secrets and they are NEVER committed to the repo:
+#   - config/database.yml  : production DB credentials
+#   - config/master.key    : the key that decrypts credentials.yml.enc
+# NOTE: config/credentials.yml.enc is intentionally NOT linked. It is an
+# *encrypted* file that is committed to git and ships inside each release,
+# so it always matches the codebase. Linking it from shared/ caused the
+# release copy to be replaced by a stale shared copy that no longer matched
+# master.key -> "InvalidMessage / invalid base64" at boot.
+append :linked_files, "config/database.yml", "config/master.key"
 
 # Default value for keeping the SSH connection open during long tasks
 set :ssh_options, {
