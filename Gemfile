@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rails', '6.1.7.10'
+gem 'rake'
 
 
 # Asset stack — keep Sprockets, skip Webpacker.
@@ -10,21 +11,6 @@ gem 'sass-rails', '>= 6'
 gem 'jquery-rails'
 gem 'logger'
 gem 'concurrent-ruby', '< 1.3.5'
-
-gem 'mysql2'
-
-# Streaming zip file output. Pinned to 1.x — 2.x requires Rails 6+.
-# Use the released gem rather than the git ref to avoid pulling latest
-# (which is 2.2.0 and incompatible with Rails 3.2).
-gem 'zipline'
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
-
-# Deploy with Capistrano
-gem 'capistrano', '2.15.5', require: false, group: :development
-
-# To use debugger
-# gem 'ruby-debug'
-
 gem 'jquery-ui-rails'
 
 # Strong parameters is the default in rails4
@@ -44,6 +30,22 @@ gem 'ruby-mp3info',
 
 gem 'execjs'
 gem 'coffee-rails', '~> 5.0'
+
+gem 'mysql2'
+
+# Streaming zip file output. Pinned to 1.x — 2.x requires Rails 6+.
+# Use the released gem rather than the git ref to avoid pulling latest
+# (which is 2.2.0 and incompatible with Rails 3.2).
+gem 'zipline'
+gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+# Deploy with Capistrano (3.x)
+group :development do
+  gem 'capistrano',         '~> 3.17'
+  gem 'capistrano-rails',   '~> 1.6'
+  gem 'capistrano-bundler', '~> 2.1'
+  gem 'capistrano-rbenv',   '~> 2.2'
+end
 
 # Gems used only for assets and not required
 # in production environments by default.

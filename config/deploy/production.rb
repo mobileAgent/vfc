@@ -2,7 +2,7 @@
 #
 # A single server fills all three roles (web/app/db). When you split
 # tiers, list each server with the roles it serves.
-server "vfc.org",
+server "voicesforchrist.net",
   user:    "vfc",
   roles:   %w{web app db},
   primary: true
