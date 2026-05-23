@@ -4,7 +4,7 @@
 # transition. The `tags` and `taggings` tables already exist (created by
 # steroids), so we guard create_table and instead add only the columns and
 # indexes acts-as-taggable-on needs that the legacy schema lacks.
-class ActsAsTaggableOnMigration < ActiveRecord::Migration
+class ActsAsTaggableOnMigration < ActiveRecord::Migration[4.2]
   def self.up
     unless table_exists?(:tags)
       create_table :tags do |t|
