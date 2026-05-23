@@ -52,7 +52,7 @@ class SpeakersController < ApplicationController
 
   def update
     @speaker = current_resource
-    if @speaker.update_attributes(params[:speaker])
+    if @speaker.update(params[:speaker])
       Rails.cache.delete('speaker_cloud')
       flash[:notice] = t(:updated)
     end

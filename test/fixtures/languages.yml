@@ -1,0 +1,19 @@
+# The four languages VFC supports. Loaded into the test DB for the whole
+# suite so locale/language-selection logic always has reference data,
+# regardless of what an individual test creates. Reference by name in tests,
+# e.g. languages(:english), languages(:spanish).
+english:
+  name: English
+  cc: en
+
+spanish:
+  name: Spanish
+  cc: es
+
+french:
+  name: French
+  cc: fr
+
+portuguese:
+  name: Portuguese
+  cc: pt

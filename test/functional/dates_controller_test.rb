@@ -3,11 +3,15 @@ require 'test_helper'
 class DatesControllerTest < ActionController::TestCase
 
   test "should get dates list" do
+    FactoryGirl.create(:audio_message, :created_at => "2002-02-03")
     get :index
     assert_response :success
   end
 
   test "should get dates by order added to site" do
+    FactoryGirl.create(:audio_message, :created_at => "2002-02-03")
+    FactoryGirl.create(:audio_message, :created_at => "2003-02-03")
+    FactoryGirl.create(:audio_message, :created_at => "2004-02-03")
     get :years
     assert_response :success
   end

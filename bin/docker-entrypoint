@@ -6,7 +6,7 @@ cd /app
 # Auto-install any gems added since the image was built. `bundle check`
 # is fast (sub-second) when the lockfile matches what's installed, so
 # this is effectively free on most container starts.
-bundle check 2>/dev/null || bundle _1.17.3_ install
+bundle check 2>/dev/null || bundle _2.4.22_ install
 
 # Remove a stale server PID left behind from a previous unclean shutdown.
 # Without this, Rails refuses to boot with "A server is already running."

@@ -15,7 +15,7 @@ class WelcomeControllerTest < ActionController::TestCase
   end
 
   test "should get home page with motm" do
-    l = Language.default.first || FactoryGirl.create(:language)
+    l = Language.default.first
     Rails.cache.delete("motm-#{l.cc}")
     a = FactoryGirl.create(:audio_message, :language => l)
     motm = FactoryGirl.create(:motm, :audio_message => a)

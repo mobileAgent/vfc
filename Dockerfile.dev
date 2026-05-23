@@ -10,9 +10,9 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /app
 
 # Copy Gemfile first to get layer caching on `bundle install`.
-RUN gem install bundler -v 1.17.3
+RUN gem install bundler -v 2.4.22
 COPY Gemfile Gemfile.lock* /app/
-RUN bundle _1.17.3_ install
+RUN bundle _2.4.22_ install
 
 # Patch Rails 3.2's mysql2 adapter to accept the 0.5.x line. The adapter
 # hardcodes `gem 'mysql2', '~> 0.3.10'` which rejects newer mysql2; the

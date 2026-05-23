@@ -54,7 +54,7 @@ class PlacesController < ApplicationController
 
   def update
     @place = current_resource
-    if @place.update_attributes(params[:place])
+    if @place.update(params[:place])
       flash[:notice] = t(:updated)
     end
     redirect_to edit_place_url(@place) and return

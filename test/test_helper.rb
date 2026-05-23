@@ -30,6 +30,11 @@ end
 #Capybara.javascript_driver = :poltergeist
 
 class ActiveSupport::TestCase
+  # Load all fixtures (currently just languages) for every test, so
+  # locale/language selection always has its reference data. Fixtures are
+  # loaded once and each test's changes roll back transactionally.
+  fixtures :all
+
   # Add more helper methods to be used by all tests here...
 end
 

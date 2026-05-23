@@ -31,7 +31,9 @@ class LanguagesControllerTest < ActionController::TestCase
   end
 
   test "should get locale language first" do
-    @fr = FactoryGirl.create(:language, :name => "French", :cc => "fr")
+    # Use the French fixture rather than creating a duplicate French row
+    # (which would make the locale-first ordering ambiguous).
+    @fr = languages(:french)
     @a = FactoryGirl.create(:audio_message, :language => @fr)
     get :index, params: { :locale => :fr }
     assert_response :success
