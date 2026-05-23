@@ -15,7 +15,7 @@ class LoginController < ApplicationController
          session[:original_uri] = nil
          session[:user_id] = user.id
          session[:user] = user
-         user.update_attributes(:last_visit => DateTime.now)
+         user.update(:last_visit => DateTime.now)
          if user.admin?
            flash[:notice] = t("login.admin", :user => user.name)
          else

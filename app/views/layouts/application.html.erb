@@ -13,7 +13,7 @@
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content='<%=t("title.vfc")%>' />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <%= csrf_meta_tag %>
+    <%= csrf_meta_tags %>
     <%= yield(:head) %>
     <%= render "shared/analytics" %>
   </head>

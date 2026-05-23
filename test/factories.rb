@@ -34,7 +34,10 @@ FactoryGirl.define do
     duration "12345"
     filesize "54321"
     publish true
-    association :language
+    # Reuse the English language fixture instead of creating a duplicate
+    # "English" row (which would make Language.locale('en').first ambiguous).
+    # Falls back to creating one if fixtures aren't loaded.
+    language { Language.find_by(:cc => 'en') || FactoryGirl.create(:language) }
     association :place
     association :speaker
     event_date Date.parse("1986-09-06")

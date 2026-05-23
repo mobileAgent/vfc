@@ -34,7 +34,9 @@ class ApplicationController < ActionController::Base
     @tagline2 = t(:tagline2_html).html_safe
 
     @motm = Rails.cache.fetch("motm-#{@locale}",:expires_in => 30.minutes) {
-       @motm =  Motm.language(@language).active.first
+       # Guard against a missing language (e.g. empty DB) — Motm.language
+       # dereferences l.id and would raise on nil. No language => no MOTM.
+       @language ? Motm.language(@language).active.first : nil
     }
 
     @mobile_device = mobile_device?
@@ -54,8 +56,8 @@ class ApplicationController < ActionController::Base
       params[:locale] ||
       extract_locale_from_tld ||
       extract_locale_from_accept_language_header ||
-      I18n.default_locale
-    I18n.locale = @locale
+      I18n.default_locale ||
+    I18n.locale = @locale 
     @language = Language.locale(@locale).first || Language.default.first
   end
 
