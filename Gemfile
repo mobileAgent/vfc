@@ -74,7 +74,7 @@ group :test do
 
   gem 'rspec-rails',      '~> 4.1'   # 4.x supports Rails 5+
   gem 'capybara',         '~> 3.36.0'  # rack 2.x constraint now satisfied
-  gem 'nokogiri', '~> 1.13.10'  # last line supporting Ruby 2.6
+  gem 'nokogiri'
   gem 'database_cleaner-active_record', '~> 2.0'  # 2.x split
   gem 'factory_girl_rails'             # still works; rename later
   gem 'launchy'
