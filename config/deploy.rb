@@ -31,8 +31,7 @@ append :linked_dirs,
   "tmp/pids",
   "tmp/cache",
   "tmp/sockets",
-  "public/photos",
-  "public/.htaccess"
+  "public/photos"
 
 # Files symlinked from shared/ into each release. These are the only
 # real secrets and they are NEVER committed to the repo:
@@ -43,7 +42,7 @@ append :linked_dirs,
 # so it always matches the codebase. Linking it from shared/ caused the
 # release copy to be replaced by a stale shared copy that no longer matched
 # master.key -> "InvalidMessage / invalid base64" at boot.
-append :linked_files, "config/database.yml", "config/master.key"
+append :linked_files, "config/database.yml", "config/master.key", "public/.htaccess"
 
 # Default value for keeping the SSH connection open during long tasks
 set :ssh_options, {
