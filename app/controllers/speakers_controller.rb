@@ -7,6 +7,7 @@ class SpeakersController < ApplicationController
       generate_speaker_list_with_counts
     }
     @letters = @speakers.collect(&:index_letter).sort.uniq
+    @letters.delete('(')
     if "cloud" == params[:view]
       @speaker_cloud = @speakers
       render :cloud and return
