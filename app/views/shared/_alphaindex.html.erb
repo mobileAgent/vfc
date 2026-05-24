@@ -1,13 +1,13 @@
+<span id='<%=current_letter%>'></span>
 <p class="alpha-index">
- <a name='<%=current_letter%>'/>
  <% unless skip_top_link %>
-    <%= link_to t(:top), "##{@letters.first}" %>
+    <%= link_to t(:top), "##{@letters.first}", "data-turbolinks" => false %>
  <% end %>
  <% @letters.each do |alpha| %>
    <% if alpha == current_letter %>
      <%= alpha %>&nbsp;
    <% else %>
-      <%= link_to alpha ,"##{alpha}" %>&nbsp;
+      <%= link_to alpha ,"##{alpha}", "data-turbolinks" => false %>&nbsp;
     <% end %>
  <% end %>
-</p> 
+</p>

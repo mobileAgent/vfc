@@ -8,6 +8,5 @@
 //= require jquery.jplayer.inspector
 //= require jquery_ujs
 //= require turbolinks
-//= require jquery.turbolinks
 //= require mod.csstransforms.min
 //= require_tree .

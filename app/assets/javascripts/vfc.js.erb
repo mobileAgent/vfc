@@ -20,6 +20,9 @@ function audio_player_start(options)
     options = typeof options == "object" ? options : {}
     options['swfPath'] = "/assets"
     options['solution'] = "html,flash"
+    if (!options['supplied']) { options['supplied'] = "mp3,m4a" }
+    // Destroy any existing instance before reinitializing to avoid double-init corruption
+    if ($("#jpid").data("jPlayer")) { $("#jpid").jPlayer("destroy"); }
     $("#jpid").jPlayer(options);
 }
 
@@ -53,24 +56,23 @@ function document_setup()
     select: function(event,ui) {
        $("#q").val(ui.item.value);
        $("#sform").submit();
-       }        
+       }
   });
-  $(function() {
-     $('.bio-text').expander({
-       slicePoint: 500,
-       expandEffect: 'fadeIn',
-       expandText: '<%= I18n.t("languages.index.more_html") %>',
-       userCollapseText: '[^]'});
-     $("#q").select();
-     if (document.location.href.indexOf("/videos/") > -1)
-       video_player_start();
-     else
-       audio_player_start();
-     $('#nav-status').click(function(e) {
-        e.preventDefault();
-        $('#sidenav').toggle();
-      });
-});};
+  $('.bio-text').expander({
+    slicePoint: 500,
+    expandEffect: 'fadeIn',
+    expandText: '<%= I18n.t("languages.index.more_html") %>',
+    userCollapseText: '[^]'});
+  $("#q").select();
+  if (document.location.href.indexOf("/videos/") > -1)
+    video_player_start();
+  else
+    audio_player_start();
+  $('#nav-status').off('click').on('click', function(e) {
+    e.preventDefault();
+    $('#sidenav').toggle();
+  });
+};
 
 function popout_jplayer()
 {
@@ -92,13 +94,12 @@ function popout_jplayer()
 // We won't be wanting this on the /player/ page
 if (document.location.href.indexOf("/player/") == -1)
 {
-  $(document).ready(document_setup)
-  $(document).on("page:load",document_setup)
+  $(document).on("turbolinks:load", document_setup)
 
-  $(document).on('page:fetch', function() {
+  $(document).on('turbolinks:before-visit', function() {
     $('#content').fadeOut('slow')
   });
-  $(document).on('page:restore', function() {
+  $(document).on('turbolinks:load', function() {
     $('#content').fadeIn('slow');
   });
 
