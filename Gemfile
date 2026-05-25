@@ -25,9 +25,6 @@ gem 'actionpack-page_caching', '~> 1.2'
 gem 'thinking-sphinx', '~> 5.6'
 gem 'acts-as-taggable-on', '~> 9.0.1'
 gem 'rdiscount'  
-gem 'ruby-mp3info',
-   :git => 'https://github.com/cball/ruby-mp3info.git'
-
 gem 'execjs'
 gem 'coffee-rails', '~> 5.0'
 
