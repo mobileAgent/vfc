@@ -1,9 +1,3 @@
-GIT
-  remote: https://github.com/cball/ruby-mp3info.git
-  revision: 9098384c26f912e568dc2933fca674d6b79f6be8
-  specs:
-    ruby-mp3info (0.0.1)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -214,8 +208,6 @@ GEM
     nio4r (2.7.5)
     nokogiri (1.15.7-aarch64-linux)
       racc (~> 1.4)
-    nokogiri (1.15.7-x86_64-linux)
-      racc (~> 1.4)
     notiffany (0.1.3)
       nenv (~> 0.1)
       shellany (~> 0.0)
@@ -357,7 +349,6 @@ GEM
 
 PLATFORMS
   aarch64-linux
-  x86_64-linux
 
 DEPENDENCIES
   actionpack-page_caching (~> 1.2)
@@ -392,7 +383,6 @@ DEPENDENCIES
   rb-fsevent (~> 0.9.1)
   rdiscount
   rspec-rails (~> 4.1)
-  ruby-mp3info!
   sass-rails (>= 6)
   simplecov
   thinking-sphinx (~> 5.6)
