@@ -12,7 +12,7 @@ namespace :writings do
       last_name = arr[2]
       first_name = arr[3]
       length = arr[4]
-      s = Speaker.find(:first, :conditions => ['last_name = ? and first_name = ?',last_name,first_name])
+      s = Speaker.where(last_name: last_name, first_name: first_name).first
       if s.nil?
         s = Speaker.create(:last_name => last_name, :first_name => first_name)
         puts "Created speaker #{s.full_name}/#{s.id}"
