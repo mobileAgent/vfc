@@ -1,7 +1,5 @@
 <!DOCTYPE html>  
-<html xmlns:og="http://opengraphprotocol.org/schema/"
-      xmlns:fb="http://www.facebook.com/2008/fbml"
-      lang="<%= @locale %>">
+<html lang="<%= @locale %>">
   <head>
     <title><%= content_for?(:title) ? t("title.prefix") + yield(:title) : t("title.vfc")  %></title>
     <meta charset="utf-8"/>
@@ -15,10 +13,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <%= csrf_meta_tags %>
     <%= yield(:head) %>
-    <%= render "shared/analytics" %>
   </head>
   <body>
-    <%= render "shared/facebook_sdk" %>
     <div id="wrap">
       <div id="header">
         <a href="#" id="nav-status">Menu</a>

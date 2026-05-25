@@ -52,12 +52,12 @@ class ApplicationController < ActionController::Base
   end  
 
   def set_locale
-    @locale = 
+    @locale =
       params[:locale] ||
       extract_locale_from_tld ||
       extract_locale_from_accept_language_header ||
-      I18n.default_locale ||
-    I18n.locale = @locale 
+      I18n.default_locale
+    I18n.locale = @locale
     @language = Language.locale(@locale).first || Language.default.first
   end
 
