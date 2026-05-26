@@ -44,6 +44,8 @@ Vfc::Application.routes.draw do
   get '/404', :to => 'errors#not_found'
   get '/500', :to => 'errors#error'
 
+  post '/audio_messages/client_diagnostic' => 'audio_messages#client_diagnostic'
+
   # POST routes for actions that check request.post? (catch-all only matches GET)
   post '/welcome/advanced_search' => 'welcome#advanced_search'
   post '/welcome/search'          => 'welcome#search'
