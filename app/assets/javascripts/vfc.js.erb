@@ -24,6 +24,22 @@ function audio_player_start(options)
     // Destroy any existing instance before reinitializing to avoid double-init corruption
     if ($("#jpid").data("jPlayer")) { $("#jpid").jPlayer("destroy"); }
     $("#jpid").jPlayer(options);
+
+    // Diagnostic: log jPlayer errors and detect unexpected looping (iOS range-request bug)
+    var _jpEndedAt = 0;
+    $("#jpid").on($.jPlayer.event.error, function(e) {
+      var err = e.jPlayer && e.jPlayer.error;
+      console.error("jPlayer error", err && err.type, err && err.message, navigator.userAgent);
+      $.post("/audio_messages/client_diagnostic", { event: "error", type: err && err.type, ua: navigator.userAgent });
+    });
+    $("#jpid").on($.jPlayer.event.ended, function() {
+      var now = Date.now();
+      if (_jpEndedAt && (now - _jpEndedAt) < 4000) {
+        console.warn("jPlayer: unexpected loop detected (ended fired twice within 4s) — possible iOS range-request issue", navigator.userAgent);
+        $.post("/audio_messages/client_diagnostic", { event: "loop", url: vfc_current_media, ua: navigator.userAgent });
+      }
+      _jpEndedAt = now;
+    });
 }
 
 function video_player_start()
