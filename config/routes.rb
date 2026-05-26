@@ -19,7 +19,9 @@ Vfc::Application.routes.draw do
   root :to => "welcome#index"
 
   get '/favicon.ico' => 'welcome#favicon'
-  get '/login' => 'login#login'
+  get  '/login' => 'login#login'
+  post '/login' => 'login#login'
+  post '/login/reset_password' => 'login#reset_password'
   get '/featured' => 'motms#index'
   get '/speaker/name/:id' => 'speakers#name'
   get '/places/:id/speakers' => 'places#speakers'
@@ -41,6 +43,12 @@ Vfc::Application.routes.draw do
   # Errors 
   get '/404', :to => 'errors#not_found'
   get '/500', :to => 'errors#error'
+
+  # POST routes for actions that check request.post? (catch-all only matches GET)
+  post '/welcome/advanced_search' => 'welcome#advanced_search'
+  post '/welcome/search'          => 'welcome#search'
+  post '/users/register'          => 'users#register'
+  post '/users/update_password'   => 'users#update_password'
 
   # Default route
   match ':controller(/:action(/:id(.:format)))', via: :get
