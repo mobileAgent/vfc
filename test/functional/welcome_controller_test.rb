@@ -33,6 +33,18 @@ class WelcomeControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "autocomplete matches firstname lastname once both are typed" do
+    s = FactoryGirl.create(:speaker, :first_name => "John", :last_name => "Smith", :middle_name => "")
+    FactoryGirl.create(:audio_message, :speaker => s)
+    AudioMessage.expects(:search).returns([].paginate)
+    # A single-word prefix match ("John Sm%") hits neither first_name nor
+    # last_name on its own once the user has typed past the first name.
+    get :autocomplete, params: { :term => "John Sm" }
+    assert_response :success
+    hits = JSON.parse(response.body)
+    assert_includes hits, "John Smith", "Full name should be suggested once first and last name are both typed"
+  end
+
   test "search by last name" do
     a = FactoryGirl.create(:audio_message)
     AudioMessage.expects(:search).returns([a].paginate)
@@ -74,10 +86,13 @@ class WelcomeControllerTest < ActionController::TestCase
     assert_response :redirect
   end
 
-  test "search that returns nothing redirects to home page" do
+  test "search that returns nothing re-renders with query preserved" do
     AudioMessage.expects(:search).returns([].paginate)
     get :search, params: { :q => 'xyzzy' }
-    assert_response :redirect 
+    assert_response :success
+    assert_equal 'xyzzy', assigns(:query_title)
+    assert_select "input#q[value=?]", "xyzzy"
+    assert flash[:notice], "A no-match notice should be set"
   end
 
   test "show a message without optional fields" do
