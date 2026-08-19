@@ -66,7 +66,20 @@ function hide_audio_player()
 function document_setup()
 {
   $("#q").autocomplete({
-    source: '/welcome/search',
+    // Wrap the raw endpoint so we can guarantee the text the user actually
+    // typed is always the first suggestion in the dropdown -- otherwise
+    // it's easy to miss that your own query isn't in the list and you
+    // have to know to ignore the suggestions and press the search button.
+    source: function(request, response) {
+      $.getJSON('/welcome/search', { term: request.term }, function(data) {
+        var term = request.term;
+        var hits = $.grep(data || [], function(item) {
+          return item.toLowerCase() !== term.toLowerCase();
+        });
+        hits.unshift(term);
+        response(hits);
+      });
+    },
     minLength: 2,
     autoFocus: true,
     select: function(event,ui) {

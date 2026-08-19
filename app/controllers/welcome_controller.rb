@@ -3,11 +3,7 @@ class WelcomeController < ApplicationController
   include SpeakerHelper
 
   def index
-    @tag_cloud = Rails.cache.fetch('tag_cloud', :expires_in => 10.minutes) {
-      # acts-as-taggable-on: tag_counts_on(:tags) returns Tag records with a
-      # .count (usage). Scope to published messages, order by tag name.
-      AudioMessage.where(publish: true).tag_counts_on(:tags).order('tags.name')
-    }
+    load_tag_cloud
   end
 
   def contact
@@ -30,9 +26,19 @@ class WelcomeController < ApplicationController
       @hits += @tags.map { |t| t.name }
     end
     
-    # Get some matching speaker names
+    # Get some matching speaker names. A single word can only be a prefix
+    # of one column (first OR last name), but once the user has typed
+    # "firstname lastname" that no longer prefix-matches either column on
+    # its own, so also try matching the first word against first_name and
+    # the rest against last_name.
+    speaker_where = ["last_name like ? or first_name like ?", t, t]
+    words = term.to_s.split(/\s+/).reject(&:blank?)
+    if words.size > 1
+      speaker_where[0] += " or (first_name like ? and last_name like ?)"
+      speaker_where << "#{words.first}%" << "#{words[1..-1].join(' ')}%"
+    end
     @speakers = Speaker.active
-      .where("last_name like ? or first_name like ?",t,t)
+      .where(speaker_where)
       .limit(@size_limit-@hits.size)
       .order("last_name, first_name, middle_name")
     @hits += @speakers.map { |n| n.full_name }
@@ -83,9 +89,26 @@ class WelcomeController < ApplicationController
     
     @query_title = params[:q]
     @items = run_sphinx_search(params[:q])
-    
+
     if @items
-      render_search_results(@items) and return
+      # Don't use "and return" here: render_search_results returns nil on
+      # the download branch (download_zipline already sent the response),
+      # which would fall through into the no-results branch below.
+      render_search_results(@items)
+      return
+    end
+
+    # No results: keep the query in the search box (params[:q] is still
+    # present on this request) rather than redirecting to the home page
+    # and losing what the user typed.
+    msg = params[:q].blank? ? t("menu.advanced_search") : params[:q]
+    respond_to do |format|
+      format.html do
+        flash.now[:notice] = t(:no_match, :query => msg)
+        load_tag_cloud
+        render :action => :index
+      end
+      format.m3u { redirect_to root_url, notice: t(:no_match, :query => msg) }
     end
   end
 
@@ -106,6 +129,14 @@ class WelcomeController < ApplicationController
   end
 
   private
+
+  def load_tag_cloud
+    @tag_cloud = Rails.cache.fetch('tag_cloud', :expires_in => 10.minutes) {
+      # acts-as-taggable-on: tag_counts_on(:tags) returns Tag records with a
+      # .count (usage). Scope to published messages, order by tag name.
+      AudioMessage.where(publish: true).tag_counts_on(:tags).order('tags.name')
+    }
+  end
 
   def render_search_results(items)
     
@@ -129,11 +160,10 @@ class WelcomeController < ApplicationController
     end
   end
 
-  def run_sphinx_search(query,star=true,match_mode=:boolean,redirect_url=root_url)
+  def run_sphinx_search(query,star=true,match_mode=:boolean)
 
     items = sphinx_search(query,star,match_mode)
-    msg = query.blank? ? t("menu.advanced_search") : query
-    
+
     # this is weird, the error is on the ThinkingSphinx::Search
     # object but cannot just catch it by checking .error?
     # as that blows chunks
@@ -141,18 +171,13 @@ class WelcomeController < ApplicationController
       if items.nil? || items.size == 0 ||
           (items.respond_to?(:error?) && items.error?)
         items = nil
-        redirect_to redirect_url, notice: t(:no_match, :query => msg) and return
       end
     rescue
       puts "We had a problem with the results #{$!}"
       items = nil
-      redirect_to redirect_url, notice: t(:no_match, :query => msg) and return
     end
 
-    if items.last.nil?
-      items = nil
-      redirect_to redirect_url, notice: t(:no_match, :query => msg) and return
-    end
+    items = nil if items && items.last.nil?
     items
   end
 
