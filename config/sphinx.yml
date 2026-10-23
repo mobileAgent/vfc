@@ -115,4 +115,5 @@ production:
   exceptions: db/sphinx/exceptions.txt
   preopen_indexes: 1
   seamless_rotate: 1
+  quiet_deltas: false
   <<: *charset

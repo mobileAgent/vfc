@@ -26,7 +26,7 @@ class AudioMessage < ApplicationRecord
   end
 
   def player_title
-    "#{speaker.abbreviated_name} ~ #{full_title}"
+    "#{speaker ? speaker.abbreviated_name : 'Unknown'} ~ #{full_title}"
   end
 
   def autocomplete_title
@@ -59,11 +59,13 @@ class AudioMessage < ApplicationRecord
   end
 
   def download_filename
-    "#{speaker.catalog_name.parameterize}-#{title.parameterize}".downcase.gsub(/[^-a-z0-9]+/,'-') + ".mp3"
+    speaker_name = speaker ? speaker.catalog_name : 'unknown'
+    "#{speaker_name.parameterize}-#{title.parameterize}".downcase.gsub(/[^-a-z0-9]+/,'-') + ".mp3"
   end
 
   def playlist_name
-    "#{speaker.catalog_name} - #{full_title}".gsub(/,/,'')
+    speaker_name = speaker ? speaker.catalog_name : 'Unknown'
+    "#{speaker_name} - #{full_title}".gsub(/,/,'')
   end
   
 end
