@@ -2,15 +2,15 @@
   <div id="motm">
      <span class="title"><%= t(".title")%></span>
      <br />
-     <%= @motm.audio_message.speaker.full_name %>, <%=link_to @motm.audio_message.full_title, {:controller => :audio_messages, :action => :show, :id => @motm.audio_message, :dl => true} %> 
+     <%= @motm.audio_message.speaker.full_name %>, <%=link_to @motm.audio_message.full_title, signed_audio_url(@motm.audio_message, :dl => true) %> 
      <br />
      <%= t("audio.more") %> <%= link_to @motm.audio_message.speaker.full_name, @motm.audio_message.speaker %>
      
     <%= link_to(
         icon(:arrow_down, :title => t("audio.download")),
-        {:controller => :audio_messages, :action => :show, :id => @motm.audio_message, :dl => true},
+        signed_audio_url(@motm.audio_message, :dl => true),
         :onclick => 'return dl(this)') %>
-    <span class='player' onclick="play('<%= url_for(:controller => :audio_messages, :action => :show, :id => @motm.audio_message)%>','<%=j @motm.audio_message.player_title%>')">
+    <span class='player' onclick="play('<%= signed_audio_url(@motm.audio_message)%>','<%=j @motm.audio_message.player_title%>')">
        <%= image_tag 'pixel.gif', :title => t("audio.play") %>
     </span>
      

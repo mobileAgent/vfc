@@ -7,6 +7,16 @@ class AudioMessagesController < ApplicationController
       redirect_to root_url, notice: t(:nsr)
       return
     end
+    unless audio_access_allowed?
+      if AudioGate.app_request?(request.user_agent)
+        # The app would save a redirect's HTML as the mp3, so fail outright.
+        head :too_many_requests
+      else
+        # Stale or missing link: send people to a page with fresh ones.
+        redirect_to(current_resource.speaker ? speaker_url(current_resource.speaker) : root_url)
+      end
+      return
+    end
     file_path = AUDIO_PATH + current_resource.filename
     unless File.exist?(file_path)
       logger.info "Missing file path for audio #{file_path}"
@@ -33,7 +43,9 @@ class AudioMessagesController < ApplicationController
   def gold
     @mp3 = current_resource
     if @mp3
-      redirect_to audio_message_url(@mp3,:dl => true) and return
+      # Old static-site links now land on the speaker's page; handing out a
+      # signed file URL here would let anyone with a filename skip the gate.
+      redirect_to(@mp3.speaker ? speaker_url(@mp3.speaker) : root_url) and return
     else
       redirect_to root_url, notice: t(:nsf)
     end
@@ -71,6 +83,20 @@ class AudioMessagesController < ApplicationController
       return false
     end
     return true
+  end
+
+  # A token from one of our pages, or the mobile app within its budget.
+  def audio_access_allowed?
+    if AudioGate.app_request?(request.user_agent)
+      return true if AudioGate.app_allowance?(request.remote_ip)
+      problem = 'app_budget'
+    else
+      problem = AudioGate.token_problem(params[:t], current_resource.id, request.remote_ip)
+      return true unless problem
+    end
+    logger.warn "AUDIO_GATE deny reason=#{problem} id=#{current_resource.id} ip=#{request.remote_ip} " \
+                "ref=#{request.referer.to_s[0, 80]} ua=#{request.user_agent.to_s[0, 80]}"
+    false
   end
 
   def current_resource

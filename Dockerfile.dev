@@ -1,7 +1,9 @@
 # Dockerfile.dev
 FROM ruby:2.7.8-bullseye
 
-RUN apt-get update && apt-get install -y \
+# Bullseye reached end of life and its packages moved off deb.debian.org.
+RUN sed -i 's|deb.debian.org|archive.debian.org|g' /etc/apt/sources.list && \
+    apt-get -o Acquire::Check-Valid-Until=false update && apt-get install -y \
     build-essential default-libmysqlclient-dev libsqlite3-dev \
     libxml2-dev libxslt1-dev nodejs git && \
     rm -rf /var/lib/apt/lists/*
