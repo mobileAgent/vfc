@@ -2,6 +2,6 @@
 
 <%- @items.each do |item| -%>
 #EXTINF:<%= item.duration %>, <%= item.playlist_name %>
-<%= url_for(:id => item, :controller => :audio_messages, :action => :show, :dl => true, :only_path => false) %>
+<%= signed_audio_url(item, :dl => true, :only_path => false) %>
 
 <%- end -%>

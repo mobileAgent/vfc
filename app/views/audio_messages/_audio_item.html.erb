@@ -2,9 +2,9 @@
   <td class='audio-control'>
     <%= link_to(
         icon(:arrow_down, :title => t("audio.download")),
-        {:controller => :audio_messages, :action => :show, :id => item, :dl => true}, 
+        signed_audio_url(item, :dl => true), 
         :onclick => 'return dl(this)') %>
-    <span class='player' onclick="play('<%= url_for(:controller => :audio_messages, :action => :show, :id => item)%>','<%=j item.player_title.titleize %>')">
+    <span class='player' onclick="play('<%= signed_audio_url(item)%>','<%=j item.player_title.titleize %>')">
        <%= image_tag 'pixel.gif', :title => t("audio.play") %>
     </span>
   </td>

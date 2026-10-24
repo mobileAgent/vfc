@@ -122,7 +122,7 @@ class WelcomeController < ApplicationController
   def player
     @audio_message = AudioMessage.active.find(params[:id])
     @time_offset = (params[:time_offset] || "0").to_i
-    @media_url = url_for(:controller => :audio_messages, :action => :show, :id => @audio_message, :only_path => false)
+    @media_url = helpers.signed_audio_url(@audio_message, :only_path => false)
     @player_title = @audio_message.player_title.titleize
     logger.debug "Popout with #{@player_title} #{@media_url} and offset #{@time_offset}"
     render :layout => "popout"

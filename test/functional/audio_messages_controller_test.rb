@@ -19,7 +19,7 @@ class AudioMessagesControllerTest < ActionController::TestCase
     f = File.open("#{Rails.root.to_s}/public/audio/VFC-GOLD/TEST/test.mp3","w")
     f.puts "this is the test data"
     f.close
-    get :show, params: { :id => a.id }
+    get :show, params: { :id => a.id, :t => AudioGate.token(a.id, "0.0.0.0") }
     # Rails 5 send_file streams lazily — the file is read when the response
     # body is evaluated (assert_response), so it must still exist at that
     # point. Delete only after the assertion reads it.
@@ -38,7 +38,7 @@ class AudioMessagesControllerTest < ActionController::TestCase
     a = FactoryGirl.create(:audio_message, :filename => "JackJimmy/MyOldStuff.mp3", :speaker => s)
     get :gold, params: { :speaker_name => 'JackJimmy', :filename => 'MyOldStuff', :format => 'mp3' }
     assert_response :redirect
-    assert_redirected_to "/audio_messages/#{a.id}?dl=true"
+    assert_redirected_to speaker_url(s)
   end
   
   test "respond to an old style request for missing audio data" do
@@ -62,6 +62,55 @@ class AudioMessagesControllerTest < ActionController::TestCase
   #  assert Rails.cache.read('blocked_hosts'), "blocked hosts should be cached"
   #  assert_redirected_to root_path
   #end
+
+  test "audio without a token sends browsers to the speaker page" do
+    a = with_audio_file
+    get :show, params: { :id => a.id, :dl => true }
+    assert_redirected_to speaker_url(a.speaker)
+    remove_audio_file
+  end
+
+  test "audio with a token from another network is refused" do
+    a = with_audio_file
+    @request.env['REMOTE_ADDR'] = '203.0.113.9'
+    get :show, params: { :id => a.id, :dl => true, :t => AudioGate.token(a.id, '198.51.100.9') }
+    assert_redirected_to speaker_url(a.speaker)
+    remove_audio_file
+  end
+
+  test "audio with a token for another message is refused" do
+    a = with_audio_file
+    get :show, params: { :id => a.id, :t => AudioGate.token(a.id + 1, '0.0.0.0') }
+    assert_redirected_to speaker_url(a.speaker)
+    remove_audio_file
+  end
+
+  test "ranged playback with a token is served" do
+    a = with_audio_file
+    @request.env['HTTP_RANGE'] = 'bytes=0-3'
+    get :show, params: { :id => a.id, :t => AudioGate.token(a.id, '0.0.0.0') }
+    assert_response 206
+    assert_equal 'this', response.body
+    remove_audio_file
+  end
+
+  test "mobile app downloads without a token" do
+    AudioGate.counters.clear
+    a = with_audio_file
+    @request.env['HTTP_USER_AGENT'] = 'Dart/3.4 (dart:io)'
+    get :show, params: { :id => a.id, :dl => true }
+    assert_response :success
+    remove_audio_file
+  end
+
+  test "mobile app over its budget gets a plain error, not a redirect" do
+    a = with_audio_file
+    AudioGate.stubs(:app_allowance?).returns(false)
+    @request.env['HTTP_USER_AGENT'] = 'Dart/3.4 (dart:io)'
+    get :show, params: { :id => a.id, :dl => true }
+    assert_response :too_many_requests
+    remove_audio_file
+  end
 
   test "edit audio message" do
     login(false,true)
@@ -123,7 +172,17 @@ class AudioMessagesControllerTest < ActionController::TestCase
   end
   
   protected
-  
+
+  def with_audio_file
+    FileUtils.mkdir_p("#{Rails.root.to_s}/public/audio/VFC-GOLD/TEST")
+    File.write("#{Rails.root.to_s}/public/audio/VFC-GOLD/TEST/test.mp3", "this is the test data\n")
+    FactoryGirl.create(:audio_message, :filename => "TEST/test.mp3")
+  end
+
+  def remove_audio_file
+    FileUtils.rm_rf("#{Rails.root.to_s}/public/audio/VFC-GOLD/TEST")
+  end
+
   def login(admin=false,editor=false)
     @user = FactoryGirl.create(:user, :admin => admin, :audio_message_editor => editor)
     session[:user_id] = @user.id

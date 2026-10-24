@@ -37,6 +37,18 @@ class SpeakersControllerTest < AuthenticatedTest
     assert_response :success
   end
 
+  test "speaker page audio links carry valid tokens" do
+    AudioMessage.expects(:search).returns(@paginated_collection)
+    get :show, params: { :id => @speaker.id }
+    a = @collection.first
+    links = response.body.scan(%r{/audio_messages/#{a.id}\?[^'"]+})
+    assert_equal 2, links.size, "download and play links for #{a.id}"
+    links.each do |link|
+      t = CGI.unescape(link[/[?&;]t=([^&;]+)/, 1].to_s)
+      assert_nil AudioGate.token_problem(t, a.id, '0.0.0.0'), link
+    end
+  end
+
   test "redirect on no such speaker" do
     get :show, params: { :id => 0 }
     assert_response :redirect
