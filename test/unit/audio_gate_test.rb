@@ -97,6 +97,35 @@ class AudioGateTest < ActiveSupport::TestCase
     assert !AudioGate.signed_app_allowance?
   end
 
+  def test_page_allowance_counts_distinct_messages
+    AudioGate::PAGE_DAILY_LIMIT_PER_IP.times do |id|
+      assert AudioGate.page_allowance?("10.5.5.5", id)
+      assert AudioGate.page_allowance?("10.5.5.5", id), "repeat fetch of the same message is free"
+    end
+    assert !AudioGate.page_allowance?("10.5.5.5", 99999), "new message over the limit"
+    assert AudioGate.page_allowance?("10.5.5.5", 0), "already-fetched message still plays"
+    assert AudioGate.page_allowance?("10.5.5.6", 99999), "other IPs unaffected"
+  end
+
+  def test_zip_allowance_limits_zips_and_files
+    AudioGate::ZIP_DAILY_LIMIT_PER_IP.times { assert AudioGate.zip_allowance?("10.4.4.4", 1) }
+    assert !AudioGate.zip_allowance?("10.4.4.4", 1), "too many zips"
+
+    assert AudioGate.zip_allowance?("10.4.4.5", AudioGate::ZIP_FILES_DAILY_LIMIT_PER_IP - 10)
+    assert !AudioGate.zip_allowance?("10.4.4.5", 11), "too many files"
+    assert AudioGate.zip_allowance?("10.4.4.5", 10), "a refused zip doesn't use up the budget"
+  end
+
+  def test_our_referer
+    assert AudioGate.our_referer?("https://voicesforchrist.org/welcome/search?q=x", "voicesforchrist.org")
+    assert AudioGate.our_referer?("https://www.vocesparacristo.org/speakers/1", "voicesforchrist.net")
+    assert AudioGate.our_referer?("http://localhost:3001/speakers/1", "localhost")
+    assert !AudioGate.our_referer?("https://evil.example/voicesforchrist.org", "voicesforchrist.org")
+    assert !AudioGate.our_referer?("https://notvoicesforchrist.org/", "voicesforchrist.org")
+    assert !AudioGate.our_referer?(nil, "voicesforchrist.org")
+    assert !AudioGate.our_referer?("not a url at all ::", "voicesforchrist.org")
+  end
+
   def test_app_allowance_resets_each_day
     AudioGate::APP_DAILY_LIMIT_PER_IP.times { AudioGate.app_allowance?("10.9.9.9", Date.new(2026, 10, 1)) }
     assert !AudioGate.app_allowance?("10.9.9.9", Date.new(2026, 10, 1))

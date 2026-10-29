@@ -59,9 +59,46 @@ class WelcomeControllerTest < ActionController::TestCase
     # the mocked file must be a real readable stream, not nil — otherwise
     # zipline raises "Bad File/Stream" outside download_zipline's rescue.
     FileFile.expects(:new).at_least_once.returns(StringIO.new("dummy audio data"))
+    AudioGate.counters.clear
+    @request.env['HTTP_REFERER'] = "http://test.host/welcome/search?q=#{a.speaker.last_name}"
     post :search, params: { :q => a.speaker.last_name, :download => true }
     assert_response :success
     assert_equal 'application/zip',response.header['Content-Type']
+  end
+
+  test "zip download without our page as the referer shows the page instead" do
+    a = FactoryGirl.create(:audio_message)
+    AudioMessage.expects(:search).returns([a].paginate)
+    FileFile.expects(:new).never
+    post :search, params: { :q => a.speaker.last_name, :download => true }
+    assert_response :success
+    assert_match %r{text/html}, response.header['Content-Type']
+    assert_match(/limited/, flash[:notice])
+  end
+
+  test "zip download over the daily limit shows the page instead" do
+    a = FactoryGirl.create(:audio_message)
+    AudioMessage.expects(:search).returns([a].paginate)
+    AudioGate.stubs(:zip_allowance?).returns(false)
+    FileFile.expects(:new).never
+    @request.env['HTTP_REFERER'] = "http://voicesforchrist.org/welcome/search?q=x"
+    post :search, params: { :q => a.speaker.last_name, :download => true }
+    assert_response :success
+    assert_match %r{text/html}, response.header['Content-Type']
+  end
+
+  test "search per_page is capped" do
+    a = FactoryGirl.create(:audio_message)
+    AudioMessage.expects(:search).with { |_q, opts| opts[:per_page] == 100 }.returns([a].paginate)
+    get :search, params: { :q => a.speaker.last_name, :per_page => 5000 }
+    assert_response :success
+  end
+
+  test "search ignores a junk per_page" do
+    a = FactoryGirl.create(:audio_message)
+    AudioMessage.expects(:search).with { |_q, opts| opts[:per_page] == AudioMessage.per_page }.returns([a].paginate)
+    get :search, params: { :q => a.speaker.last_name, :per_page => -3 }
+    assert_response :success
   end
   
   test "search by full name assigns bio" do

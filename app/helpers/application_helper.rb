@@ -75,6 +75,16 @@ module ApplicationHelper
     page = 1 if page.blank?
     page = page.to_i
     zipfn = "vfc-" + query_string.gsub(/[^a-zA-Z0-9]+/,'-') + "-" + DateTime.now.strftime("%Y-%m-%d") + (page > 1 ? "-#{page}" : "") + ".zip"
+    # Zips bypass the audio links' tokens, so require our own page as the
+    # Referer and keep each IP to a few zips a day; see AudioGate.
+    unless AudioGate.our_referer?(request.referer, request.host) &&
+        AudioGate.zip_allowance?(request.remote_ip, audio_items.size)
+      logger.warn "AUDIO_GATE deny reason=zip files=#{audio_items.size} ip=#{request.remote_ip} " \
+                  "ref=#{request.referer.to_s[0, 80]} ua=#{request.user_agent.to_s[0, 80]}"
+      flash.now[:notice] = I18n.t("audio.zipline_limit",
+        default: "Zip downloads are limited each day. Please download the messages individually.")
+      return false
+    end
     begin
       logger.info "Zipline #{audio_items.size} mp3s for #{zipfn}"
       downloads = audio_items.map{ |mp3| [FileFile.new(AUDIO_PATH + mp3.filename),mp3.download_filename] }
