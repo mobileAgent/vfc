@@ -112,6 +112,56 @@ class AudioMessagesControllerTest < ActionController::TestCase
     remove_audio_file
   end
 
+  test "signed app request is served without a token or the Dart user agent" do
+    a = with_audio_file
+    AudioGate.stubs(:app_keys).returns(['k'])
+    @request.headers['X-VFC-App-Signature'] = app_signature('k', a.id)
+    get :show, params: { :id => a.id, :dl => true }
+    assert_response :success
+    remove_audio_file
+  end
+
+  test "signed app request skips the user-agent budget" do
+    a = with_audio_file
+    AudioGate.stubs(:app_keys).returns(['k'])
+    AudioGate.stubs(:app_allowance?).returns(false)
+    @request.env['HTTP_USER_AGENT'] = 'Dart/3.10 (dart:io)'
+    @request.headers['X-VFC-App-Signature'] = app_signature('k', a.id)
+    get :show, params: { :id => a.id, :dl => true }
+    assert_response :success
+    remove_audio_file
+  end
+
+  test "signed app request over the signed budget gets a plain error" do
+    a = with_audio_file
+    AudioGate.stubs(:app_keys).returns(['k'])
+    AudioGate.stubs(:signed_app_allowance?).returns(false)
+    @request.headers['X-VFC-App-Signature'] = app_signature('k', a.id)
+    get :show, params: { :id => a.id, :dl => true }
+    assert_response :too_many_requests
+    remove_audio_file
+  end
+
+  test "bad app signature falls back to the user-agent allowance" do
+    AudioGate.counters.clear
+    a = with_audio_file
+    AudioGate.stubs(:app_keys).returns(['k'])
+    @request.env['HTTP_USER_AGENT'] = 'Dart/3.10 (dart:io)'
+    @request.headers['X-VFC-App-Signature'] = app_signature('retired', a.id)
+    get :show, params: { :id => a.id, :dl => true }
+    assert_response :success
+    remove_audio_file
+  end
+
+  test "bad app signature without the app user agent is refused" do
+    a = with_audio_file
+    AudioGate.stubs(:app_keys).returns(['k'])
+    @request.headers['X-VFC-App-Signature'] = app_signature('forged', a.id)
+    get :show, params: { :id => a.id, :dl => true }
+    assert_response :too_many_requests
+    remove_audio_file
+  end
+
   test "edit audio message" do
     login(false,true)
     @a = FactoryGirl.create(:audio_message)
@@ -181,6 +231,10 @@ class AudioMessagesControllerTest < ActionController::TestCase
 
   def remove_audio_file
     FileUtils.rm_rf("#{Rails.root.to_s}/public/audio/VFC-GOLD/TEST")
+  end
+
+  def app_signature(key, id, at = Time.now)
+    "#{at.to_i}-#{OpenSSL::HMAC.hexdigest('SHA256', key, "#{id}:#{at.to_i}")[0, 32]}"
   end
 
   def login(admin=false,editor=false)
