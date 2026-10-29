@@ -11,6 +11,11 @@ class AudioMessagesController < ApplicationController
       if AudioGate.app_request?(request.user_agent) || app_signature.present?
         # The app would save a redirect's HTML as the mp3, so fail outright.
         head :too_many_requests
+      elsif @audio_gate_reason == 'page_daily_limit'
+        # A fresh page wouldn't help, so say why instead of redirecting.
+        render plain: t("audio.daily_limit",
+                        default: "Daily download limit reached. Please try again tomorrow."),
+               status: :too_many_requests
       else
         # Stale or missing link: send people to a page with fresh ones.
         redirect_to(current_resource.speaker ? speaker_url(current_resource.speaker) : root_url)
@@ -103,7 +108,9 @@ class AudioMessagesController < ApplicationController
       return deny_audio('app_budget')
     end
     problem = AudioGate.token_problem(params[:t], current_resource.id, request.remote_ip)
-    problem ? deny_audio(problem) : true
+    return deny_audio(problem) if problem
+    return true if AudioGate.page_allowance?(request.remote_ip, current_resource.id)
+    deny_audio('page_daily_limit')
   end
 
   def app_signature
@@ -111,6 +118,7 @@ class AudioMessagesController < ApplicationController
   end
 
   def deny_audio(reason)
+    @audio_gate_reason = reason
     log_audio_gate("deny reason=#{reason}")
     false
   end

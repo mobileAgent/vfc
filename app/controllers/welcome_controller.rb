@@ -1,4 +1,6 @@
 class WelcomeController < ApplicationController
+
+  MAX_SEARCH_PER_PAGE = 100
   
   include SpeakerHelper
 
@@ -189,7 +191,9 @@ class WelcomeController < ApplicationController
     end
     options = {
       :page => params[:page],
-      :per_page => params[:per_page] || AudioMessage.per_page,
+      # Capped: an open-ended per_page let one request render thousands of
+      # signed links, or zip thousands of files.
+      :per_page => params[:per_page].to_i.clamp(0, MAX_SEARCH_PER_PAGE).nonzero? || AudioMessage.per_page,
       :order => sort_column,
       :max_matches => 5000,
       :sql => { :include => [:language, :speaker, :place, :tags] }

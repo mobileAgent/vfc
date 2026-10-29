@@ -94,6 +94,15 @@ class AudioMessagesControllerTest < ActionController::TestCase
     remove_audio_file
   end
 
+  test "page link over the per-IP daily limit says so instead of redirecting" do
+    a = with_audio_file
+    AudioGate.stubs(:page_allowance?).returns(false)
+    get :show, params: { :id => a.id, :dl => true, :t => AudioGate.token(a.id, '0.0.0.0') }
+    assert_response :too_many_requests
+    assert_match(/limit/, response.body)
+    remove_audio_file
+  end
+
   test "mobile app downloads without a token" do
     AudioGate.counters.clear
     a = with_audio_file

@@ -29,6 +29,15 @@ module AudioGate
   # Generous, since phone clocks drift and downloads can sit in a queue.
   APP_SIGNATURE_WINDOW = 24.hours
   SIGNED_APP_DAILY_LIMIT = (ENV['VFC_SIGNED_APP_DAILY_LIMIT'] || 3000).to_i
+  # Distinct messages one IP may fetch through page links in a day. Real
+  # listeners stay under 60; a "download every link" browser extension
+  # pulled 376 from one speaker's pages in an hour.
+  PAGE_DAILY_LIMIT_PER_IP = (ENV['VFC_PAGE_DAILY_LIMIT_PER_IP'] || 150).to_i
+  # Zip downloads ("download this page"): count and files per IP per day.
+  ZIP_DAILY_LIMIT_PER_IP = (ENV['VFC_ZIP_DAILY_LIMIT_PER_IP'] || 5).to_i
+  ZIP_FILES_DAILY_LIMIT_PER_IP = (ENV['VFC_ZIP_FILES_DAILY_LIMIT_PER_IP'] || 200).to_i
+  OUR_HOSTS = %w(voicesforchrist.net voicesforchrist.org voixpourchrist.org
+                 vocesparacristo.org vfc.io)
   # Set VFC_AUDIO_TOKEN_BIND_IP=false if binding tokens to the viewer's
   # network turns out to break real listeners.
   BIND_IP = ENV['VFC_AUDIO_TOKEN_BIND_IP'] != 'false'
@@ -81,6 +90,42 @@ module AudioGate
     bump("signed_app:#{today}") <= SIGNED_APP_DAILY_LIMIT
   end
 
+  # Counts a page-link fetch of message `id`. Repeat requests for the same
+  # message (Range requests while playing, seeking, a second download) are
+  # free; false once this IP has fetched its daily share of messages.
+  def page_allowance?(ip, id, today = Date.today)
+    seen = "page:#{today}:#{ip}:#{id}"
+    count = "page:#{today}:#{ip}"
+    return true if counters.exist?(seen)
+    return false if (counters.read(count) || 0) >= PAGE_DAILY_LIMIT_PER_IP
+    counters.write(seen, true, expires_in: 2.days)
+    bump(count)
+    true
+  end
+
+  # Counts a zip of `files` messages; false once this IP has used up its
+  # daily zips or files. A refused zip doesn't count.
+  def zip_allowance?(ip, files, today = Date.today)
+    zips = "zip:#{today}:#{ip}"
+    zipped = "zip_files:#{today}:#{ip}"
+    return false if (counters.read(zips) || 0) >= ZIP_DAILY_LIMIT_PER_IP
+    return false if (counters.read(zipped) || 0) + files > ZIP_FILES_DAILY_LIMIT_PER_IP
+    bump(zips)
+    bump(zipped, files)
+    true
+  end
+
+  # True when the Referer is one of our sites (or the host being served,
+  # which covers development).
+  def our_referer?(referer, request_host)
+    host = URI.parse(referer.to_s).host.to_s.downcase
+    return false if host.empty?
+    host == request_host.to_s.downcase ||
+      OUR_HOSTS.any? { |ours| host == ours || host.end_with?(".#{ours}") }
+  rescue URI::InvalidURIError
+    false
+  end
+
   def app_keys
     Array(Rails.application.credentials.audio_app_keys).map(&:to_s).reject(&:empty?)
   end
@@ -94,9 +139,9 @@ module AudioGate
     end
   end
 
-  def bump(key)
-    counters.increment(key, 1, expires_in: 2.days) ||
-      (counters.write(key, 1, expires_in: 2.days) && 1)
+  def bump(key, amount = 1)
+    counters.increment(key, amount, expires_in: 2.days) ||
+      (counters.write(key, amount, expires_in: 2.days) && amount)
   end
 
   def signature(id, expires, ip)

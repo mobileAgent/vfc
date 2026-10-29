@@ -32,7 +32,8 @@ if Rails.env.development? || Rails.env.test?
       return WillPaginate::Collection.new(page, per_page, 0) if Rails.env.test?
       Rails.logger.warn("[sphinx stub] #{name}.search answered from MySQL (no Sphinx daemon in dev)")
 
-      query = args.first.is_a?(String) ? args.first.strip : ''
+      # Search appends Sphinx "*" wildcards to each word; LIKE doesn't need them.
+      query = args.first.is_a?(String) ? args.first.delete('*').strip : ''
       scope = where(publish: true).left_joins(:speaker, :place, :language)
       (opts[:with] || {}).each do |attr, value|
         if column_names.include?(attr.to_s)
