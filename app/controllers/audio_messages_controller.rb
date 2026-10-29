@@ -8,7 +8,7 @@ class AudioMessagesController < ApplicationController
       return
     end
     unless audio_access_allowed?
-      if AudioGate.app_request?(request.user_agent)
+      if AudioGate.app_request?(request.user_agent) || app_signature.present?
         # The app would save a redirect's HTML as the mp3, so fail outright.
         head :too_many_requests
       else
@@ -85,18 +85,39 @@ class AudioMessagesController < ApplicationController
     return true
   end
 
-  # A token from one of our pages, or the mobile app within its budget.
+  # A signed request from the mobile app, a token from one of our pages, or
+  # an older app build within its user-agent budget.
   def audio_access_allowed?
+    if app_signature.present?
+      problem = AudioGate.app_signature_problem(app_signature, current_resource.id)
+      if problem.nil?
+        return true if AudioGate.signed_app_allowance?
+        return deny_audio('signed_app_budget')
+      end
+      # Fall through to the checks below, so a build with a retired key
+      # keeps working within the user-agent budgets.
+      log_audio_gate("app_signature #{problem}")
+    end
     if AudioGate.app_request?(request.user_agent)
       return true if AudioGate.app_allowance?(request.remote_ip)
-      problem = 'app_budget'
-    else
-      problem = AudioGate.token_problem(params[:t], current_resource.id, request.remote_ip)
-      return true unless problem
+      return deny_audio('app_budget')
     end
-    logger.warn "AUDIO_GATE deny reason=#{problem} id=#{current_resource.id} ip=#{request.remote_ip} " \
-                "ref=#{request.referer.to_s[0, 80]} ua=#{request.user_agent.to_s[0, 80]}"
+    problem = AudioGate.token_problem(params[:t], current_resource.id, request.remote_ip)
+    problem ? deny_audio(problem) : true
+  end
+
+  def app_signature
+    request.headers[AudioGate::APP_SIGNATURE_HEADER]
+  end
+
+  def deny_audio(reason)
+    log_audio_gate("deny reason=#{reason}")
     false
+  end
+
+  def log_audio_gate(what)
+    logger.warn "AUDIO_GATE #{what} id=#{current_resource.id} ip=#{request.remote_ip} " \
+                "ref=#{request.referer.to_s[0, 80]} ua=#{request.user_agent.to_s[0, 80]}"
   end
 
   def current_resource
