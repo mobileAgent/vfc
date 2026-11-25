@@ -29,8 +29,8 @@ class AudioMessagesControllerTest < ActionController::TestCase
   
   test "request for valid audio message but missing file redirects" do
     a = FactoryGirl.create(:audio_message, :filename => "TEST/invalid.mp3")
-    get :show, params: { :id => a.id }
-    assert_response :redirect
+    get :show, params: { :id => a.id, :t => AudioGate.token(a.id, "0.0.0.0") }
+    assert_redirected_to root_url
   end
 
   test "respond to an old style request for audio data" do
@@ -63,25 +63,30 @@ class AudioMessagesControllerTest < ActionController::TestCase
   #  assert_redirected_to root_path
   #end
 
-  test "audio without a token sends browsers to the speaker page" do
+  test "audio without a token is refused with a short message, not a redirect" do
     a = with_audio_file
     get :show, params: { :id => a.id, :dl => true }
-    assert_redirected_to speaker_url(a.speaker)
+    assert_stale_link_refusal
     remove_audio_file
+  end
+
+  test "player error reports from visitors are accepted, not redirected" do
+    post :client_diagnostic, params: { :event => "error", :type => "e_url", :ua => "test" }
+    assert_response :ok
   end
 
   test "audio with a token from another network is refused" do
     a = with_audio_file
     @request.env['REMOTE_ADDR'] = '203.0.113.9'
     get :show, params: { :id => a.id, :dl => true, :t => AudioGate.token(a.id, '198.51.100.9') }
-    assert_redirected_to speaker_url(a.speaker)
+    assert_stale_link_refusal
     remove_audio_file
   end
 
   test "audio with a token for another message is refused" do
     a = with_audio_file
     get :show, params: { :id => a.id, :t => AudioGate.token(a.id + 1, '0.0.0.0') }
-    assert_redirected_to speaker_url(a.speaker)
+    assert_stale_link_refusal
     remove_audio_file
   end
 
@@ -240,6 +245,13 @@ class AudioMessagesControllerTest < ActionController::TestCase
 
   def remove_audio_file
     FileUtils.rm_rf("#{Rails.root.to_s}/public/audio/VFC-GOLD/TEST")
+  end
+
+  def assert_stale_link_refusal
+    assert_response :forbidden
+    assert_match(/expired/, response.body)
+    assert response.body.length < 200, "refusal must stay small"
+    assert_no_match(/<a /, response.body)
   end
 
   def app_signature(key, id, at = Time.now)

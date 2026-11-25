@@ -1,7 +1,24 @@
 var vfc_current_media;
 
+// Audio links carry an expiring token, t=<expiry in unix seconds>-<signature>.
+function vfc_link_expired(url)
+{
+  var m = /[?&]t=(\d+)-/.exec(url || '');
+  return !!m && parseInt(m[1], 10) * 1000 < Date.now();
+}
+
+// Show the refusal on the page instead of a silent failure. msg is the
+// server's own text when we have it; otherwise the localized default.
+function vfc_audio_refused(msg)
+{
+  var box = $('#flash_audio');
+  box.text(msg || box.data('default')).show();
+  return false;
+}
+
 function play(url,title)
 {
+  if (vfc_link_expired(url)) { vfc_audio_refused(); return; }
   vfc_current_media = url;
   $('.bio').hide()
   $('#jp_container_1').css('margin-left','20%').css('float','none')
@@ -30,6 +47,7 @@ function audio_player_start(options)
     $("#jpid").on($.jPlayer.event.error, function(e) {
       var err = e.jPlayer && e.jPlayer.error;
       console.error("jPlayer error", err && err.type, err && err.message, navigator.userAgent);
+      if (err && err.type === $.jPlayer.error.URL) { vfc_audio_refused(); }
       $.post("/audio_messages/client_diagnostic", { event: "error", type: err && err.type, ua: navigator.userAgent });
     });
     $("#jpid").on($.jPlayer.event.ended, function() {

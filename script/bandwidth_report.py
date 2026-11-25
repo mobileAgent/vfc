@@ -13,14 +13,21 @@ Reads /var/log/apache2/other_vhosts_access.log and its rotations (.1, .2.gz,
      with only 1-2 downloads each)
   5. Served audio by Referer (our own sites / none / elsewhere) and client
   6. Mobile app (Dart/ user agent) traffic, to spot anyone faking it
-  7. Optionally, AUDIO_GATE reasons from the Rails production.log
+  7. AUDIO_GATE reasons per day from the Rails production.log and its
+     rotations (production.log-20261105, production.log-20261104.gz, ...)
+
+Both logs rotate daily, so with --days/--since/--until only the files that
+can hold those days are read: each file's first timestamp says where it
+starts, and the walk from newest to oldest stops at the first file that
+starts before the range (that one still holds the range's first minutes,
+since rotation happens a little after midnight).
 
 Usage (needs read access to the logs, so usually with sudo):
-  sudo python3 bandwidth_report.py                 # every log file present
   sudo python3 bandwidth_report.py --days 3        # today and the 2 days before (UTC)
   sudo python3 bandwidth_report.py --since 2026-10-23 --until 2026-10-24
-  sudo python3 bandwidth_report.py --hourly 2026-10-23   # one day by hour
-  sudo python3 bandwidth_report.py --rails-log /var/apps/vfc/current/log/production.log
+  sudo python3 bandwidth_report.py --days 2 --hourly 2026-11-05   # that day by hour
+  sudo python3 bandwidth_report.py                 # every log file present
+  sudo python3 bandwidth_report.py --rails-log none   # skip the Rails log
 
 Only uses the Python 3 standard library.
 """
@@ -29,13 +36,13 @@ import argparse
 import glob
 import gzip
 import ipaddress
-import os
 import re
 import sys
 from collections import defaultdict
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 DEFAULT_LOG_GLOB = '/var/log/apache2/other_vhosts_access.log*'
+DEFAULT_RAILS_LOG = '/var/apps/vfc/current/log/production.log'
 OUR_SITES = ['voicesforchrist.net', 'voicesforchrist.org', 'voixpourchrist.org',
              'vocesparacristo.org', 'vfc.io']
 GB = 1e9
@@ -46,6 +53,10 @@ LINE = re.compile(
     r'"(?P<request>[^"]*)" (?P<status>\d{3}) (?P<bytes>\d+|-)'
     r'(?: "(?P<ref>[^"]*)" "(?P<ua>[^"]*)")?')
 AUDIO = re.compile(r'^/audio_messages/\d+(?:$|\?)')
+# Apache: [23/Oct/2026:00:44:55 +0000]   Rails: W, [2026-10-24T15:35:27.050166 #1896250]
+ACCESS_DATE = re.compile(r'\[(\d\d/\w{3}/\d{4}):')
+RAILS_DATE = re.compile(r'\[(\d{4}-\d\d-\d\d)T')
+GATE = re.compile(r'AUDIO_GATE (deny reason=\S+|app_signature \S+)')
 
 
 def parse_args():
@@ -60,7 +71,9 @@ def parse_args():
     p.add_argument('--top', type=int, default=15, help='rows in the top-N tables (default: %(default)s)')
     p.add_argument('--hourly', metavar='YYYY-MM-DD',
                    help='also show that day hour by hour for the chosen vhost')
-    p.add_argument('--rails-log', help='production.log to summarize AUDIO_GATE lines from')
+    p.add_argument('--rails-log', default=DEFAULT_RAILS_LOG,
+                   help='current Rails log; its dated rotations next to it are read too, '
+                        '"none" to skip (default: %(default)s)')
     return p.parse_args()
 
 
@@ -70,16 +83,57 @@ def open_log(path):
     return open(path, 'r', errors='replace')
 
 
-def log_files(pattern):
-    # Oldest first: .10.gz ... .2.gz, .1, then the live file.
+def newest_first(paths):
+    # The live file, then .1, .2.gz ... (Apache) or -20261105, -20261104.gz ... (Rails).
     def age(path):
-        m = re.search(r'\.log\.(\d+)', path)
-        return -int(m.group(1)) if m else 0
-    return sorted(glob.glob(pattern), key=age)
+        m = re.search(r'\.log\.(\d+)(?:\.gz)?$', path)
+        if m:
+            return (1, int(m.group(1)))
+        m = re.search(r'\.log-(\d{8})(?:\.gz)?$', path)
+        if m:
+            return (1, -int(m.group(1)))
+        return (0, 0)
+    return sorted(paths, key=age)
 
 
 def parse_day(text):
     return datetime.strptime(text, '%d/%b/%Y').date()
+
+
+def parse_rails_day(text):
+    return datetime.strptime(text, '%Y-%m-%d').date()
+
+
+def first_day_in(path, pattern, parse):
+    """Date of the first timestamped line, or None for an empty file."""
+    with open_log(path) as f:
+        for i, line in enumerate(f):
+            m = pattern.search(line)
+            if m:
+                try:
+                    return parse(m.group(1))
+                except ValueError:
+                    pass
+            if i > 1000:
+                break
+    return None
+
+
+def files_for_range(paths, pattern, parse, since, until):
+    """Oldest-first list of the rotated files that can hold since..until."""
+    paths = newest_first(paths)
+    if not since and not until:
+        return list(reversed(paths))
+    chosen = []
+    for path in paths:
+        start = first_day_in(path, pattern, parse)
+        if start and until and start > until:
+            continue
+        chosen.append(path)
+        # Everything older ends before this file starts.
+        if start and since and start < since:
+            break
+    return list(reversed(chosen))
 
 
 def kind_of(path):
@@ -150,15 +204,16 @@ def table(title, header, rows):
 
 def main():
     args = parse_args()
-    files = log_files(args.logs)
-    if not files:
-        sys.exit('No log files match %s' % args.logs)
-
     since = datetime.strptime(args.since, '%Y-%m-%d').date() if args.since else None
     if args.days:
-        since = datetime.utcnow().date() - timedelta(days=args.days - 1)
+        since = datetime.now(timezone.utc).date() - timedelta(days=args.days - 1)
     until = datetime.strptime(args.until, '%Y-%m-%d').date() if args.until else None
     hourly_day = datetime.strptime(args.hourly, '%Y-%m-%d').date() if args.hourly else None
+
+    all_files = glob.glob(args.logs)
+    if not all_files:
+        sys.exit('No log files match %s' % args.logs)
+    files = files_for_range(all_files, ACCESS_DATE, parse_day, since, until)
 
     day_cache = {}
     vhost_day = defaultdict(int)          # (day, vhost) -> bytes
@@ -260,8 +315,8 @@ def main():
         sys.exit('No log lines in the selected date range.')
 
     days = sorted({d for d, _ in vhost_day})
-    print('Bandwidth report: %s to %s (%d log files, %d unparsed lines)'
-          % (days[0], days[-1], len(files), bad_lines))
+    print('Bandwidth report: %s to %s (%d of %d access log files read, %d unparsed lines)'
+          % (days[0], days[-1], len(files), len(all_files), bad_lines))
 
     # 1. vhost x day
     totals = defaultdict(int)
@@ -332,19 +387,49 @@ def main():
     table('Busiest app IPs (normal is a few dozen files over days; hundreds suggests a fake)',
           ['ip', 'files served'], rows)
 
-    # 7. Rails AUDIO_GATE lines
-    if args.rails_log:
-        reasons = defaultdict(int)
-        with open_log(args.rails_log) as f:
-            for line in f:
-                if 'AUDIO_GATE' not in line:
-                    continue
-                m = re.search(r'AUDIO_GATE (deny reason=\S+|app_signature \S+)', line)
-                if m:
-                    reasons[m.group(1)] += 1
-        rows = [[r, n] for r, n in sorted(reasons.items(), key=lambda x: -x[1])]
-        table('AUDIO_GATE in %s (whole file)' % os.path.basename(args.rails_log),
-              ['what', 'count'], rows)
+    # 7. Rails AUDIO_GATE lines over the same days
+    if args.rails_log != 'none':
+        rails_report(args.rails_log, since, until, days)
+
+
+def rails_report(base, since, until, access_days):
+    all_files = glob.glob(base) + glob.glob(base + '-*')
+    if not all_files:
+        print('\n(no Rails log at %s; use --rails-log PATH or --rails-log none)' % base)
+        return
+    # Rails stamps lines in the server's local time; on this host that's UTC,
+    # the same as the access log.
+    per_day = defaultdict(lambda: defaultdict(int))   # day -> what -> count
+    try:
+        files = files_for_range(all_files, RAILS_DATE, parse_rails_day, since, until)
+        for path in files:
+            sys.stderr.write('reading %s\n' % path)
+            with open_log(path) as f:
+                for line in f:
+                    if 'AUDIO_GATE' not in line:
+                        continue
+                    m = GATE.search(line)
+                    d = RAILS_DATE.search(line)
+                    if not m or not d:
+                        continue
+                    day = parse_rails_day(d.group(1))
+                    if since and day < since or until and day > until:
+                        continue
+                    per_day[day][m.group(1)] += 1
+    except OSError as e:
+        print('\n(could not read the Rails log: %s)' % e)
+        return
+
+    totals = defaultdict(int)
+    for counts in per_day.values():
+        for what, n in counts.items():
+            totals[what] += n
+    whats = [w for w, _ in sorted(totals.items(), key=lambda x: -x[1])][:8]
+    days = sorted(set(access_days) | set(per_day))
+    rows = [[d.strftime('%a %Y-%m-%d')] + [per_day[d][w] for w in whats] for d in days]
+    rows.append(['TOTAL'] + [totals[w] for w in whats])
+    table('AUDIO_GATE per day (%d of %d Rails log files read)' % (len(files), len(all_files)),
+          ['day'] + [w.replace('deny reason=', '') for w in whats], rows if whats else [])
 
 
 if __name__ == '__main__':

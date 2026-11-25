@@ -17,8 +17,13 @@ class AudioMessagesController < ApplicationController
                         default: "Daily download limit reached. Please try again tomorrow."),
                status: :too_many_requests
       else
-        # Stale or missing link: send people to a page with fresh ones.
-        redirect_to(current_resource.speaker ? speaker_url(current_resource.speaker) : root_url)
+        # Stale or missing link. A short answer, not a redirect: scrapers
+        # replaying old links followed the redirect to the speaker page,
+        # which cost far more than the refusal. The page's own JavaScript
+        # shows this text in place (see vfc_audio_refused).
+        render plain: t("audio.stale_link",
+                        default: "This link has expired. Please reload the page and try again."),
+               status: :forbidden
       end
       return
     end
