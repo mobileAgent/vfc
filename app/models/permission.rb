@@ -3,7 +3,9 @@ class Permission
   def initialize(user)
     
     @allow_all = false
-    allow :audio_messages, [:show, :gold]
+    # client_diagnostic is the player's error report; refusing it redirected
+    # (via Turbolinks) every listener whose player failed to the home page.
+    allow :audio_messages, [:show, :gold, :client_diagnostic]
     allow :dates, [:index, :years, :year, :speaker, :show, :delivered]
     allow :errors, [:not_found, :error]
     allow :hymns, [:index, :show]

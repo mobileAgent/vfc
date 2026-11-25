@@ -41,6 +41,8 @@
       <%- flash.each do |name,msg| -%>
       <%= content_tag :div, msg, :id => "flash_#{name}" %>
       <%- end -%>
+      <%= content_tag :div, t("audio.stale_link"), :id => "flash_audio", :style => "display:none",
+            :data => { :default => t("audio.stale_link") } %>
 
       <% if @require_video_player %>
         <%= render "shared/video_player" %>

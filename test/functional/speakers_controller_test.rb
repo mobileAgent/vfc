@@ -47,6 +47,7 @@ class SpeakersControllerTest < AuthenticatedTest
       t = CGI.unescape(link[/[?&;]t=([^&;]+)/, 1].to_s)
       assert_nil AudioGate.token_problem(t, a.id, '0.0.0.0'), link
     end
+    assert_select "#flash_audio[style='display:none'][data-default*=expired]"
   end
 
   test "redirect on no such speaker" do

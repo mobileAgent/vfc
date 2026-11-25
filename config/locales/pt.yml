@@ -128,6 +128,7 @@ pt:
 
   
   audio:
+    stale_link: "Este link expirou. Por favor, recarregue a página e tente novamente."
     download: "Download MP3"
     play: "Play"
     tooltip: "Size %{size}, duration %{duration}"
