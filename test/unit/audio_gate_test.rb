@@ -132,6 +132,27 @@ class AudioGateTest < ActiveSupport::TestCase
     assert AudioGate.app_allowance?("10.9.9.9", Date.new(2026, 10, 2))
   end
 
+  def test_visitor_is_the_ipv4_address_or_the_ipv6_64
+    assert_equal "203.0.113.9", AudioGate.visitor("203.0.113.9")
+    assert_equal AudioGate.visitor("2001:db8:1:2::1"), AudioGate.visitor("2001:db8:1:2:aaaa:bbbb:cccc:dddd")
+    assert_not_equal AudioGate.visitor("2001:db8:1:2::1"), AudioGate.visitor("2001:db8:1:3::1")
+  end
+
+  def test_page_allowance_counts_an_ipv6_64_as_one_visitor
+    AudioGate::PAGE_DAILY_LIMIT_PER_IP.times do |id|
+      assert AudioGate.page_allowance?("2001:db8:5:5::#{(id + 1).to_s(16)}", id)
+    end
+    assert !AudioGate.page_allowance?("2001:db8:5:5:ffff::1", 99999), "fresh address in the same /64"
+    assert AudioGate.page_allowance?("2001:db8:5:6::1", 99999), "another /64 is another visitor"
+  end
+
+  def test_zip_and_app_budgets_count_an_ipv6_64_as_one_visitor
+    AudioGate::ZIP_DAILY_LIMIT_PER_IP.times { |i| assert AudioGate.zip_allowance?("2001:db8:4:4::#{i + 1}", 1) }
+    assert !AudioGate.zip_allowance?("2001:db8:4:4::ff", 1)
+    AudioGate::APP_DAILY_LIMIT_PER_IP.times { |i| assert AudioGate.app_allowance?("2001:db8:9:9::#{i + 1}") }
+    assert !AudioGate.app_allowance?("2001:db8:9:9::ff")
+  end
+
   private
 
   def app_signature(key, id, at = Time.now)
