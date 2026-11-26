@@ -68,7 +68,7 @@ module AudioGate
   # once either the total or this IP's share is used up.
   def app_allowance?(ip, today = Date.today)
     total  = bump("app:#{today}")
-    per_ip = bump("app:#{today}:#{ip}")
+    per_ip = bump("app:#{today}:#{visitor(ip)}")
     total <= APP_DAILY_LIMIT && per_ip <= APP_DAILY_LIMIT_PER_IP
   end
 
@@ -94,8 +94,8 @@ module AudioGate
   # message (Range requests while playing, seeking, a second download) are
   # free; false once this IP has fetched its daily share of messages.
   def page_allowance?(ip, id, today = Date.today)
-    seen = "page:#{today}:#{ip}:#{id}"
-    count = "page:#{today}:#{ip}"
+    seen = "page:#{today}:#{visitor(ip)}:#{id}"
+    count = "page:#{today}:#{visitor(ip)}"
     return true if counters.exist?(seen)
     return false if (counters.read(count) || 0) >= PAGE_DAILY_LIMIT_PER_IP
     counters.write(seen, true, expires_in: 2.days)
@@ -106,8 +106,8 @@ module AudioGate
   # Counts a zip of `files` messages; false once this IP has used up its
   # daily zips or files. A refused zip doesn't count.
   def zip_allowance?(ip, files, today = Date.today)
-    zips = "zip:#{today}:#{ip}"
-    zipped = "zip_files:#{today}:#{ip}"
+    zips = "zip:#{today}:#{visitor(ip)}"
+    zipped = "zip_files:#{today}:#{visitor(ip)}"
     return false if (counters.read(zips) || 0) >= ZIP_DAILY_LIMIT_PER_IP
     return false if (counters.read(zipped) || 0) + files > ZIP_FILES_DAILY_LIMIT_PER_IP
     bump(zips)
@@ -147,6 +147,16 @@ module AudioGate
   def signature(id, expires, ip)
     net = BIND_IP ? network(ip) : '*'
     OpenSSL::HMAC.hexdigest('SHA256', secret, "#{id}:#{expires}:#{net}")[0, 32]
+  end
+
+  # The key for per-visitor counters. An IPv4 address is one household, but
+  # an IPv6 home or phone gets a whole /64 and may use a new address from it
+  # for every request, so the /64 counts as one visitor.
+  def visitor(ip)
+    addr = IPAddr.new(ip.to_s)
+    addr.ipv4? ? addr.to_s : addr.mask(64).to_s
+  rescue IPAddr::Error
+    ip.to_s
   end
 
   def network(ip)
