@@ -3,3 +3,8 @@
 # To ban all spiders from the entire site uncomment the next two lines:
 # User-Agent: *
 # Disallow: /
+
+# Audio links are signed and expire within a day, so a crawler's stored
+# copy is always refused. Pages that list the messages stay crawlable.
+User-agent: *
+Disallow: /audio_messages/
