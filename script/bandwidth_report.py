@@ -15,6 +15,11 @@ Reads /var/log/apache2/other_vhosts_access.log and its rotations (.1, .2.gz,
   6. Mobile app (Dart/ user agent) traffic, to spot anyone faking it
   7. AUDIO_GATE reasons per day from the Rails production.log and its
      rotations (production.log-20261105, production.log-20261104.gz, ...)
+  8. Through Cloudflare or straight to the server, per day for all vhosts,
+     and which Host the refused audio requests named. Needs the connecting
+     address (%{c}a) after the visitor address in the LogFormat, and for the
+     Host table a quoted %{Host}i at the end of the line; older lines
+     without them are counted as "unknown".
 
 Both logs rotate daily, so with --days/--since/--until only the files that
 can hold those days are read: each file's first timestamp says where it
@@ -43,15 +48,20 @@ from datetime import datetime, timedelta, timezone
 
 DEFAULT_LOG_GLOB = '/var/log/apache2/other_vhosts_access.log*'
 DEFAULT_RAILS_LOG = '/var/apps/vfc/current/log/production.log'
+DEFAULT_CF_IPS = '/etc/apache2/cloudflare-ips.txt'
 OUR_SITES = ['voicesforchrist.net', 'voicesforchrist.org', 'voixpourchrist.org',
              'vocesparacristo.org', 'vfc.io']
 GB = 1e9
 
 # voicesforchrist.net:443 1.2.3.4 - - [23/Oct/2026:00:44:55 +0000] "GET /x HTTP/1.1" 200 5552 "ref" "ua"
+# Since the Cloudflare move the connecting address (%{c}a) may follow the
+# visitor's, and a quoted Host may end the line:
+# voicesforchrist.net:443 1.2.3.4 172.70.1.2 - - [...] "GET /x HTTP/1.1" 200 5552 "ref" "ua" "vfc.io"
 LINE = re.compile(
-    r'^(?P<vhost>\S+) (?P<ip>\S+) \S+ \S+ \[(?P<day>[^:\]]+):(?P<hour>\d\d)[^\]]*\] '
+    r'^(?P<vhost>\S+) (?P<ip>\S+) (?:(?P<peer>[0-9A-Fa-f.:]+) )?\S+ \S+ '
+    r'\[(?P<day>[^:\]]+):(?P<hour>\d\d)[^\]]*\] '
     r'"(?P<request>[^"]*)" (?P<status>\d{3}) (?P<bytes>\d+|-)'
-    r'(?: "(?P<ref>[^"]*)" "(?P<ua>[^"]*)")?')
+    r'(?: "(?P<ref>[^"]*)" "(?P<ua>[^"]*)")?(?: "(?P<host>[^"]*)")?')
 AUDIO = re.compile(r'^/audio_messages/\d+(?:$|\?)')
 # Apache: [23/Oct/2026:00:44:55 +0000]   Rails: W, [2026-10-24T15:35:27.050166 #1896250]
 ACCESS_DATE = re.compile(r'\[(\d\d/\w{3}/\d{4}):')
@@ -74,6 +84,9 @@ def parse_args():
     p.add_argument('--rails-log', default=DEFAULT_RAILS_LOG,
                    help='current Rails log; its dated rotations next to it are read too, '
                         '"none" to skip (default: %(default)s)')
+    p.add_argument('--cf-ips', default=DEFAULT_CF_IPS,
+                   help='Cloudflare address ranges, one per line, for telling proxied '
+                        'requests from direct ones (default: %(default)s)')
     return p.parse_args()
 
 
@@ -134,6 +147,36 @@ def files_for_range(paths, pattern, parse, since, until):
         if start and since and start < since:
             break
     return list(reversed(chosen))
+
+
+def load_networks(path):
+    try:
+        with open(path) as f:
+            return [ipaddress.ip_network(l.strip(), strict=False) for l in f if l.strip()]
+    except (OSError, ValueError) as e:
+        sys.stderr.write('no Cloudflare ranges from %s (%s); route section skipped\n' % (path, e))
+        return []
+
+
+def route_of(peer, cf_nets, cache):
+    """'cloudflare', 'direct', 'local' or 'unknown' (an older line without %{c}a)."""
+    if not peer:
+        return 'unknown'
+    route = cache.get(peer)
+    if route is None:
+        try:
+            addr = ipaddress.ip_address(peer)
+        except ValueError:
+            route = 'unknown'
+        else:
+            if addr.is_loopback:
+                route = 'local'
+            elif any(addr in n for n in cf_nets if n.version == addr.version):
+                route = 'cloudflare'
+            else:
+                route = 'direct'
+        cache[peer] = route
+    return route
 
 
 def kind_of(path):
@@ -231,6 +274,11 @@ def main():
     client_count = defaultdict(int)
     dart_day = defaultdict(lambda: [0, 0, set()])  # day -> [requests, bytes, ips]
     dart_ip = defaultdict(int)
+    cf_nets = load_networks(args.cf_ips)
+    route_cache = {}
+    route_day = defaultdict(lambda: [0, 0, 0, 0])  # (day, route) -> [requests, bytes, 403s, 403 bytes]
+    direct_ip = defaultdict(int)          # direct connecting address -> requests
+    refused_host = defaultdict(int)       # Host of refused audio for args.vhost -> requests
     bad_lines = 0
     first_day = last_day = None
 
@@ -258,6 +306,17 @@ def main():
                 vhost = m.group('vhost').rsplit(':', 1)[0]
                 size = 0 if m.group('bytes') == '-' else int(m.group('bytes'))
                 vhost_day[(day, vhost)] += size
+                status = m.group('status')
+                if cf_nets:
+                    route = route_of(m.group('peer'), cf_nets, route_cache)
+                    r = route_day[(day, route)]
+                    r[0] += 1
+                    r[1] += size
+                    if status == '403':
+                        r[2] += 1
+                        r[3] += size
+                    if route == 'direct':
+                        direct_ip[m.group('peer')] += 1
                 if vhost != args.vhost:
                     continue
 
@@ -265,7 +324,6 @@ def main():
                 req_path = parts[1] if len(parts) > 1 else ''
                 kind = kind_of(req_path)
                 kind_day[(day, kind)] += size
-                status = m.group('status')
                 ip = m.group('ip')
                 ua = m.group('ua') or ''
                 is_audio = kind.startswith('audio')
@@ -289,6 +347,8 @@ def main():
                 else:
                     outcome = 'other %s' % status
                 audio_status[day][outcome] += 1
+                if outcome != 'served' and m.group('host') is not None:
+                    refused_host[m.group('host').split(':')[0].lower() or '-'] += 1
                 if ua.startswith('Dart/'):
                     d = dart_day[day]
                     d[0] += 1
@@ -386,6 +446,25 @@ def main():
     rows = [[ip, c] for ip, c in sorted(dart_ip.items(), key=lambda x: -x[1])[:5]]
     table('Busiest app IPs (normal is a few dozen files over days; hundreds suggests a fake)',
           ['ip', 'files served'], rows)
+
+    # 8. through Cloudflare or straight to the server
+    if cf_nets:
+        routes = [r for r in ('cloudflare', 'direct', 'local', 'unknown')
+                  if any((d, r) in route_day for d in days)]
+        rows = []
+        for d in days:
+            for r in routes:
+                if (d, r) in route_day:
+                    v = route_day[(d, r)]
+                    rows.append([d.strftime('%a %Y-%m-%d'), r, v[0], gb(v[1]), v[2], gb(v[3])])
+        table('Through Cloudflare or direct to the server, all vhosts '
+              '("unknown" = lines logged before %{c}a was added)',
+              ['day', 'route', 'requests', 'GB', '403s', '403 GB'], rows)
+        rows = [[ip, n] for ip, n in sorted(direct_ip.items(), key=lambda x: -x[1])[:args.top]]
+        table('Busiest direct (not Cloudflare) connecting addresses', ['address', 'requests'], rows)
+        if refused_host:
+            rows = [[h, n] for h, n in sorted(refused_host.items(), key=lambda x: -x[1])[:args.top]]
+            table('Refused audio by requested Host, %s' % args.vhost, ['host', 'requests'], rows)
 
     # 7. Rails AUDIO_GATE lines over the same days
     if args.rails_log != 'none':
