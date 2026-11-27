@@ -114,10 +114,6 @@ class WelcomeController < ApplicationController
     end
   end
 
-  def favicon
-    redirect_to '/assets/vfc.ico'
-  end
-
   def thanks
   end
 

@@ -180,9 +180,14 @@ class WelcomeControllerTest < ActionController::TestCase
     assert_redirected_to "http://test.host/welcome/search?q=#{CGI::escape('speaker:david title:john')}"
   end
 
-  test "favicon shortcut action" do
-    get :favicon
-    assert_response :redirect
+  test "favicon is a static file, not a redirect through Rails" do
+    # Apache serves public/favicon.ico directly and Cloudflare caches it.
+    # The old route redirected to an undigested /assets/vfc.ico that doesn't
+    # exist in production, so every request cost two trips through Rails.
+    icon = Rails.root.join('public', 'favicon.ico')
+    assert File.exist?(icon), "public/favicon.ico must exist"
+    assert_equal File.binread(Rails.root.join('app', 'assets', 'images', 'vfc.ico')), File.binread(icon)
+    assert !WelcomeController.action_methods.include?('favicon'), "the redirect action is gone"
   end
 
   test "get advanced search page" do

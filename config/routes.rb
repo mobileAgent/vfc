@@ -18,7 +18,6 @@ Vfc::Application.routes.draw do
   
   root :to => "welcome#index"
 
-  get '/favicon.ico' => 'welcome#favicon'
   get  '/login' => 'login#login'
   post '/login' => 'login#login'
   post '/login/reset_password' => 'login#reset_password'
